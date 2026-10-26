@@ -28,6 +28,9 @@ function setLanguage(value) {
     button.setAttribute('aria-pressed', String(button.dataset.language === value));
   });
   document.querySelectorAll('[data-alt-en][data-alt-pt]').forEach(image => { image.alt = image.dataset[value === 'pt' ? 'altPt' : 'altEn']; });
+  document.querySelectorAll('[data-aria-en][data-aria-pt]').forEach(element => {
+    element.setAttribute('aria-label', element.dataset[value === 'pt' ? 'ariaPt' : 'ariaEn']);
+  });
   navigation.setAttribute('aria-label', value === 'pt' ? 'Navegação principal' : 'Main navigation');
   document.querySelector('video').setAttribute('aria-label', value === 'pt' ? 'Vídeo de apresentação TrustPort' : 'TrustPort presentation video');
   updateDialog();
