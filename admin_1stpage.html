@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS - Painel de Administração</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome para ícones da interface -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Cabeçalho Principal (Navbar) -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-truck-fast"></i>
+            <span>CMS Admin</span>
+        </div>
+        <div class="user-menu">
+            <span class="user-name"><i class="fa-solid fa-user-gear"></i> Admin System</span>
+            <a href="index.html" class="btn-logout" title="Terminar Sessão"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Barra Lateral de Navegação (Sidebar) -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" onclick="switchTab(event, 'dashboard')">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
+                </a>
+                <a href="#staff-approval" class="nav-item" onclick="switchTab(event, 'staff-approval')">
+                    <i class="fa-solid fa-user-check"></i> Aprovações Staff
+                    <span class="badge" id="pending-count">2</span>
+                </a>
+                <a href="#profile" class="nav-item" onclick="switchTab(event, 'profile')">
+                    <i class="fa-solid fa-user-pen"></i> Editar Perfil
+                </a>
+                <a href="team.html" class="nav-item">
+                    <i class="fa-solid fa-users"></i> Equipa
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+
+            <!-- SECÇÃO 1: DASHBOARD & KPIS OPERACIONAIS -->
+            <section id="dashboard" class="tab-content active">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> Dashboard & Métricas Operacionais</h2>
+                    <p>Visão geral em tempo real do ecossistema de transporte e logística.</p>
+                </div>
+
+                <!-- Cards de Indicadores de Desempenho (KPIs) -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-data">
+                            <h3>128</h3>
+                            <p>Clientes Registados</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon green"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                        <div class="kpi-data">
+                            <h3>34</h3>
+                            <p>Estafetas Ativos</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon purple"><i class="fa-solid fa-user-shield"></i></div>
+                        <div class="kpi-data">
+                            <h3>12</h3>
+                            <p>Membros Staff</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon orange"><i class="fa-solid fa-route"></i></div>
+                        <div class="kpi-data">
+                            <h3>89</h3>
+                            <p>Rotas / Encomendas Ativas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos & Estatísticas de Operação -->
+                <div class="dashboard-charts">
+                    <!-- Estado das Encomendas / Rotas -->
+                    <div class="card">
+                        <h3><i class="fa-solid fa-chart-bar"></i> Estado das Encomendas / Rotas</h3>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>Iniciadas</span> <strong>25%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar blue" style="width: 25%;"></div></div>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>Em Progresso</span> <strong>50%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar orange" style="width: 50%;"></div></div>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>Concluídas</span> <strong>20%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar green" style="width: 20%;"></div></div>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>Canceladas</span> <strong>5%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar red" style="width: 5%;"></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Resumo Operacional da Frota -->
+                    <div class="card">
+                        <h3><i class="fa-solid fa-truck-moving"></i> Distribuição de Veículos Ativos</h3>
+                        <ul class="stats-list">
+                            <li><span><i class="fa-solid fa-bicycle"></i> Bicicletas</span> <strong>6</strong></li>
+                            <li><span><i class="fa-solid fa-motorcycle"></i> Motociclos</span> <strong>12</strong></li>
+                            <li><span><i class="fa-solid fa-van-shuttle"></i> Carrinhas (Vans)</span> <strong>11</strong></li>
+                            <li><span><i class="fa-solid fa-truck"></i> Camiões</span> <strong>5</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECÇÃO 2: APROVAÇÃO DE NOVO STAFF -->
+            <section id="staff-approval" class="tab-content">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-user-check"></i> Pedidos de Aprovação de Staff</h2>
+                    <p>Validação e ativação de novas contas de administradores de backoffice.</p>
+                </div>
+
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table" id="staff-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>NIF</th>
+                                    <th>Data Registo</th>
+                                    <th>Estado</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="staff-row-1">
+                                    <td>Ana Rodrigues</td>
+                                    <td>ana.rodrigues@cms.pt</td>
+                                    <td>234567890</td>
+                                    <td>2026-10-18</td>
+                                    <td><span class="badge-status pending">Pendente</span></td>
+                                    <td>
+                                        <button class="btn-action approve" onclick="approveStaff(1, 'Ana Rodrigues')"><i class="fa-solid fa-check"></i> Aprovar</button>
+                                        <button class="btn-action reject" onclick="rejectStaff(1, 'Ana Rodrigues')"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
+                                    </td>
+                                </tr>
+                                <tr id="staff-row-2">
+                                    <td>Carlos Melo</td>
+                                    <td>carlos.melo@cms.pt</td>
+                                    <td>298765432</td>
+                                    <td>2026-10-20</td>
+                                    <td><span class="badge-status pending">Pendente</span></td>
+                                    <td>
+                                        <button class="btn-action approve" onclick="approveStaff(2, 'Carlos Melo')"><i class="fa-solid fa-check"></i> Aprovar</button>
+                                        <button class="btn-action reject" onclick="rejectStaff(2, 'Carlos Melo')"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="no-staff-msg" class="empty-state" style="display: none;">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <p>Não existem pedidos de aprovação de Staff pendentes de momento.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECÇÃO 3: EDIÇÃO DE PERFIL DO ADMIN -->
+            <section id="profile" class="tab-content">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-user-pen"></i> Editar Informação Pessoal</h2>
+                    <p>Atualize os seus dados de contacto e credenciais de acesso.</p>
+                </div>
+
+                <div class="card form-card">
+                    <!-- Mensagem de Alerta Visual para Erros/Sucesso -->
+                    <div id="alert-box" class="alert-box" style="display: none;"></div>
+
+                    <form id="admin-profile-form" onsubmit="validateAndSubmitProfile(event)" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="admin-name">Nome Completo *</label>
+                                <input type="text" id="admin-name" name="name" value="Administrador Geral" required>
+                                <span class="error-text" id="error-name"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-email">Email Institucional *</label>
+                                <input type="email" id="admin-email" name="email" value="admin@cms.fe.up.pt" required>
+                                <span class="error-text" id="error-email"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-phone">Telefone *</label>
+                                <input type="tel" id="admin-phone" name="phone" value="912345678" required>
+                                <span class="error-text" id="error-phone"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-nif">NIF *</label>
+                                <input type="text" id="admin-nif" name="nif" value="123456789" maxlength="9" required>
+                                <span class="error-text" id="error-nif"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-password">Nova Palavra-Passe (Opcional)</label>
+                                <input type="password" id="admin-password" name="password" placeholder="Mínimo 6 caracteres">
+                                <span class="error-text" id="error-password"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-confirm-password">Confirmar Nova Palavra-Passe</label>
+                                <input type="password" id="admin-confirm-password" name="confirm_password" placeholder="Repita a palavra-passe">
+                                <span class="error-text" id="error-confirm-password"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Guardar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Ficheiro de Script de Validações e Interatividade -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
