@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMS - Painel de Administração</title>
+    <title>TrustPort CMS — Painel de Administração</title>
     <link rel="stylesheet" href="styles_admin.css">
     <!-- FontAwesome para ícones da interface -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,11 +14,11 @@
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-truck-fast"></i>
-            <span>CMS Admin</span>
+            <span>TrustPort CMS Admin</span>
         </div>
         <div class="user-menu">
             <span class="user-name"><i class="fa-solid fa-user-gear"></i> Admin System</span>
-            <a href="index.html" class="btn-logout" title="Terminar Sessão"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            <a href="menu_inicial.html" class="btn-logout" title="Terminar Sessão"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
         </div>
     </header>
 
@@ -34,10 +34,14 @@
                     <span class="badge" id="pending-count">2</span>
                 </a>
                 <a href="#profile" class="nav-item" onclick="switchTab(event, 'profile')">
-                    <i class="fa-solid fa-user-pen"></i> Editar Perfil
+                    <i class="fa-solid fa-id-card"></i> Gestão de Funcionários
                 </a>
-                <a href="team.html" class="nav-item">
+                <a href="equipa.html" class="nav-item">
                     <i class="fa-solid fa-users"></i> Equipa
+                </a>
+                <a href="#messages" class="nav-item" onclick="switchTab(event, 'messages')">
+                    <i class="fa-solid fa-comments"></i> Conversas / Mensagens
+                    <span class="badge" id="unread-msg-count" style="background-color: var(--green);">3</span>
                 </a>
             </nav>
         </aside>
@@ -49,7 +53,7 @@
             <section id="dashboard" class="tab-content active">
                 <div class="section-header">
                     <h2><i class="fa-solid fa-chart-line"></i> Dashboard & Métricas Operacionais</h2>
-                    <p>Visão geral em tempo real do ecossistema de transporte e logística.</p>
+                    <p>Visão geral em tempo real do ecossistema de transporte e logística TrustPort.</p>
                 </div>
 
                 <!-- Cards de Indicadores de Desempenho (KPIs) -->
@@ -71,8 +75,8 @@
                     <div class="kpi-card">
                         <div class="kpi-icon purple"><i class="fa-solid fa-user-shield"></i></div>
                         <div class="kpi-data">
-                            <h3>12</h3>
-                            <p>Membros Staff</p>
+                            <h3>15</h3>
+                            <p>Membros Staff / Funcionários</p>
                         </div>
                     </div>
                     <div class="kpi-card">
@@ -111,10 +115,10 @@
                     <div class="card">
                         <h3><i class="fa-solid fa-truck-moving"></i> Distribuição de Veículos Ativos</h3>
                         <ul class="stats-list">
-                            <li><span><i class="fa-solid fa-bicycle"></i> Bicicletas</span> <strong>6</strong></li>
+                            <li><span><i class="fa-solid fa-bicycle"></i> Bicicletas Elétricas</span> <strong>6</strong></li>
                             <li><span><i class="fa-solid fa-motorcycle"></i> Motociclos</span> <strong>12</strong></li>
                             <li><span><i class="fa-solid fa-van-shuttle"></i> Carrinhas (Vans)</span> <strong>11</strong></li>
-                            <li><span><i class="fa-solid fa-truck"></i> Camiões</span> <strong>5</strong></li>
+                            <li><span><i class="fa-solid fa-truck"></i> Camiões Pesados</span> <strong>5</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -124,7 +128,7 @@
             <section id="staff-approval" class="tab-content">
                 <div class="section-header">
                     <h2><i class="fa-solid fa-user-check"></i> Pedidos de Aprovação de Staff</h2>
-                    <p>Validação e ativação de novas contas de administradores de backoffice.</p>
+                    <p>Validação e ativação de novas contas de administradores de backoffice e gestores de frota.</p>
                 </div>
 
                 <div class="card">
@@ -143,7 +147,7 @@
                             <tbody>
                                 <tr id="staff-row-1">
                                     <td>Ana Rodrigues</td>
-                                    <td>ana.rodrigues@cms.pt</td>
+                                    <td>ana.rodrigues@trustport.pt</td>
                                     <td>234567890</td>
                                     <td>2026-10-18</td>
                                     <td><span class="badge-status pending">Pendente</span></td>
@@ -154,7 +158,7 @@
                                 </tr>
                                 <tr id="staff-row-2">
                                     <td>Carlos Melo</td>
-                                    <td>carlos.melo@cms.pt</td>
+                                    <td>carlos.melo@trustport.pt</td>
                                     <td>298765432</td>
                                     <td>2026-10-20</td>
                                     <td><span class="badge-status pending">Pendente</span></td>
@@ -173,67 +177,385 @@
                 </div>
             </section>
 
-            <!-- SECÇÃO 3: EDIÇÃO DE PERFIL DO ADMIN -->
+            <!-- SECÇÃO 3: GESTÃO E EDIÇÃO DE INFORMAÇÃO DOS FUNCIONÁRIOS -->
             <section id="profile" class="tab-content">
                 <div class="section-header">
-                    <h2><i class="fa-solid fa-user-pen"></i> Editar Informação Pessoal</h2>
-                    <p>Atualize os seus dados de contacto e credenciais de acesso.</p>
+                    <h2><i class="fa-solid fa-address-book"></i> Gestão de Informação Pessoal de Funcionários</h2>
+                    <p>Consulte e edite dados pessoais, vencimentos, dados fiscais e mapa de férias dos 15 colaboradores ativos.</p>
                 </div>
 
-                <div class="card form-card">
-                    <!-- Mensagem de Alerta Visual para Erros/Sucesso -->
+                <!-- Tabela com Lista dos 15 Funcionários -->
+                <div class="card">
+                    <div class="card-header-actions">
+                        <h3><i class="fa-solid fa-users-gear"></i> Lista de Funcionários (15)</h3>
+                        <input type="text" id="employee-search" class="search-input" placeholder="Pesquisar por nome, NIF ou cargo..." onkeyup="filterEmployees()">
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="employees-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome Completo</th>
+                                    <th>Cargo / Função</th>
+                                    <th>NIF</th>
+                                    <th>Vencimento Base</th>
+                                    <th>Dias Férias Restantes</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#EMP-001</td>
+                                    <td><strong>Manuel Silva Fernandes</strong></td>
+                                    <td>Administrador de Operações</td>
+                                    <td>123456789</td>
+                                    <td>2.450,00 €</td>
+                                    <td><span class="badge-status approved">14 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(1)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-002</td>
+                                    <td><strong>Beatriz Maria Santos</strong></td>
+                                    <td>Gestora de Logística & Rotas</td>
+                                    <td>214365879</td>
+                                    <td>1.850,00 €</td>
+                                    <td><span class="badge-status approved">18 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(2)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-003</td>
+                                    <td><strong>João Pedro Oliveira</strong></td>
+                                    <td>Coordenador de Tráfego e GPS</td>
+                                    <td>235689147</td>
+                                    <td>1.650,00 €</td>
+                                    <td><span class="badge-status approved">10 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(3)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-004</td>
+                                    <td><strong>Carla Sofia Ribeiro</strong></td>
+                                    <td>Especialista de Apoio ao Cliente B2B</td>
+                                    <td>247896325</td>
+                                    <td>1.350,00 €</td>
+                                    <td><span class="badge-status pending">22 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(4)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-005</td>
+                                    <td><strong>Rui Miguel Costa</strong></td>
+                                    <td>Supervisora de Frota e Manutenção</td>
+                                    <td>258147369</td>
+                                    <td>1.700,00 €</td>
+                                    <td><span class="badge-status approved">12 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(5)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-006</td>
+                                    <td><strong>Sofia Alexandre Martins</strong></td>
+                                    <td>Gestora de Sustentabilidade & CO₂</td>
+                                    <td>269358147</td>
+                                    <td>1.900,00 €</td>
+                                    <td><span class="badge-status approved">15 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(6)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-007</td>
+                                    <td><strong>Diogo José Pereira</strong></td>
+                                    <td>Motorista Pesados de Longo Curso</td>
+                                    <td>271482935</td>
+                                    <td>1.550,00 €</td>
+                                    <td><span class="badge-status approved">8 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(7)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-008</td>
+                                    <td><strong>Inês Filipa Neto</strong></td>
+                                    <td>Analista Financeira & Faturação</td>
+                                    <td>283917462</td>
+                                    <td>1.750,00 €</td>
+                                    <td><span class="badge-status approved">16 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(8)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-009</td>
+                                    <td><strong>Gonçalo André Carvalho</strong></td>
+                                    <td>Técnico de Armazém & Cargas</td>
+                                    <td>294826153</td>
+                                    <td>1.250,00 €</td>
+                                    <td><span class="badge-status pending">20 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(9)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-10</td>
+                                    <td><strong>Mariana Rosa Pinho</strong></td>
+                                    <td>Técnica de Recursos Humanos</td>
+                                    <td>215487369</td>
+                                    <td>1.600,00 €</td>
+                                    <td><span class="badge-status approved">11 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(10)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-11</td>
+                                    <td><strong>Tiago Alexandre Lopes</strong></td>
+                                    <td>Motorista de Distribuição Urbana</td>
+                                    <td>226598471</td>
+                                    <td>1.300,00 €</td>
+                                    <td><span class="badge-status approved">9 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(11)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-12</td>
+                                    <td><strong>Catarina Isabel Marques</strong></td>
+                                    <td>Especialista de Qualidade e Processos</td>
+                                    <td>237609582</td>
+                                    <td>1.800,00 €</td>
+                                    <td><span class="badge-status approved">13 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(12)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-13</td>
+                                    <td><strong>Nuno Miguel Henriques</strong></td>
+                                    <td>Desenvolvedor de Sistemas / IT</td>
+                                    <td>248710693</td>
+                                    <td>2.100,00 €</td>
+                                    <td><span class="badge-status approved">17 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(13)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-14</td>
+                                    <td><strong>Patricia Alexandra Fonte</strong></td>
+                                    <td>Operadora de Dispatching & Expedição</td>
+                                    <td>259821704</td>
+                                    <td>1.400,00 €</td>
+                                    <td><span class="badge-status approved">7 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(14)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#EMP-15</td>
+                                    <td><strong>Pedro Henrique Almeida</strong></td>
+                                    <td>Mecânico e Gestor de Manutenção</td>
+                                    <td>260932815</td>
+                                    <td>1.500,00 €</td>
+                                    <td><span class="badge-status approved">15 Dias</span></td>
+                                    <td><button class="btn-action edit" onclick="loadEmployeeData(15)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Formulário Detalhado de Edição do Funcionário Selecionado -->
+                <div class="card form-card" id="employee-edit-card">
+                    <<div class="form-header-group">
+                        <div class="employee-selector-group">
+                            <label for="select-employee-dropdown"><i class="fa-solid fa-user-gear"></i> Selecionar Funcionário:</label>
+                            <select id="select-employee-dropdown" class="select-employee-dropdown" onchange="loadEmployeeData(parseInt(this.value))">
+                                <option value="1">#EMP-001 — Manuel Silva Fernandes</option>
+                                <option value="2">#EMP-002 — Beatriz Maria Santos</option>
+                                <option value="3">#EMP-003 — João Pedro Oliveira</option>
+                                <option value="4">#EMP-004 — Carla Sofia Ribeiro</option>
+                                <option value="5">#EMP-005 — Rui Miguel Costa</option>
+                                <option value="6">#EMP-006 — Sofia Alexandre Martins</option>
+                                <option value="7">#EMP-007 — Diogo José Pereira</option>
+                                <option value="8">#EMP-008 — Inês Filipa Neto</option>
+                                <option value="9">#EMP-009 — Gonçalo André Carvalho</option>
+                                <option value="10">#EMP-010 — Mariana Rosa Pinho</option>
+                                <option value="11">#EMP-011 — Tiago Alexandre Lopes</option>
+                                <option value="12">#EMP-012 — Catarina Isabel Marques</option>
+                                <option value="13">#EMP-013 — Nuno Miguel Henriques</option>
+                                <option value="14">#EMP-014 — Patricia Alexandra Fonte</option>
+                                <option value="15">#EMP-015 — Pedro Henrique Almeida</option>
+                            </select>
+                        </div>
+                        <span class="badge-role" id="editing-employee-role">Administrador de Operações</span>
+                </div>
+
+                    <!-- Caixa de Notificação para Validações -->
                     <div id="alert-box" class="alert-box" style="display: none;"></div>
 
-                    <form id="admin-profile-form" onsubmit="validateAndSubmitProfile(event)" novalidate>
+                    <form id="employee-form" onsubmit="validateAndSubmitEmployee(event)" novalidate>
+                        
+                        <!-- Bloco 1: Informação Pessoal & Contactos -->
+                        <div class="form-section-title"><i class="fa-solid fa-user"></i> Informação Pessoal & Contactos</div>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="admin-name">Nome Completo *</label>
-                                <input type="text" id="admin-name" name="name" value="Administrador Geral" required>
+                                <label for="emp-name">Nome Completo *</label>
+                                <input type="text" id="emp-name" name="name" value="Manuel Silva Fernandes" required>
                                 <span class="error-text" id="error-name"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-email">Email Institucional *</label>
-                                <input type="email" id="admin-email" name="email" value="admin@cms.fe.up.pt" required>
+                                <label for="emp-email">Email Institucional *</label>
+                                <input type="email" id="emp-email" name="email" value="manuel.silva@trustport.pt" required>
                                 <span class="error-text" id="error-email"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-phone">Telefone *</label>
-                                <input type="tel" id="admin-phone" name="phone" value="912345678" required>
+                                <label for="emp-phone">Telefone / Telemóvel *</label>
+                                <input type="tel" id="emp-phone" name="phone" value="912345678" required>
                                 <span class="error-text" id="error-phone"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-nif">NIF *</label>
-                                <input type="text" id="admin-nif" name="nif" value="123456789" maxlength="9" required>
+                                <label for="emp-nif">NIF (Número de Identificação Fiscal) *</label>
+                                <input type="text" id="emp-nif" name="nif" value="123456789" maxlength="9" required>
                                 <span class="error-text" id="error-nif"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-password">Nova Palavra-Passe (Opcional)</label>
-                                <input type="password" id="admin-password" name="password" placeholder="Mínimo 6 caracteres">
-                                <span class="error-text" id="error-password"></span>
+                                <label for="emp-nss">Número de Segurança Social (NSS) *</label>
+                                <input type="text" id="emp-nss" name="nss" value="12009876543" maxlength="11" required>
+                                <span class="error-text" id="error-nss"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-confirm-password">Confirmar Nova Palavra-Passe</label>
-                                <input type="password" id="admin-confirm-password" name="confirm_password" placeholder="Repita a palavra-passe">
-                                <span class="error-text" id="error-confirm-password"></span>
+                                <label for="emp-dob">Data de Nascimento *</label>
+                                <input type="date" id="emp-dob" name="dob" value="1984-05-14" required>
+                                <span class="error-text" id="error-dob"></span>
+                            </div>
+                        </div>
+
+                        <!-- Bloco 2: Dados Contratuais & Vencimento -->
+                        <div class="form-section-title"><i class="fa-solid fa-file-invoice-dollar"></i> Contrato, Vencimento e Iban</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="emp-role">Cargo / Função *</label>
+                                <input type="text" id="emp-role" name="role" value="Administrador de Operações" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emp-salary">Vencimento Base Mensal (€) *</label>
+                                <input type="number" id="emp-salary" name="salary" value="2450.00" step="0.01" min="820" required>
+                                <span class="error-text" id="error-salary"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emp-iban">IBAN para Pagamento de Salário *</label>
+                                <input type="text" id="emp-iban" name="iban" value="PT50003300001234567890123" maxlength="25" required>
+                                <span class="error-text" id="error-iban"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emp-contract-type">Tipo de Contrato</label>
+                                <select id="emp-contract-type" name="contract_type">
+                                    <option value="sem_termo" selected>Sem Termo (Efetivo)</option>
+                                    <option value="a_termo_certo">A Termo Certo</option>
+                                    <option value="prestacao_servicos">Prestação de Serviços</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Bloco 3: Mapa de Férias & Ausências -->
+                        <div class="form-section-title"><i class="fa-solid fa-umbrella-beach"></i> Mapa de Férias e Ausências (Ano 2026)</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="emp-vacation-days">Dias de Férias Direito Ano</label>
+                                <input type="number" id="emp-vacation-days" name="vacation_days" value="22" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emp-vacation-taken">Dias Gozados até à Data</label>
+                                <input type="number" id="emp-vacation-taken" name="vacation_taken" value="8" min="0" max="22" oninput="calculateRemainingVacation()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emp-vacation-remaining">Dias Restantes Disponíveis</label>
+                                <input type="number" id="emp-vacation-remaining" name="vacation_remaining" value="14" readonly>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="emp-vacation-dates">Períodos de Férias Marcados / Aprovados</label>
+                                <input type="text" id="emp-vacation-dates" name="vacation_dates" value="05/05/2026 a 12/05/2026 (5 dias) | 10/08/2026 a 24/08/2026 (9 dias)">
                             </div>
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Guardar Alterações</button>
+                            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Guardar Alterações do Funcionário</button>
                         </div>
                     </form>
                 </div>
             </section>
+            <!-- SECÇÃO 4: CONVERSAS & MENSAGENS COM STAFF -->
+            <section id="messages" class="tab-content">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-comments"></i> Centro de Comunicação Interna</h2>
+                    <p>Troca de mensagens diretas e instruções operacionais com os membros da equipa.</p>
+                </div>
 
+                <div class="card messages-layout">
+                    <!-- Lista de Contactos/Conversas à Esquerda -->
+                    <div class="chat-sidebar">
+                        <input type="text" class="search-input" placeholder="Pesquisar conversa..." onkeyup="filterChats(this.value)">
+                        <ul class="chat-list" id="chat-list">
+                            <li class="chat-item active" onclick="selectChat(1)">
+                                <div class="chat-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                                <div class="chat-info">
+                                    <div class="chat-name-row">
+                                        <strong>Beatriz Santos</strong>
+                                        <small>10:42</small>
+                                    </div>
+                                    <p class="chat-preview">Rota Lisboa-Porto concluída com sucesso.</p>
+                                </div>
+                            </li>
+                            <li class="chat-item unread" onclick="selectChat(2)">
+                                <div class="chat-avatar"><i class="fa-solid fa-truck"></i></div>
+                                <div class="chat-info">
+                                    <div class="chat-name-row">
+                                        <strong>Diogo Pereira</strong>
+                                        <small>09:15</small>
+                                    </div>
+                                    <p class="chat-preview">Preciso de apoio com a morada de entrega #892.</p>
+                                </div>
+                            </li>
+                            <li class="chat-item" onclick="selectChat(3)">
+                                <div class="chat-avatar"><i class="fa-solid fa-headset"></i></div>
+                                <div class="chat-info">
+                                    <div class="chat-name-row">
+                                        <strong>Carla Ribeiro</strong>
+                                        <small>Ontem</small>
+                                    </div>
+                                    <p class="chat-preview">Relatório de apoio B2B enviado.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Janela de Chat Activa à Direita -->
+                    <div class="chat-window">
+                        <div class="chat-header">
+                            <div class="chat-user-details">
+                                <strong id="chat-active-name">Beatriz Santos</strong>
+                                <span id="chat-active-role">Gestora de Logística & Rotas</span>
+                            </div>
+                            <span class="status-indicator online">Online</span>
+                        </div>
+
+                        <div class="chat-body" id="chat-messages-body">
+                            <div class="message incoming">
+                                <p>Bom dia, confirmação do fecho da consolidação da carga B2B de hoje?</p>
+                                <span class="msg-time">10:30</span>
+                            </div>
+                            <div class="message outgoing">
+                                <p>Confirmado Beatriz. Os 3 camiões já saíram com a rota GPS otimizada.</p>
+                                <span class="msg-time">10:35</span>
+                            </div>
+                            <div class="message incoming">
+                                <p>Perfeito! Rota Lisboa-Porto concluída com sucesso.</p>
+                                <span class="msg-time">10:42</span>
+                            </div>
+                        </div>
+
+                        <form class="chat-footer" onsubmit="sendMessage(event)">
+                            <input type="text" id="chat-input" placeholder="Escreve uma mensagem para a equipa..." required autocomplete="off">
+                            <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
     <!-- Ficheiro de Script de Validações e Interatividade -->
-    <script src="js/admin.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
