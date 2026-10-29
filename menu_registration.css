@@ -1,0 +1,26 @@
+
+/* Layout: account selection; shared tokens and components are in Registration Courier_CSS.css */
+
+.role-selection-wrapper { margin-inline: auto; flex: 1; width: min(var(--content-width),90%); padding: 80px 0; }
+.role-selection-heading { max-width: 900px; margin-bottom: 45px; }
+.role-selection-heading h1 { margin-bottom: 24px; font-size: clamp(44px,5.8vw,80px); font-weight: 750; letter-spacing: -.065em; }
+/* Cards */
+.registration-roles { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 24px; }
+.registration-roles-two { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.registration-role { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; border: 1px solid var(--border); background: var(--surface); transition: border-color 160ms,background-color 160ms; padding: 35px 28px; border-radius: 24px 24px 48px 24px; gap: 22px; }
+.registration-role:hover,.registration-role:focus-within { background: var(--surface-soft); border-color: var(--green); }
+.registration-role h2 { font-size: 26px; font-weight: 650; margin-bottom: 0; }
+/* Buttons: shared primary palette */
+.role-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 48px; padding: 12px 16px; line-height: 1.5; text-align: left; cursor: pointer; border-radius: 40px; font-size: 13px; margin-top: auto; }
+.role-button span { flex-shrink: 0; font-size: 18px; }
+/* Responsive */
+@media (max-width: 1000px) {
+.registration-roles { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+}
+@media (max-width: 760px) {
+.role-selection-wrapper { padding-block: 64px; }
+}
+@media (max-width: 600px) {
+.role-selection-wrapper { width: calc(100% - 32px); padding-block: 48px; }
+.registration-roles { grid-template-columns: minmax(0,1fr); gap: 24px; }
+}
