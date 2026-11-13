@@ -21,8 +21,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .skip-link { position: absolute; top: -80px; left: 16px; padding: 12px; background: white; z-index: 5; }
 .skip-link:focus { top: 12px; }
 .site-header { min-height: 112px; padding: 16px 4%; display: flex; align-items: center; gap: 28px; border-bottom: 1px solid var(--line); background: white; }
-.brand { width: 166px; flex-shrink: 0; display: block; }
-.brand img { display: block; width: 100%; height: auto; }
+.brand { min-width: 166px; flex-shrink: 0; display: block; color: var(--petrol); }
+.brand-name { font-size: 25px; font-weight: 750; letter-spacing: -.06em; white-space: nowrap; }
+.brand-name span { color: var(--green); }
 nav { display: flex; align-items: center; justify-content: flex-end; gap: clamp(14px, 2vw, 32px); flex: 1; }
 nav button { border: 0; background: transparent; padding: 12px 0; font-size: 13px; font-weight: 600; color: var(--petrol); white-space: nowrap; }
 nav button:hover { color: var(--green); }
@@ -62,7 +63,7 @@ dialog p { line-height: 1.7; color: #4e6662; }
 @media (min-width: 1600px) { .site-header { padding-inline: max(4%, calc((100vw - 1480px) / 2)); } }
 @media (max-width: 1100px) {
   .site-header { gap: 18px; flex-wrap: wrap; padding: 12px 5%; min-height: 90px; }
-  .brand { width: 145px; }
+  .brand { min-width: 145px; }
   .menu-toggle { display: block; margin-left: auto; background: transparent; border: 1px solid var(--line); padding: 8px 14px; border-radius: 5px; color: var(--petrol); }
   nav { display: none; order: 4; flex-basis: 100%; padding: 8px 0 16px; flex-wrap: wrap; justify-content: flex-start; gap: 12px 24px; }
   nav.is-open { display: flex; }
@@ -111,8 +112,6 @@ p { line-height: 1.7; }
 .about-section { position: relative; background: #fff; display: grid; grid-template-columns: 1.15fr 1fr; gap: 25px 70px; }
 .about-section .section-intro { margin-bottom: 15px; }
 .signature { font-size: 24px; }
-.about-brand { align-self: center; background: white; border-radius: 50%; overflow: hidden; }
-.about-brand img { display: block; width: 100%; height: auto; }
 .history-block, .purpose-grid { grid-column: 1 / -1; }
 .history-block { margin-top: 30px; }
 .timeline { list-style: none; margin: 38px 0 60px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 38px 30px; }
@@ -188,7 +187,6 @@ dialog { border-radius: 30px; }
  .hero .eyebrow { margin-bottom: 28px; }
  .slogan { font-size: 25px; }
  .about-section { grid-template-columns: 1fr; }
- .about-brand { max-width: 280px; margin: 0 auto; }
  .history-block { margin-top: 10px; }
  .timeline { grid-template-columns: 1fr; padding-left: 12px; gap: 0; margin-bottom: 35px; }
  .timeline li { border-top: 0; border-left: 1px solid #aacdc0; padding: 0 0 30px 25px; }
@@ -264,7 +262,6 @@ h2 { font-weight: 650; letter-spacing: -.035em; font-size: clamp(32px, 4vw, 52px
 .visual-status::before { background: var(--green); }
 .map-key { display: flex; align-items: center; gap: 7px; letter-spacing: .02em; }
 .map-key i { display: block; height: 7px; width: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-.about-brand { background: transparent; border-radius: 0; overflow: visible; }
 @media (max-width: 420px) { .visual-footer { gap: 8px; font-size: 6.5px; padding-inline: 13px; } }
 
 /* Horizontal chronological journey, scrollable on smaller screens. */
