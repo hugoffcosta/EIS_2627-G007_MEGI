@@ -42,15 +42,17 @@ Os restantes ficheiros do Courier foram preservados da pasta original fornecida.
 1. Abre `menu registration.html` → **Register as Client**.
 2. Introduz dados **fictícios**, preenche as quatro etapas e confirma o registo.
 3. Clica em `Open Client Dashboard`.
-4. Vai a `New Order` e clica em **Use FEUP example**. O mapa deve apresentar dois marcadores e uma linha reta indicativa.
+4. Vai a `New Order`. O mapa interativo OpenStreetMap abre centrado na FEUP com um marcador de demonstração. Clica no mapa para definir a origem ou o destino selecionado; ou clica em **Use FEUP example** para preencher ambos os pontos e apresentar dois marcadores ligados por uma linha reta.
 5. Introduz um produto (descrição, categoria, quantidade, peso/unidade e volume/unidade). Podes usar **Add another product**.
-6. Seleciona a data e clica em **Submit Order**.
-7. Abre `Menu_courierHTML.html` pelo Live Server, no mesmo navegador. O novo pedido deve aparecer em **Available Orders** (além dos pedidos de teste existentes).
-8. O Courier seleciona um veículo aprovado com capacidade suficiente e aceita o pedido. Em `Client > My Orders`, o estado passa a **Accepted** quando a página é atualizada/reativada.
-9. Quando o Courier altera o estado da entrega (Picked up / In transit / Delivery day), o Cliente acompanha em **My Orders**. A finalização requer a prova de entrega no Courier.
-10. Após a conclusão, o pedido aparece em `Client > History` com **Completed**.
-11. Para cancelar, cria outro pedido e utiliza **Cancel Order** enquanto estiver **Initiated**. Os pedidos cancelados aparecem no histórico e deixam de estar disponíveis para aceitação pelo Courier ao atualizar a sua área.
-12. Abre `My Profile` para alterar contactos e morada de demonstração.
+6. Confirma o preço estimado, calculado com as tarifas de demonstração e a distância GPS em linha reta, e seleciona **MB WAY** ou **Card**. Preenche os campos de demonstração que aparecem para a opção escolhida; estes dados não são enviados nem guardados. Usa apenas valores fictícios.
+7. Seleciona a data e clica em **Submit Order**.
+8. Abre `Menu_courierHTML.html` pelo Live Server, no mesmo navegador. O novo pedido deve aparecer em **Available Orders** (além dos pedidos de teste existentes).
+9. O Courier seleciona um veículo aprovado com capacidade suficiente e aceita o pedido. Em `Client > My Orders`, o estado passa a **Accepted** quando a página é atualizada/reativada.
+10. Quando o Courier altera o estado (Picked up / In transit / Out for delivery), o Cliente acompanha a saída da origem e o progresso em **My Orders > View details > Order Timeline**. Depois de marcar **Out for delivery**, o Courier pode registar uma tentativa sem sucesso; a timeline indica o pickup point de demonstração associado à cidade/código postal do perfil.
+   `My Orders` inclui também o exemplo `DEMO-ATTEMPT-001`: ninguém estava em casa e a encomenda ficou no pickup point de demonstração mais próximo.
+11. A finalização requer a prova de entrega no Courier. Após a conclusão, o pedido aparece em `Client > History` e a timeline apresenta **Delivered**.
+12. Para cancelar, cria outro pedido e utiliza **Cancel Order** enquanto estiver **Initiated**. Os pedidos cancelados aparecem no histórico e deixam de estar disponíveis para aceitação pelo Courier ao atualizar a sua área.
+13. Abre `My Profile` para alterar contactos e morada de demonstração.
 
 ## Requisitos do enunciado abrangidos
 
@@ -66,7 +68,7 @@ Os restantes ficheiros do Courier foram preservados da pasta original fornecida.
 
 É um **frontend de demonstração do Sprint 1**, sem base de dados, servidor, autenticação real, recuperação de password ou armazenamento seguro de documentos. O login aceita qualquer email válido e qualquer password não vazia apenas para navegar na demo. Nunca introduzas senhas ou dados pessoais reais. A password do registo não é guardada; apenas dados de contacto fictícios podem ser guardados no `localStorage` deste browser para demonstração. A seleção de uma data/serviço não corresponde a uma entrega efetivamente agendada. Os pedidos criados pelo Cliente são partilhados com o Courier apenas no **mesmo browser/origem** e as sessões internas do Courier continuam a funcionar como simulação local. A prova de entrega é preenchida na página do Courier; as imagens/assinaturas não são copiadas para o histórico do Cliente.
 
-O mapa necessita de ligação à Internet para descarregar a biblioteca Leaflet e os tiles OpenStreetMap.
+O mapa e a pesquisa de moradas necessitam de ligação à Internet. As pesquisas de endereço são enviadas ao serviço público Photon (OpenStreetMap/Komoot) para obter coordenadas. O preço é apenas uma estimativa com tarifas do simulador e distância em linha reta (não uma rota rodoviária). Os pickup points são nomes de demonstração selecionados pela cidade/código postal; não existe um catálogo real nem geolocalização precisa de pontos de recolha. O formulário de pagamento é uma demonstração: não processa pagamentos nem guarda ou envia os campos de MB WAY/cartão. Nunca introduzas dados reais de pagamento.
 
 ## Antes de entregar
 

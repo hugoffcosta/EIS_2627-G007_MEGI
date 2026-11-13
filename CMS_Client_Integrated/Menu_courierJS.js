@@ -374,7 +374,7 @@
     function clientProposals() {
         return clientRecords().filter(order => order.status==='Initiated' && typeof order.requestKey==='string').map(order => ({
             requestKey:order.requestKey,client:order.client||'Client',origin:order.origin||'Origin',destination:order.destination||'Destination',
-            pickup:order.pickup||'Pickup',dropoff:order.dropoff||'Destination',date:String(order.date||''),vehicle:'Not assigned',
+            pickup:order.pickup||'Pickup',dropoff:order.dropoff||'Destination',date:String(order.date||''),vehicle:'Not assigned',pickupPoint:order.pickupPoint||'',
             cargo:order.cargo||'Parcel',weight:Number(order.weight),volume:Number(order.volume),earnings:0
         }));
     }
@@ -386,13 +386,16 @@
             if(target.status===status)return;
             target.status=status;
             if(vehicle)target.vehicle=vehicle;
-            target.timeline=[...(target.timeline||[]),{status,date:new Date().toISOString()}];
+            const event={status,date:new Date().toISOString()};
+            if(status==='Delivery attempt unsuccessful')event.pickupPoint=order.pickupPoint||target.pickupPoint||`Pickup Point near ${target.destination||'delivery area'} (demo)`;
+            target.timeline=[...(target.timeline||[]),event];
             localStorage.setItem(clientOrdersKey,JSON.stringify(rows));
         } catch(error) { console.warn('Could not synchronize client demo order',error); }
     }
     const orderStatuses = new Map([
         ['initiated', 'Initiated'], ['picked_up', 'Picked up'],
-        ['in_transit', 'In transit'], ['delivery_day', 'Delivery day'],
+        ['in_transit', 'In transit'], ['delivery_day', 'Out for delivery'],
+        ['delivery_failed', 'Delivery attempt unsuccessful'],
         ['completed', 'Completed']
     ]);
     const $ = id => document.getElementById(id);
@@ -711,7 +714,7 @@
             write(key,s);
             if(action==='accept')syncClientOrder(order,'Accepted',order.vehicle);
             else if(orderStatuses.has(action))syncClientOrder(order,{
-                initiated:'Accepted',picked_up:'Picked up',in_transit:'In transit',delivery_day:'Out for delivery',completed:'Completed'
+                initiated:'Accepted',picked_up:'Picked up',in_transit:'In transit',delivery_day:'Out for delivery',delivery_failed:'Delivery attempt unsuccessful',completed:'Completed'
             }[action]);
             render();
             if(action==='accept')notify({type:'order',title:'Delivery accepted',message:`${order.id} is assigned to your selected vehicle.`,target:'orders',orderId:order.id});
@@ -779,7 +782,7 @@
         const item=selectedOrder(state());if(!item)return;
         statusOrderId=item.order.id;
         $('order-status-current').textContent=`${item.order.id} | Current status: ${orderStatuses.get(item.phase)}`;
-        statusForm.querySelectorAll('[name="order_status"]').forEach(radio=>{radio.checked=radio.value===item.phase;});
+        statusForm.querySelectorAll('[name="order_status"]').forEach(radio=>{radio.checked=radio.value===item.phase;if(radio.value==='delivery_failed')radio.closest('label').hidden=!['delivery_day','delivery_failed'].includes(item.phase);});
         $('order-status-error').textContent='';
         if(!statusDialog.open)statusDialog.showModal();
     });
@@ -790,6 +793,7 @@
         if(!item) { $('order-status-error').textContent='This order is no longer active.';return; }
         const value=statusForm.querySelector('[name="order_status"]:checked')?.value;
         if(!orderStatuses.has(value)) { $('order-status-error').textContent='Select a status.';return; }
+        if(value==='delivery_failed'&&!['delivery_day','delivery_failed'].includes(item.phase)) { $('order-status-error').textContent='Mark the order as out for delivery before recording an unsuccessful attempt.';return; }
         if(value===item.phase) {statusDialog.close();return;}
         statusSaving=true;$('save-order-status').disabled=true;
         try {
