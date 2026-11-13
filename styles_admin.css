@@ -403,6 +403,8 @@ body {
 
 /* ==========================================================================
    MÓDULO DE CONVERSAS E CHAT INTERNO
+
+
    ========================================================================== */
 .messages-layout {
     display: grid;
@@ -979,4 +981,36 @@ body {
     .org-connector-horizontal {
         display: none;
     }
+}
+
+/* ==========================================================================
+   INTERATIVIDADE DOS CARTÕES DO ORGANOGRAMA -> CHAT
+   ========================================================================== */
+.staff-org-list li {
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.staff-org-list li::after {
+    content: "\f086"; /* Ícone de chat FontAwesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #13866d;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.staff-org-list li:hover {
+    transform: translateY(-2px);
+    border-color: #13866d;
+    box-shadow: 0 4px 12px rgba(19, 134, 109, 0.12);
+}
+
+.staff-org-list li:hover::after {
+    opacity: 1;
 }

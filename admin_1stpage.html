@@ -299,9 +299,9 @@
                                 <tr>
                                     <td>#EMP-001</td>
                                     <td><strong>Manuel Silva Fernandes</strong></td>
-                                    <td>Gestor de Operações</td>
+                                    <td>Técnico de Manutenção da Plataforma</td>
                                     <td>123456789</td>
-                                    <td>2.450,00 €</td>
+                                    <td>1.950,00 €</td>
                                     <td><span class="badge-status approved">14 Dias</span></td>
                                     <td><button class="btn-action edit" onclick="loadEmployeeData(1)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
                                 </tr>
@@ -364,7 +364,7 @@
                                     <td><strong>Inês Filipa Neto</strong></td>
                                     <td>Analista Financeira e Faturação (Líder de Departamento)</td>
                                     <td>283917462</td>
-                                    <td>1.750,00 €</td>
+                                    <td>1.900,00 €</td>
                                     <td><span class="badge-status approved">16 Dias</span></td>
                                     <td><button class="btn-action edit" onclick="loadEmployeeData(8)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
                                 </tr>
@@ -389,7 +389,7 @@
                                 <tr>
                                     <td>#EMP-11</td>
                                     <td><strong>Tiago Alexandre Lopes</strong></td>
-                                    <td>Especialista de Suporte Organizacional</td>
+                                    <td>Especialista de Suporte Operacional</td>
                                     <td>226598471</td>
                                     <td>1.300,00 €</td>
                                     <td><span class="badge-status approved">9 Dias</span></td>
@@ -398,7 +398,7 @@
                                 <tr>
                                     <td>#EMP-12</td>
                                     <td><strong>Catarina Isabel Marques</strong></td>
-                                    <td>Especialista de Qualidade e Processos</td>
+                                    <td>Especialista e Designer de Processos</td>
                                     <td>237609582</td>
                                     <td>1.800,00 €</td>
                                     <td><span class="badge-status approved">13 Dias</span></td>
@@ -409,7 +409,7 @@
                                     <td><strong>Nuno Miguel Henriques</strong></td>
                                     <td>Desenvolvedor de Sistemas / IT (Líder de Departamento)</td>
                                     <td>248710693</td>
-                                    <td>2.100,00 €</td>
+                                    <td>2.200,00 €</td>
                                     <td><span class="badge-status approved">17 Dias</span></td>
                                     <td><button class="btn-action edit" onclick="loadEmployeeData(13)"><i class="fa-solid fa-pen-to-square"></i> Ver / Editar</button></td>
                                 </tr>
@@ -579,39 +579,9 @@
                     <div class="chat-sidebar">
                         <input type="text" class="search-input" placeholder="Pesquisar conversa..." onkeyup="filterChats(this.value)">
                         <ul class="chat-list" id="chat-list">
-                            <li class="chat-item active" onclick="selectChat(1)">
-                                <div class="chat-avatar"><i class="fa-solid fa-user-shield"></i></div>
-                                <div class="chat-info">
-                                    <div class="chat-name-row">
-                                        <strong>Beatriz Santos</strong>
-                                        <small>10:42</small>
-                                    </div>
-                                    <p class="chat-preview">Rota Lisboa-Porto concluída com sucesso.</p>
-                                </div>
-                            </li>
-                            <li class="chat-item unread" onclick="selectChat(2)">
-                                <div class="chat-avatar"><i class="fa-solid fa-truck"></i></div>
-                                <div class="chat-info">
-                                    <div class="chat-name-row">
-                                        <strong>Diogo Pereira</strong>
-                                        <small>09:15</small>
-                                    </div>
-                                    <p class="chat-preview">Preciso de apoio com a morada de entrega #892.</p>
-                                </div>
-                            </li>
-                            <li class="chat-item" onclick="selectChat(3)">
-                                <div class="chat-avatar"><i class="fa-solid fa-headset"></i></div>
-                                <div class="chat-info">
-                                    <div class="chat-name-row">
-                                        <strong>Carla Ribeiro</strong>
-                                        <small>Ontem</small>
-                                    </div>
-                                    <p class="chat-preview">Relatório de apoio B2B enviado.</p>
-                                </div>
-                            </li>
                         </ul>
                     </div>
-
+                    
                     <!-- Janela de Chat Activa à Direita -->
                     <div class="chat-window">
                         <div class="chat-header">
@@ -660,7 +630,7 @@
                     <div class="board-grid">
                         <div class="org-card admin-card">
                             <span class="role-tag">CEO</span>
-                            <strong>Gonçalo Marsued</strong>
+                            <strong>Gonçalo Marques</strong>
                             <small>Estratégia e Direção Geral</small>
                         </div>
                         <div class="org-card admin-card">
@@ -701,22 +671,22 @@
                             <span>4 Colaboradores</span>
                         </div>
                         <ul class="staff-org-list">
-                            <li class="lead">
+                            <li class="lead" onclick="openStaffChat(2)">
                                 <span class="emp-id">#EMP-002 · Líder</span>
                                 <strong>Beatriz Maria Santos</strong>
                                 <small>Gestora de Logística e Rotas</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(3)">
                                 <span class="emp-id">#EMP-003</span>
                                 <strong>João Pedro Oliveira</strong>
                                 <small>Coordenador de Tráfego e GPS</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(7)">
                                 <span class="emp-id">#EMP-007</span>
                                 <strong>Diogo José Pereira</strong>
                                 <small>Gestor de Onboarding e Parceiros</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(9)">
                                 <span class="emp-id">#EMP-009</span>
                                 <strong>Gonçalo André Carvalho</strong>
                                 <small>Analista de Otimização de Rotas</small>
@@ -732,17 +702,17 @@
                             <span>3 Colaboradores</span>
                         </div>
                         <ul class="staff-org-list">
-                            <li class="lead">
+                            <li class="lead" onclick="openStaffChat(5)">
                                 <span class="emp-id">#EMP-005 · Líder</span>
                                 <strong>Rui Miguel Costa</strong>
                                 <small>Coord. Assistência SOS e Segurança</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(11)">
                                 <span class="emp-id">#EMP-011</span>
                                 <strong>Tiago Alexandre Lopes</strong>
-                                <small>Especialista Suporte Live Ops</small>
+                                <small>Especialista Suporte Operacional</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(15)">
                                 <span class="emp-id">#EMP-015</span>
                                 <strong>Pedro Henrique Almeida</strong>
                                 <small>Técnico de Assistência Rápida SOS</small>
@@ -758,22 +728,22 @@
                             <span>4 Colaboradores</span>
                         </div>
                         <ul class="staff-org-list">
-                            <li class="lead">
+                            <li class="lead" onclick="openStaffChat(13)">
                                 <span class="emp-id">#EMP-013 · Líder</span>
                                 <strong>Nuno Miguel Henriques</strong>
                                 <small>Desenvolvedor de Sistemas / IT</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(1)">
                                 <span class="emp-id">#EMP-001</span>
                                 <strong>Manuel Silva Fernandes</strong>
-                                <small>Administrador de Plataforma</small>
+                                <small>Técnico de Manutenção de Plataforma</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(6)">
                                 <span class="emp-id">#EMP-006</span>
                                 <strong>Sofia Alexandre Martins</strong>
                                 <small>Gestora de Sustentabilidade</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(14)">
                                 <span class="emp-id">#EMP-014</span>
                                 <strong>Patricia Alexandra Fonte</strong>
                                 <small>Analista de Dados e BI</small>
@@ -785,29 +755,29 @@
                     <div class="dept-column">
                         <div class="dept-header">
                             <i class="fa-solid fa-briefcase"></i>
-                            <h3>Finanças, RH e Apoio B2B</h3>
+                            <h3>Finanças, RH e Apoio ao Cliente</h3>
                             <span>4 Colaboradores</span>
                         </div>
                         <ul class="staff-org-list">
-                            <li class="lead">
+                            <li class="lead" onclick="openStaffChat(8)">
                                 <span class="emp-id">#EMP-008 · Líder</span>
                                 <strong>Inês Filipa Neto</strong>
                                 <small>Analista Financeira e Faturação</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(10)">
                                 <span class="emp-id">#EMP-010</span>
                                 <strong>Mariana Rosa Pinho</strong>
                                 <small>Técnica de Recursos Humanos</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(12)">
                                 <span class="emp-id">#EMP-012</span>
                                 <strong>Catarina Isabel Marques</strong>
-                                <small>Especialista Qualidade e Processos</small>
+                                <small>Especialista e Designer de Processos</small>
                             </li>
-                            <li>
+                            <li onclick="openStaffChat(4)">
                                 <span class="emp-id">#EMP-004</span>
                                 <strong>Carla Sofia Ribeiro</strong>
-                                <small>Especialista Apoio ao Cliente B2B</small>
+                                <small>Especialista Apoio ao Cliente</small>
                             </li>
                         </ul>
                     </div>

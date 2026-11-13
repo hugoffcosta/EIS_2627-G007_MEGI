@@ -1,20 +1,20 @@
 // --- BASE DE DADOS SIMULADA DOS 15 FUNCIONÁRIOS ---
 const employeesData = [
-    { id: 1, empCode: "#EMP-001", name: "Manuel Silva Fernandes", email: "manuel.silva@trustport.pt", phone: "912345678", nif: "123456789", nss: "12009876543", dob: "1984-05-14", role: "Gestor de Operações", salary: 2450.00, iban: "PT50003300001234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 8, vacationDates: "05/05/2026 a 12/05/2026 (5 dias) | 10/08/2026 a 24/08/2026 (9 dias)" },
+    { id: 1, empCode: "#EMP-001", name: "Manuel Silva Fernandes", email: "manuel.silva@trustport.pt", phone: "912345678", nif: "123456789", nss: "12009876543", dob: "1984-05-14", role: "Técnico de Manutenção da Plataforma", salary: 1950.00, iban: "PT50003300001234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 8, vacationDates: "05/05/2026 a 12/05/2026 (5 dias) | 10/08/2026 a 24/08/2026 (9 dias)" },
     { id: 2, empCode: "#EMP-002", name: "Beatriz Maria Santos", email: "beatriz.santos@trustport.pt", phone: "923456789", nif: "214365879", nss: "12009876544", dob: "1990-11-20", role: "Gestora de Logística e Rotas", salary: 1850.00, iban: "PT50003300002345678901234", contractType: "sem_termo", vacationDays: 22, vacationTaken: 4, vacationDates: "01/06/2026 a 05/06/2026 (4 dias)" },
     { id: 3, empCode: "#EMP-003", name: "João Pedro Oliveira", email: "joao.oliveira@trustport.pt", phone: "934567890", nif: "235689147", nss: "12009876545", dob: "1988-03-15", role: "Coordenador de Tráfego e GPS", salary: 1650.00, iban: "PT50003300003456789012345", contractType: "sem_termo", vacationDays: 22, vacationTaken: 12, vacationDates: "01/08/2026 a 15/08/2026 (12 dias)" },
     { id: 4, empCode: "#EMP-004", name: "Carla Sofia Ribeiro", email: "carla.ribeiro@trustport.pt", phone: "965432109", nif: "247896325", nss: "12009876546", dob: "1993-07-22", role: "Especialista de Apoio ao Cliente", salary: 1350.00, iban: "PT50003300004567890123456", contractType: "a_termo_certo", vacationDays: 22, vacationTaken: 0, vacationDates: "Sem períodos marcados" },
-    { id: 5, empCode: "#EMP-005", name: "Rui Miguel Costa", email: "rui.costa@trustport.pt", phone: "918765432", nif: "258147369", nss: "12009876547", dob: "1982-09-30", role: "Supervisora de Frota e Manutenção", salary: 1700.00, iban: "PT50003300005678901234567", contractType: "sem_termo", vacationDays: 22, vacationTaken: 10, vacationDates: "10/07/2026 a 24/07/2026 (10 dias)" },
-    { id: 6, empCode: "#EMP-006", name: "Sofia Alexandre Martins", email: "sofia.martins@trustport.pt", phone: "929876543", nif: "269358147", nss: "12009876548", dob: "1995-12-05", role: "Gestora de Sustentabilidade & CO₂", salary: 1900.00, iban: "PT50003300006789012345678", contractType: "sem_termo", vacationDays: 22, vacationTaken: 7, vacationDates: "01/09/2026 a 09/09/2026 (7 dias)" },
+    { id: 5, empCode: "#EMP-005", name: "Rui Miguel Costa", email: "rui.costa@trustport.pt", phone: "918765432", nif: "258147369", nss: "12009876547", dob: "1982-09-30", role: "Coordenador de Assistência SOS e Segurança", salary: 1700.00, iban: "PT50003300005678901234567", contractType: "sem_termo", vacationDays: 22, vacationTaken: 10, vacationDates: "10/07/2026 a 24/07/2026 (10 dias)" },
+    { id: 6, empCode: "#EMP-006", name: "Sofia Alexandre Martins", email: "sofia.martins@trustport.pt", phone: "929876543", nif: "269358147", nss: "12009876548", dob: "1995-12-05", role: "Gestora de Sustentabilidade", salary: 1900.00, iban: "PT50003300006789012345678", contractType: "sem_termo", vacationDays: 22, vacationTaken: 7, vacationDates: "01/09/2026 a 09/09/2026 (7 dias)" },
     { id: 7, empCode: "#EMP-007", name: "Diogo José Pereira", email: "diogo.pereira@trustport.pt", phone: "931234567", nif: "271482935", nss: "12009876549", dob: "1986-04-18", role: "Gestor de Onboarding e Parceiros", salary: 1550.00, iban: "PT50003300007890123456789", contractType: "sem_termo", vacationDays: 22, vacationTaken: 14, vacationDates: "01/08/2026 a 18/08/2026 (14 dias)" },
-    { id: 8, empCode: "#EMP-008", name: "Inês Filipa Neto", email: "ines.neto@trustport.pt", phone: "962345678", nif: "283917462", nss: "12009876550", dob: "1991-08-25", role: "Analista Financeira e Faturação", salary: 1750.00, iban: "PT50003300008901234567890", contractType: "sem_termo", vacationDays: 22, vacationTaken: 6, vacationDates: "15/06/2026 a 22/06/2026 (6 dias)" },
+    { id: 8, empCode: "#EMP-008", name: "Inês Filipa Neto", email: "ines.neto@trustport.pt", phone: "962345678", nif: "283917462", nss: "12009876550", dob: "1991-08-25", role: "Analista Financeira e Faturação", salary: 1900.00, iban: "PT50003300008901234567890", contractType: "sem_termo", vacationDays: 22, vacationTaken: 6, vacationDates: "15/06/2026 a 22/06/2026 (6 dias)" },
     { id: 9, empCode: "#EMP-009", name: "Gonçalo André Carvalho", email: "goncalo.carvalho@trustport.pt", phone: "913456789", nif: "294826153", nss: "12009876551", dob: "1998-01-10", role: "Analista de Otimização de Rotas", salary: 1250.00, iban: "PT50003300009012345678901", contractType: "a_termo_certo", vacationDays: 22, vacationTaken: 2, vacationDates: "02/01/2026 a 03/01/2026 (2 dias)" },
     { id: 10, empCode: "#EMP-010", name: "Mariana Rosa Pinho", email: "mariana.pinho@trustport.pt", phone: "924567890", nif: "215487369", nss: "12009876552", dob: "1992-06-12", role: "Técnica de Recursos Humanos", salary: 1600.00, iban: "PT50003300000123456789012", contractType: "sem_termo", vacationDays: 22, vacationTaken: 11, vacationDates: "10/08/2026 a 23/08/2026 (11 dias)" },
     { id: 11, empCode: "#EMP-011", name: "Tiago Alexandre Lopes", email: "tiago.lopes@trustport.pt", phone: "935678901", nif: "226598471", nss: "12009876553", dob: "1994-10-08", role: "Especialista de Suporte Operacional", salary: 1300.00, iban: "PT50003300011234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 13, vacationDates: "01/07/2026 a 16/07/2026 (13 dias)" },
-    { id: 12, empCode: "#EMP-012", name: "Catarina Isabel Marques", email: "catarina.marques@trustport.pt", phone: "966789012", nif: "237609582", nss: "12009876554", dob: "1989-02-28", role: "Especialista de Qualidade e Processos", salary: 1800.00, iban: "PT50003300021234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 9, vacationDates: "01/09/2026 a 12/09/2026 (9 dias)" },
-    { id: 13, empCode: "#EMP-013", name: "Nuno Miguel Henriques", email: "nuno.henriques@trustport.pt", phone: "917890123", nif: "248710693", nss: "12009876555", dob: "1987-07-04", role: "Desenvolvedor de Sistemas / IT", salary: 2100.00, iban: "PT50003300031234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 5, vacationDates: "20/04/2026 a 26/04/2026 (5 dias)" },
+    { id: 12, empCode: "#EMP-012", name: "Catarina Isabel Marques", email: "catarina.marques@trustport.pt", phone: "966789012", nif: "237609582", nss: "12009876554", dob: "1989-02-28", role: "Especialista e Designer de Processos", salary: 1800.00, iban: "PT50003300021234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 9, vacationDates: "01/09/2026 a 12/09/2026 (9 dias)" },
+    { id: 13, empCode: "#EMP-013", name: "Nuno Miguel Henriques", email: "nuno.henriques@trustport.pt", phone: "917890123", nif: "248710693", nss: "12009876555", dob: "1987-07-04", role: "Desenvolvedor de Sistemas / IT", salary: 2200.00, iban: "PT50003300031234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 5, vacationDates: "20/04/2026 a 26/04/2026 (5 dias)" },
     { id: 14, empCode: "#EMP-014", name: "Patricia Alexandra Fonte", email: "patricia.fonte@trustport.pt", phone: "928901234", nif: "259821704", nss: "12009876556", dob: "1996-03-19", role: "Analista de Dados e BI", salary: 1400.00, iban: "PT50003300041234567890123", contractType: "a_termo_certo", vacationDays: 22, vacationTaken: 15, vacationDates: "01/08/2026 a 20/08/2026 (15 dias)" },
-    { id: 15, empCode: "#EMP-015", name: "Pedro Henrique Almeida", email: "pedro.almeida@trustport.pt", phone: "939012345", nif: "260932815", nss: "12009876557", dob: "1983-09-11", role: "Técnico de Assitência Rápida e  Suporte", salary: 1500.00, iban: "PT50003300051234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 7, vacationDates: "05/10/2026 a 13/10/2026 (7 dias)" }
+    { id: 15, empCode: "#EMP-015", name: "Pedro Henrique Almeida", email: "pedro.almeida@trustport.pt", phone: "939012345", nif: "260932815", nss: "12009876557", dob: "1983-09-11", role: "Técnico de Assitência Rápida SOS", salary: 1500.00, iban: "PT50003300051234567890123", contractType: "sem_termo", vacationDays: 22, vacationTaken: 7, vacationDates: "05/10/2026 a 13/10/2026 (7 dias)" }
 ];
 
 // ID do funcionário atualmente selecionado no formulário
@@ -242,7 +242,107 @@ function clearErrors() {
     if (alertBox) alertBox.style.display = 'none';
 }
 
-// --- LÓGICA DO MÓDULO DE CONVERSAS ---
+// --- LÓGICA DO MÓDULO DE CONVERSAS & INTEGRAÇÃO COM ORGANOGRAMA ---
+let activeChatEmpId = 2; // Começa na conversa da Beatriz Maria Santos (ID 2)
+
+// Histórico real de conversas (apenas quem tem mensagens aqui aparece na barra lateral)
+const chatHistories = {
+    2: [
+        { type: "incoming", text: "Bom dia, confirmação do fecho da consolidação da carga B2B de hoje?", time: "10:30" },
+        { type: "outgoing", text: "Confirmado Beatriz. Os 3 camiões já saíram com a rota GPS otimizada.", time: "10:35" },
+        { type: "incoming", text: "Perfeito! Rota Lisboa-Porto concluída com sucesso.", time: "10:42" }
+    ],
+    7: [
+        { type: "incoming", text: "Olá! Já validei a documentação dos 4 novos couriers inscritos esta manhã.", time: "09:10" },
+        { type: "incoming", text: "Preciso de apoio com a morada de entrega #892.", time: "09:15" }
+    ],
+    4: [
+        { type: "incoming", text: "Relatório de apoio B2B enviado.", time: "Ontem" }
+    ]
+};
+
+// Renderiza a barra lateral APENAS com os colaboradores que já têm mensagens trocadas
+function renderChatSidebar() {
+    const chatList = document.getElementById('chat-list');
+    if (!chatList) return;
+    chatList.innerHTML = '';
+
+    const activeIds = Object.keys(chatHistories)
+        .map(Number)
+        .filter(id => chatHistories[id] && chatHistories[id].length > 0);
+
+    activeIds.forEach(empId => {
+        const emp = employeesData.find(e => e.id === empId);
+        if (!emp) return;
+
+        const msgs = chatHistories[empId];
+        const lastMsg = msgs[msgs.length - 1];
+        const previewText = lastMsg.type === 'outgoing' ? `Tu: ${lastMsg.text}` : lastMsg.text;
+
+        const li = document.createElement('li');
+        li.className = `chat-item ${empId === activeChatEmpId ? 'active' : ''}`;
+        li.id = `chat-item-${empId}`;
+        li.onclick = () => selectChat(empId);
+
+        li.innerHTML = `
+            <div class="chat-avatar"><i class="fa-solid fa-user"></i></div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <strong>${emp.name}</strong>
+                    <small>${lastMsg.time}</small>
+                </div>
+                <p class="chat-preview">${previewText}</p>
+            </div>
+        `;
+        chatList.appendChild(li);
+    });
+}
+
+// Chamado ao clicar num membro do Staff no Organograma
+function openStaffChat(empId) {
+    switchTab(null, 'messages');
+    selectChat(empId);
+
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) chatInput.focus();
+}
+
+// Selecionar e renderizar o painel da conversa à direita
+function selectChat(empId) {
+    const emp = employeesData.find(e => e.id === empId);
+    if (!emp) return;
+
+    activeChatEmpId = empId;
+    renderChatSidebar();
+
+    document.getElementById('chat-active-name').innerText = `${emp.name} (${emp.empCode})`;
+    document.getElementById('chat-active-role').innerText = emp.role;
+
+    const chatBody = document.getElementById('chat-messages-body');
+    chatBody.innerHTML = '';
+
+    const history = chatHistories[empId] || [];
+
+    if (history.length === 0) {
+        chatBody.innerHTML = `
+            <div class="empty-state" style="margin: auto;">
+                <i class="fa-regular fa-paper-plane"></i>
+                <p>Ainda não existem mensagens com <strong>${emp.name}</strong>.<br>Escreve abaixo para iniciar a conversa.</p>
+            </div>
+        `;
+    } else {
+        history.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${msg.type}`;
+            msgDiv.innerHTML = `<p>${msg.text}</p><span class="msg-time">${msg.time}</span>`;
+            chatBody.appendChild(msgDiv);
+        });
+    }
+
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+// Enviar nova mensagem (só agora a conversa passa a constar na barra lateral se for nova)
 function sendMessage(event) {
     event.preventDefault();
     const input = document.getElementById('chat-input');
@@ -250,35 +350,36 @@ function sendMessage(event) {
 
     if (messageText === '') return;
 
-    const chatBody = document.getElementById('chat-messages-body');
     const now = new Date();
     const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-    // Criar a mensagem enviada
-    const newMsg = document.createElement('div');
-    newMsg.className = 'message outgoing';
-    newMsg.innerHTML = `<p>${messageText}</p><span class="msg-time">${timeString}</span>`;
-
-    chatBody.appendChild(newMsg);
-    input.value = '';
-
-    // Scroll automático para a última mensagem
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-function selectChat(chatId) {
-    const chatItems = document.querySelectorAll('.chat-item');
-    chatItems.forEach(item => item.classList.remove('active'));
-
-    // Exemplo simplificado de troca de utilizador
-    const names = ["Beatriz Santos", "Diogo Pereira", "Carla Ribeiro"];
-    const roles = ["Gestora de Logística & Rotas", "Motorista Pesados", "Apoio ao Cliente B2B"];
-
-    if (chatId >= 1 && chatId <= 3) {
-        document.getElementById('chat-active-name').innerText = names[chatId - 1];
-        document.getElementById('chat-active-role').innerText = roles[chatId - 1];
+    if (!chatHistories[activeChatEmpId]) {
+        chatHistories[activeChatEmpId] = [];
     }
+
+    chatHistories[activeChatEmpId].push({
+        type: 'outgoing',
+        text: messageText,
+        time: timeString
+    });
+
+    input.value = '';
+    selectChat(activeChatEmpId);
 }
+
+// Pesquisar conversas na barra lateral do chat
+function filterChats(query) {
+    const term = query.toLowerCase();
+    document.querySelectorAll('#chat-list .chat-item').forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(term) ? 'flex' : 'none';
+    });
+}
+
+// Inicializar a lista de conversas e carregar a primeira conversa ativa ao abrir a página
+document.addEventListener('DOMContentLoaded', () => {
+    renderChatSidebar();
+    selectChat(2);
+});
 
 // --- DADOS DINÂMICOS DO DASHBOARD OPERACIONAL & FINANCEIRO ---
 const dashboardPeriods = {
