@@ -279,3 +279,77 @@ function selectChat(chatId) {
         document.getElementById('chat-active-role').innerText = roles[chatId - 1];
     }
 }
+
+// --- DADOS DINÂMICOS DO DASHBOARD OPERACIONAL & FINANCEIRO ---
+const dashboardPeriods = {
+    today: {
+        routes: "24",
+        revenue: "1.890,00 €",
+        ticket: "52,50 €",
+        margin: "26,1%",
+        started: 35,
+        progress: 45,
+        completed: 18,
+        canceled: 2
+    },
+    week: {
+        routes: "56",
+        revenue: "12.420,00 €",
+        ticket: "55,20 €",
+        margin: "27,8%",
+        started: 20,
+        progress: 42,
+        completed: 34,
+        canceled: 4
+    },
+    month: {
+        routes: "89",
+        revenue: "48.750,00 €",
+        ticket: "54,80 €",
+        margin: "28,4%",
+        started: 25,
+        progress: 50,
+        completed: 20,
+        canceled: 5
+    }
+};
+
+function updateDashboardPeriod(period, btnElement) {
+    const data = dashboardPeriods[period];
+    if (!data) return;
+
+    // Atualizar estado visual dos botões de filtro
+    document.querySelectorAll('.period-filter .filter-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+
+    // Atualizar KPIs
+    document.getElementById('kpi-routes').innerText = data.routes;
+    document.getElementById('fin-revenue').innerText = data.revenue;
+    document.getElementById('fin-ticket').innerText = data.ticket;
+    document.getElementById('fin-margin').innerText = data.margin;
+
+    // Atualizar Barras de Estado das Rotas
+    document.getElementById('stat-started').innerText = `${data.started}%`;
+    document.getElementById('bar-started').style.width = `${data.started}%`;
+
+    document.getElementById('stat-progress').innerText = `${data.progress}%`;
+    document.getElementById('bar-progress').style.width = `${data.progress}%`;
+
+    document.getElementById('stat-completed').innerText = `${data.completed}%`;
+    document.getElementById('bar-completed').style.width = `${data.completed}%`;
+
+    document.getElementById('stat-canceled').innerText = `${data.canceled}%`;
+    document.getElementById('bar-canceled').style.width = `${data.canceled}%`;
+}
+
+// Calcular automaticamente o total da massa salarial dos 15 funcionários ao carregar
+function syncPayrollKPI() {
+    const totalSalary = employeesData.reduce((sum, emp) => sum + emp.salary, 0);
+    const payrollElem = document.getElementById('fin-payroll');
+    if (payrollElem) {
+        payrollElem.innerText = totalSalary.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    }
+}
+
+// Inicializar cálculo salarial assim que a página abre
+document.addEventListener('DOMContentLoaded', syncPayrollKPI);

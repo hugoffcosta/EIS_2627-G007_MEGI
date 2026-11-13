@@ -49,81 +49,174 @@
         <!-- Conteúdo Principal -->
         <main class="main-content">
 
-            <!-- SECÇÃO 1: DASHBOARD & KPIS OPERACIONAIS -->
+            <!-- SECÇÃO 1: DASHBOARD & KPIS OPERACIONAIS E FINANCEIROS -->
             <section id="dashboard" class="tab-content active">
-                <div class="section-header">
-                    <h2><i class="fa-solid fa-chart-line"></i> Dashboard & Métricas Operacionais</h2>
-                    <p>Visão geral em tempo real do ecossistema de transporte e logística TrustPort.</p>
+                <div class="section-header dashboard-top-bar">
+                    <div>
+                        <h2><i class="fa-solid fa-chart-line"></i> Dashboard Operacional &amp; Financeiro</h2>
+                        <p>Monitorização em tempo real da frota, rotas e desempenho económico da TrustPort.</p>
+                    </div>
+                    <div class="period-filter" role="group" aria-label="Filtro de período">
+                        <button type="button" class="filter-btn" onclick="updateDashboardPeriod('today', this)">Hoje</button>
+                        <button type="button" class="filter-btn" onclick="updateDashboardPeriod('week', this)">7 Dias</button>
+                        <button type="button" class="filter-btn active" onclick="updateDashboardPeriod('month', this)">Este Mês</button>
+                    </div>
                 </div>
 
-                <!-- Cards de Indicadores de Desempenho (KPIs) -->
+                <!-- BLOCO A: KPIS OPERACIONAIS (CORE) -->
+                <div class="dashboard-block-label"><i class="fa-solid fa-truck-fast"></i> Indicadores Operacionais</div>
                 <div class="kpi-grid">
                     <div class="kpi-card">
                         <div class="kpi-icon blue"><i class="fa-solid fa-users"></i></div>
                         <div class="kpi-data">
-                            <h3>128</h3>
+                            <h3 id="kpi-clients">128</h3>
                             <p>Clientes Registados</p>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +12% este mês</span>
                         </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-icon green"><i class="fa-solid fa-truck-ramp-box"></i></div>
                         <div class="kpi-data">
-                            <h3>34</h3>
+                            <h3 id="kpi-couriers">34</h3>
                             <p>Estafetas Ativos</p>
+                            <span class="kpi-trend neutral">92% disponibilidade</span>
                         </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-icon purple"><i class="fa-solid fa-user-shield"></i></div>
                         <div class="kpi-data">
-                            <h3>15</h3>
-                            <p>Membros Staff / Funcionários</p>
+                            <h3 id="kpi-staff">15</h3>
+                            <p>Membros Staff</p>
+                            <span class="kpi-trend neutral">2 aprovações pendentes</span>
                         </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-icon orange"><i class="fa-solid fa-route"></i></div>
                         <div class="kpi-data">
-                            <h3>89</h3>
+                            <h3 id="kpi-routes">89</h3>
                             <p>Rotas / Encomendas Ativas</p>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-check"></i> 96,4% no prazo</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Gráficos & Estatísticas de Operação -->
-                <div class="dashboard-charts">
-                    <!-- Estado das Encomendas / Rotas -->
+                <!-- BLOCO B: KPIS FINANCEIROS -->
+                <div class="dashboard-block-label"><i class="fa-solid fa-euro-sign"></i> Desempenho Financeiro &amp; Rentabilidade</div>
+                <div class="kpi-grid financial-grid">
+                    <div class="kpi-card financial-card">
+                        <div class="kpi-icon petrol"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="kpi-data">
+                            <h3 id="fin-revenue">48.750,00 €</h3>
+                            <p>Receita Bruta (Faturação)</p>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +8,4% vs. período ant.</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card financial-card">
+                        <div class="kpi-icon teal"><i class="fa-solid fa-receipt"></i></div>
+                        <div class="kpi-data">
+                            <h3 id="fin-ticket">54,80 €</h3>
+                            <p>Ticket Médio / Encomenda</p>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +2,10 € (B2B)</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card financial-card">
+                        <div class="kpi-icon amber"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                        <div class="kpi-data">
+                            <h3 id="fin-payroll">25.100,00 €</h3>
+                            <p>Massa Salarial Staff (15)</p>
+                            <span class="kpi-trend neutral">Custo fixo mensal RH</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card financial-card">
+                        <div class="kpi-icon emerald"><i class="fa-solid fa-chart-pie"></i></div>
+                        <div class="kpi-data">
+                            <h3 id="fin-margin">28,4%</h3>
+                            <p>Margem Operacional Líquida</p>
+                            <span class="kpi-trend positive">Objetivo: &gt; 25%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOCO C: ANALÍTICA OPERACIONAL E FINANCEIRA -->
+                <div class="dashboard-charts three-cols">
+                    <!-- 1. Estado das Encomendas / Rotas -->
                     <div class="card">
-                        <h3><i class="fa-solid fa-chart-bar"></i> Estado das Encomendas / Rotas</h3>
+                        <h3><i class="fa-solid fa-chart-bar"></i> Estado das Rotas / Encomendas</h3>
                         <div class="progress-group">
-                            <div class="progress-label"><span>Iniciadas</span> <strong>25%</strong></div>
-                            <div class="progress-bar-bg"><div class="progress-bar blue" style="width: 25%;"></div></div>
+                            <div class="progress-label"><span>Iniciadas</span> <strong id="stat-started">25%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar blue" id="bar-started" style="width: 25%;"></div></div>
                         </div>
                         <div class="progress-group">
-                            <div class="progress-label"><span>Em Progresso</span> <strong>50%</strong></div>
-                            <div class="progress-bar-bg"><div class="progress-bar orange" style="width: 50%;"></div></div>
+                            <div class="progress-label"><span>Em Progresso</span> <strong id="stat-progress">50%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar orange" id="bar-progress" style="width: 50%;"></div></div>
                         </div>
                         <div class="progress-group">
-                            <div class="progress-label"><span>Concluídas</span> <strong>20%</strong></div>
-                            <div class="progress-bar-bg"><div class="progress-bar green" style="width: 20%;"></div></div>
+                            <div class="progress-label"><span>Concluídas</span> <strong id="stat-completed">20%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar green" id="bar-completed" style="width: 20%;"></div></div>
                         </div>
                         <div class="progress-group">
-                            <div class="progress-label"><span>Canceladas</span> <strong>5%</strong></div>
-                            <div class="progress-bar-bg"><div class="progress-bar red" style="width: 5%;"></div></div>
+                            <div class="progress-label"><span>Canceladas</span> <strong id="stat-canceled">5%</strong></div>
+                            <div class="progress-bar-bg"><div class="progress-bar red" id="bar-canceled" style="width: 5%;"></div></div>
                         </div>
                     </div>
 
-                    <!-- Resumo Operacional da Frota -->
+                    <!-- 2. Gráfico Comparativo Financeiro (Receita vs. Custos) -->
                     <div class="card">
-                        <h3><i class="fa-solid fa-truck-moving"></i> Distribuição de Veículos Ativos</h3>
+                        <div class="card-mini-header">
+                            <h3><i class="fa-solid fa-scale-balanced"></i> Receita vs. Custos (k€)</h3>
+                            <div class="chart-legend">
+                                <span><i class="dot rev"></i> Receita</span>
+                                <span><i class="dot cost"></i> Custos</span>
+                            </div>
+                        </div>
+                        <div class="fin-bars-wrapper">
+                            <div class="fin-bar-group">
+                                <div class="fin-bar-pair">
+                                    <div class="f-bar rev" style="height: 68%;" title="Receita: 38.2k€"></div>
+                                    <div class="f-bar cost" style="height: 52%;" title="Custos: 29.1k€"></div>
+                                </div>
+                                <span>Jul</span>
+                            </div>
+                            <div class="fin-bar-group">
+                                <div class="fin-bar-pair">
+                                    <div class="f-bar rev" style="height: 75%;" title="Receita: 42.0k€"></div>
+                                    <div class="f-bar cost" style="height: 55%;" title="Custos: 30.8k€"></div>
+                                </div>
+                                <span>Ago</span>
+                            </div>
+                            <div class="fin-bar-group">
+                                <div class="fin-bar-pair">
+                                    <div class="f-bar rev" style="height: 82%;" title="Receita: 45.4k€"></div>
+                                    <div class="f-bar cost" style="height: 58%;" title="Custos: 32.5k€"></div>
+                                </div>
+                                <span>Set</span>
+                            </div>
+                            <div class="fin-bar-group">
+                                <div class="fin-bar-pair">
+                                    <div class="f-bar rev" style="height: 92%;" title="Receita: 48.7k€"></div>
+                                    <div class="f-bar cost" style="height: 63%;" title="Custos: 34.9k€"></div>
+                                </div>
+                                <span>Out</span>
+                            </div>
+                        </div>
+                        <p class="chart-footer-note">Crescimento sustentado impulsionado pela consolidação de rotas B2B.</p>
+                    </div>
+
+                    <!-- 3. Resumo Operacional da Frota -->
+                    <div class="card">
+                        <h3><i class="fa-solid fa-truck-moving"></i> Frota &amp; Eficiência</h3>
                         <ul class="stats-list">
                             <li><span><i class="fa-solid fa-bicycle"></i> Bicicletas Elétricas</span> <strong>6</strong></li>
                             <li><span><i class="fa-solid fa-motorcycle"></i> Motociclos</span> <strong>12</strong></li>
                             <li><span><i class="fa-solid fa-van-shuttle"></i> Carrinhas (Vans)</span> <strong>11</strong></li>
                             <li><span><i class="fa-solid fa-truck"></i> Camiões Pesados</span> <strong>5</strong></li>
+                            <li class="highlight-stat"><span><i class="fa-solid fa-leaf"></i> Otimização de Rota</span> <strong>94%</strong></li>
                         </ul>
                     </div>
                 </div>
             </section>
 
+            
             <!-- SECÇÃO 2: APROVAÇÃO DE NOVO STAFF -->
             <section id="staff-approval" class="tab-content">
                 <div class="section-header">
