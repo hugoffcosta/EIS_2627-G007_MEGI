@@ -36,8 +36,8 @@
                 <a href="#profile" class="nav-item" onclick="switchTab(event, 'profile')">
                     <i class="fa-solid fa-id-card"></i> Gestão de Funcionários
                 </a>
-                <a href="equipa.html" class="nav-item">
-                    <i class="fa-solid fa-users"></i> Equipa
+                <a href="#org-chart" class="nav-item" onclick="switchTab(event, 'org-chart')">
+                    <i class="fa-solid fa-sitemap"></i> Estrutura Staff
                 </a>
                 <a href="#messages" class="nav-item" onclick="switchTab(event, 'messages')">
                     <i class="fa-solid fa-comments"></i> Conversas / Mensagens
@@ -308,7 +308,7 @@
                                 <tr>
                                     <td>#EMP-002</td>
                                     <td><strong>Beatriz Maria Santos</strong></td>
-                                    <td>Gestora de Logística e Rotas</td>
+                                    <td>Gestora de Logística e Rotas (Líder de Departamento)</td>
                                     <td>214365879</td>
                                     <td>1.850,00 €</td>
                                     <td><span class="badge-status approved">18 Dias</span></td>
@@ -335,7 +335,7 @@
                                 <tr>
                                     <td>#EMP-005</td>
                                     <td><strong>Rui Miguel Costa</strong></td>
-                                    <td>Supervisora de Frota e Manutenção</td>
+                                    <td>Coordenador de Assitência SOS e Segurança (Líder de Departamento)</td>
                                     <td>258147369</td>
                                     <td>1.700,00 €</td>
                                     <td><span class="badge-status approved">12 Dias</span></td>
@@ -362,7 +362,7 @@
                                 <tr>
                                     <td>#EMP-008</td>
                                     <td><strong>Inês Filipa Neto</strong></td>
-                                    <td>Analista Financeira e Faturação</td>
+                                    <td>Analista Financeira e Faturação (Líder de Departamento)</td>
                                     <td>283917462</td>
                                     <td>1.750,00 €</td>
                                     <td><span class="badge-status approved">16 Dias</span></td>
@@ -407,7 +407,7 @@
                                 <tr>
                                     <td>#EMP-13</td>
                                     <td><strong>Nuno Miguel Henriques</strong></td>
-                                    <td>Desenvolvedor de Sistemas / IT</td>
+                                    <td>Desenvolvedor de Sistemas / IT (Líder de Departamento)</td>
                                     <td>248710693</td>
                                     <td>2.100,00 €</td>
                                     <td><span class="badge-status approved">17 Dias</span></td>
@@ -644,10 +644,181 @@
                     </div>
                 </div>
             </section>
+
+            <!-- SECÇÃO 5: ORGANOGRAMA & ESTRUTURA DO STAFF -->
+            <section id="org-chart" class="tab-content">
+            <section class="org-chart-section">
+                <div class="org-header">
+                    <span class="eyebrow">ESTRUTURA ORGANIZACIONAL</span>
+                    <h2>Organograma TrustPort</h2>
+                    <p>Governação executiva e equipas funcionais de suporte à plataforma logística.</p>
+                </div>
+
+                <!-- NÍVEL 1: BOARD / ADMINS -->
+                <div class="org-level-board">
+                    <div class="level-badge">Conselho de Administração (Admins)</div>
+                    <div class="board-grid">
+                        <div class="org-card admin-card">
+                            <span class="role-tag">CEO</span>
+                            <strong>Marta Costa</strong>
+                            <small>Estratégia &amp; Direção Geral</small>
+                        </div>
+                        <div class="org-card admin-card">
+                            <span class="role-tag">COO</span>
+                            <strong>Pedro Gomes</strong>
+                            <small>Operações &amp; Rede Couriers</small>
+                        </div>
+                        <div class="org-card admin-card">
+                            <span class="role-tag">CTO</span>
+                            <strong>Hugo Costa</strong>
+                            <small>Tecnologia &amp; Plataforma</small>
+                        </div>
+                        <div class="org-card admin-card">
+                            <span class="role-tag">CFO</span>
+                            <strong>Vera Silva</strong>
+                            <small>Finanças &amp; Sustentabilidade</small>
+                        </div>
+                         <div class="org-card admin-card">
+                            <span class="role-tag">CPO</span>
+                            <strong>Gonçalo Marques</strong>
+                            <small>Recursos Humanos &amp; Qualidade</small>
+                        </div>
+                    </div>
+                </div>
+
+    
+                <div class="org-connector-vertical"></div>
+                <div class="org-connector-horizontal"></div>
+
+    
+                <div class="departments-grid">
+        
+
+                    <div class="dept-column">
+                        <div class="dept-header">
+                            <i class="fa-solid fa-route"></i>
+                            <h3>Operações &amp; Parceiros</h3>
+                            <span>4 Colaboradores</span>
+                        </div>
+                        <ul class="staff-org-list">
+                            <li class="lead">
+                                <span class="emp-id">#EMP-002 · Líder</span>
+                                <strong>Beatriz Maria Santos</strong>
+                                <small>Gestora de Logística &amp; Rotas</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-003</span>
+                                <strong>João Pedro Oliveira</strong>
+                                <small>Coordenador de Tráfego e GPS</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-007</span>
+                                <strong>Diogo José Pereira</strong>
+                                <small>Gestor de Onboarding &amp; Parceiros</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-009</span>
+                                <strong>Gonçalo André Carvalho</strong>
+                                <small>Analista de Otimização de Rotas</small>
+                            </li>
+                        </ul>
+                    </div>
+
+        
+                    <div class="dept-column">
+                        <div class="dept-header sos">
+                            <i class="fa-solid fa-truck-medical"></i>
+                            <h3>Assistência &amp; Suporte SOS</h3>
+                            <span>3 Colaboradores</span>
+                        </div>
+                        <ul class="staff-org-list">
+                            <li class="lead">
+                                <span class="emp-id">#EMP-005 · Líder</span>
+                                <strong>Rui Miguel Costa</strong>
+                                <small>Coord. Assistência SOS &amp; Segurança</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-011</span>
+                                <strong>Tiago Alexandre Lopes</strong>
+                                <small>Especialista Suporte Live Ops</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-015</span>
+                                <strong>Pedro Henrique Almeida</strong>
+                                <small>Técnico de Assistência Rápida SOS</small>
+                            </li>
+                        </ul>
+                    </div>
+
+        
+                    <div class="dept-column">
+                        <div class="dept-header">
+                            <i class="fa-solid fa-microchip"></i>
+                            <h3>Tecnologia, Dados &amp; Eco</h3>
+                            <span>4 Colaboradores</span>
+                        </div>
+                        <ul class="staff-org-list">
+                            <li class="lead">
+                                <span class="emp-id">#EMP-013 · Líder</span>
+                                <strong>Nuno Miguel Henriques</strong>
+                                <small>Desenvolvedor de Sistemas / IT</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-001</span>
+                                <strong>Manuel Silva Fernandes</strong>
+                                <small>Administrador de Plataforma</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-006</span>
+                                <strong>Sofia Alexandre Martins</strong>
+                                <small>Gestora de Sustentabilidade &amp; CO₂</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-014</span>
+                                <strong>Patricia Alexandra Fonte</strong>
+                                <small>Analista de Dados &amp; BI</small>
+                            </li>
+                        </ul>
+                    </div>
+
+        
+                    <div class="dept-column">
+                        <div class="dept-header">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <h3>Finanças, RH &amp; Apoio B2B</h3>
+                            <span>4 Colaboradores</span>
+                        </div>
+                        <ul class="staff-org-list">
+                            <li class="lead">
+                                <span class="emp-id">#EMP-008 · Líder</span>
+                                <strong>Inês Filipa Neto</strong>
+                                <small>Analista Financeira &amp; Faturação</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-010</span>
+                                <strong>Mariana Rosa Pinho</strong>
+                                <small>Técnica de Recursos Humanos</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-012</span>
+                                <strong>Catarina Isabel Marques</strong>
+                                <small>Especialista Qualidade e Processos</small>
+                            </li>
+                            <li>
+                                <span class="emp-id">#EMP-004</span>
+                                <strong>Carla Sofia Ribeiro</strong>
+                                <small>Especialista Apoio ao Cliente B2B</small>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+            </section>  
         </main>
     </div>
 
-    <!-- Ficheiro de Script de Validações e Interatividade -->
+    
     <script src="admin.js"></script>
 </body>
 </html>
