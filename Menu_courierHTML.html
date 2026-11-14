@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Your CMS courier profile, fleet and deliveries, in one place.">
+<title>My Courier Area | CMS</title>
+<link rel="stylesheet" href="Registration_Courier_CSS.css">
+<link rel="stylesheet" href="Menu_courierCSS.css">
+</head>
+<body class="courier-profile-page" id="home">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="main-header">
+                    <nav class="navbar courier-navbar" aria-label="Main navigation">
+                        <a href="Menu_courierHTML.html#home" class="brand" aria-label="CMS home"><span class="brand-icon"><svg class="site-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h12v12H2zM14 9h4l4 5v3h-8M17 9v5h5"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><svg class="orders-brand-icon" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round" aria-hidden="true"><path d="m16 2 13 7v17l-13 8-13-8V9L16 2ZM3 9l13 8 13-8M16 17v17"/></svg></span><span><span class="brand-name">CMS</span><span class="brand-subtitle">Courier Management System</span></span></a>
+                        <div class="nav-links"><a href="Menu_courierHTML.html#home">Home</a><a href="Menu_courierHTML.html#orders">My Orders</a><a href="Menu_courierHTML.html#fleet">My Fleet</a><a href="Menu_courierHTML.html#schedule">Weekly Schedule</a><a href="Menu_courierHTML.html#sos" class="sos-link">SOS</a><a href="#about">About</a></div>
+
+                <div class="courier-nav-actions">
+                    <details id="notifications-menu" class="nav-dropdown notification-dropdown">
+<summary id="notifications-toggle" aria-label="Notifications" aria-controls="notifications-panel"><svg class="site-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span id="notifications-badge" class="notifications-badge" aria-hidden="true" hidden>0</span></summary>
+<div id="notifications-panel" class="dropdown-panel notification-panel">
+<div class="notifications-heading"><div><h2>Notifications <span id="notifications-total" class="notifications-total">0</span></h2><p>Updates from your activity</p></div><button id="clear-notifications" class="clear-notifications" type="button" disabled>Clear all</button></div>
+<ul id="notifications-list" class="notifications-list" aria-label="Notifications"></ul>
+<div id="notifications-empty" class="notifications-empty"><svg class="site-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><h3>You're all caught up</h3><p>New updates will appear here.</p></div>
+</div></details>
+<span id="notification-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
+                    <details class="nav-dropdown account-dropdown">
+                        <summary><span class="avatar-initials" data-initials>JS</span><span class="account-person"><span data-name>João Silva</span><small id="header-availability">Unavailable</small></span><span aria-hidden="true">⌄</span></summary>
+                        <div class="dropdown-panel"><a href="Menu_courierHTML.html#profile">Profile</a><a href="Menu_courierHTML.html#statistics">Statistics</a><a href="menu_login.html">Logout</a></div>
+                    </details>
+                </div>
+                    </nav>
+                </header>
+<main id="main-content" tabindex="-1">
+<section data-courier-view="home" aria-label="Courier home">
+<section class="courier-hero" aria-labelledby="welcome-title">
+<div class="courier-container hero-profile-layout">
+<div>
+<h1 id="welcome-title">Welcome back,<br>
+<span class="heading-accent" data-first-name>João.</span>
+</h1>
+<section class="work-mode-panel" aria-labelledby="work-mode-heading">
+<div class="work-mode-heading"><h2 id="work-mode-heading">Your work mode</h2><span id="work-mode-badge" class="service-badge">Not selected</span></div>
+<p id="work-mode-description">Choose Express or Standard before accepting new orders.</p>
+<button id="choose-work-mode" type="button" class="back-button" aria-haspopup="dialog" aria-controls="work-mode-dialog">Choose work mode</button>
+</section>
+<div class="hero-identity">
+<div class="courier-avatar hero-avatar">
+<span class="avatar-placeholder" data-initials>JS</span>
+<img data-photo hidden alt="Courier profile photo">
+</div>
+<div>
+<strong data-name>João Silva</strong>
+<p class="technical">Courier ID · CR-00284</p>
+</div>
+</div>
+</div>
+<div class="hero-side">
+
+<section class="availability-panel is-unavailable" aria-labelledby="availability-title">
+<span id="availability-title" class="technical">Availability</span>
+<div class="availability-heading">
+<strong id="availability-state" class="availability-state">Unavailable</strong>
+<label class="availability-switch">
+<input type="checkbox" id="availability-toggle" role="switch" aria-label="Available to receive new orders">
+<span class="switch-track" aria-hidden="true">
+</span>
+</label>
+</div>
+<p id="availability-description" aria-live="polite">Go available and choose a vehicle to receive new orders.</p>
+<div id="active-session-vehicle" class="active-session-vehicle" hidden><strong id="active-session-vehicle-name"></strong><p id="active-session-vehicle-capacity" role="status" aria-live="polite"></p><small>Go unavailable before choosing another vehicle.</small></div>
+</section>
+<section class="home-active-orders" aria-labelledby="home-active-orders-title">
+<div class="home-active-heading"><h2 id="home-active-orders-title" class="technical">Active Orders <span id="home-active-orders-count">0</span></h2><a id="home-active-orders-all" href="#orders">View all &rarr;</a></div>
+<div id="home-active-orders-list" class="home-active-orders-list" role="region" aria-label="Active delivery summaries" tabindex="0"></div>
+<p id="home-active-orders-empty" class="available-orders-notice" hidden>No active deliveries.</p>
+</section>
+</div>
+</div>
+</section>
+<section class="courier-container available-orders-section" aria-labelledby="available-orders-title">
+<div class="courier-section-heading">
+<h2 id="available-orders-title" tabindex="-1">Available Orders <span id="available-orders-count" class="available-count" aria-live="polite">0</span>
+</h2>
+</div>
+<p id="available-orders-feedback" class="profile-feedback" role="status">
+</p>
+<div class="available-orders-panel">
+<div id="available-orders-list" class="available-orders-list">
+</div>
+<p id="available-orders-empty" class="available-orders-empty" hidden>No orders available.</p>
+</div>
+</section>
+<section class="courier-container home-actions-section" aria-label="Courier menu">
+<div class="home-action-grid">
+<a href="#schedule" class="home-action-card"><h3>Weekly Schedule</h3><span class="home-action-button">Plan your week &rarr;</span></a>
+<a href="#orders" class="home-action-card">
+<h3>My Orders</h3>
+<span class="home-action-button">View deliveries &rarr;</span>
+</a>
+<a href="#fleet" class="home-action-card">
+<h3>My Fleet</h3>
+<span class="home-action-button">Manage vehicles &rarr;</span>
+</a>
+<a href="#profile" class="home-action-card">
+<h3>My Profile</h3>
+<span class="home-action-button">View and edit details &rarr;</span>
+</a>
+<a href="#sos" class="home-action-card">
+<h3>Report an Incident</h3>
+<span class="home-action-button">Contact support &rarr;</span>
+</a>
+</div>
+</section>
+</section>
+<section data-courier-view="schedule" class="courier-container destination-wrapper schedule-view" hidden>
+<a href="#home" class="destination-back">&larr; Courier Home</a>
+<div class="schedule-heading"><div><p class="hero-label">YOUR DELIVERIES</p><h1>Weekly Schedule</h1><p>Pickup and expected delivery times for your accepted orders.</p></div><a href="#home" class="next-button">Find delivery offers &rarr;</a></div>
+<div class="schedule-toolbar"><div class="schedule-navigation"><button id="schedule-prev" class="back-button" type="button" aria-label="Previous week">&larr;</button><button id="schedule-today" class="back-button" type="button">This week</button><button id="schedule-next" class="back-button" type="button" aria-label="Next week">&rarr;</button></div><h2 id="schedule-week-label" aria-live="polite"></h2><label class="schedule-filter" for="schedule-filter">Order type<select id="schedule-filter"><option value="all">All orders</option><option value="express">Express</option><option value="standard">Standard</option></select></label></div>
+<p class="schedule-help">Matching colors connect each order's pickup and expected delivery. Times are shown in your local time zone.</p>
+<p id="schedule-summary" class="schedule-summary" role="status"></p>
+<div id="schedule-grid" class="schedule-grid" aria-label="Weekly delivery calendar"></div>
+<p id="schedule-empty" class="schedule-empty" hidden>No deliveries scheduled for this week. Accept an order to add it to your calendar.</p>
+</section>
+<div data-courier-view="profile" class="courier-container destination-wrapper" hidden>
+<a href="#home" class="destination-back">&larr; Courier Home</a>
+<section class="profile-section" id="profile" aria-labelledby="profile-title">
+<div class="courier-section-heading">
+<div>
+<h2 id="profile-title">My Profile</h2>
+</div>
+<button type="button" class="back-button" data-open-profile>Edit Profile <span aria-hidden="true">↗</span>
+</button>
+</div>
+<div class="profile-information">
+<div class="profile-photo-column">
+<div class="courier-avatar large-avatar">
+<span class="avatar-placeholder" data-initials>JS</span>
+<img data-photo hidden alt="Courier profile photo">
+</div>
+<strong data-name>João Silva</strong>
+<span class="technical">CR-00284</span>
+<label class="profile-text-action photo-label" for="profile-photo">Change Photo</label>
+<input class="accessible-file" id="profile-photo" type="file" accept="image/jpeg,image/png" aria-label="Change courier photo">
+<p id="photo-feedback" class="profile-feedback" role="status">
+</p>
+</div>
+<dl class="personal-details">
+<div>
+<dt>Full Name</dt>
+<dd data-value="name">João Silva</dd>
+</div>
+<div>
+<dt>Email</dt>
+<dd data-value="email">joao.silva@example.com</dd>
+</div>
+<div>
+<dt>Phone Number</dt>
+<dd data-value="phone">912345678</dd>
+</div>
+<div>
+<dt>Date of Birth</dt>
+<dd data-value="birth">12-04-1994</dd>
+</div>
+<div>
+<dt>Citizen Card Number</dt>
+<dd data-value="citizen">12345678</dd>
+</div>
+<div>
+<dt>NIF</dt>
+<dd data-value="nif">245678901</dd>
+</div>
+<div class="wide-detail">
+<dt>Address</dt>
+<dd data-value="address">Rua das Flores, 123</dd>
+</div>
+<div>
+<dt>District</dt>
+<dd data-value="city">Porto</dd>
+</div>
+<div>
+<dt>Postal Code</dt>
+<dd data-value="postal">4000-123</dd>
+</div>
+</dl>
+</div>
+<p id="profile-feedback" class="profile-feedback" role="status">
+</p>
+</section>
+</div>
+<div data-courier-view="fleet" class="courier-container destination-wrapper" hidden>
+<a href="#home" class="destination-back">&larr; Courier Home</a>
+<section class="profile-section" id="fleet" aria-labelledby="fleet-title">
+<div class="courier-section-heading">
+<div>
+<h2 id="fleet-title">My Fleet</h2>
+<p>Manage your registered vehicles and monitor their operational performance.</p>
+</div>
+<a href="#register-vehicle" class="next-button">+ Register Vehicles</a>
+</div>
+<div class="fleet-list">
+<article class="fleet-vehicle" data-vehicle-id="AA-12-BB" data-approved="true" data-max-weight="3500" data-max-volume="12" aria-labelledby="vehicle-sprinter">
+<div class="vehicle-identity">
+<div>
+<span class="status-badge status-approved">Approved</span>
+<h3 id="vehicle-sprinter">Mercedes-Benz Sprinter</h3>
+<p class="plate">AA-12-BB</p>
+<p class="vehicle-description">Van · Diesel · 2022</p>
+</div>
+</div>
+<div class="vehicle-performance">
+<dl class="vehicle-metrics">
+<div>
+<dd>126</dd>
+<dt>Orders Completed</dt>
+</div>
+<div>
+<dd>8,420 <small>km</small>
+</dd>
+<dt>Distance Travelled</dt>
+</div>
+<div>
+<dd>0</dd>
+<dt>Current Active Orders</dt>
+</div>
+</dl>
+<p class="vehicle-capacity"><span>Maximum payload · <strong>3,500 kg</strong></span><span>Load volume · <strong>12 m³</strong></span></p>
+</div>
+</article>
+<article class="fleet-vehicle" data-vehicle-id="BB-34-CC" data-approved="true" data-max-weight="25" data-max-volume="0.08" aria-labelledby="vehicle-honda">
+<div class="vehicle-identity">
+<div>
+<span class="status-badge status-approved">Approved</span>
+<h3 id="vehicle-honda">Honda PCX</h3>
+<p class="plate">BB-34-CC</p>
+<p class="vehicle-description">Motorcycle · Petrol · 2023</p>
+</div>
+</div>
+<div class="vehicle-performance">
+<dl class="vehicle-metrics">
+<div>
+<dd>84</dd>
+<dt>Orders Completed</dt>
+</div>
+<div>
+<dd>3,210 <small>km</small>
+</dd>
+<dt>Distance Travelled</dt>
+</div>
+<div>
+<dd>0</dd>
+<dt>Current Active Orders</dt>
+</div>
+</dl>
+<p class="vehicle-capacity"><span>Maximum payload · <strong>25 kg</strong></span><span>Load volume · <strong>0.08 m³</strong></span></p>
+</div>
+</article>
+<article class="fleet-vehicle" data-vehicle-id="CC-56-DD" data-approved="false" data-max-weight="100" data-max-volume="30" aria-labelledby="vehicle-clio">
+<div class="vehicle-identity">
+<div>
+<span class="status-badge status-pending">Pending Approval</span>
+<h3 id="vehicle-clio">Renault Clio</h3>
+<p class="plate">CC-56-DD</p>
+<p class="vehicle-description">Car · Petrol · 2021</p>
+</div>
+</div>
+<div class="vehicle-performance">
+<dl class="vehicle-metrics">
+<div>
+<dd>0</dd>
+<dt>Orders Completed</dt>
+</div>
+<div>
+<dd>0 <small>km</small>
+</dd>
+<dt>Distance Travelled</dt>
+</div>
+<div>
+<dd>0</dd>
+<dt>Current Active Orders</dt>
+</div>
+</dl>
+<p class="vehicle-capacity"><span>Maximum payload · <strong>100 kg</strong></span><span>Load volume · <strong>30 m³</strong></span></p>
+</div>
+</article>
+</div>
+</section>
+</div>
+<div data-courier-view="orders" class="orders-page" hidden>
+<section class="orders-intro orders-width" aria-labelledby="orders-title">
+<div><a href="#home" class="destination-back orders-home-link">&larr; Courier Home</a><h1 id="orders-title">Your deliveries,<br><span>in progress.</span></h1><p class="orders-intro-copy">Manage your active orders and update each delivery status.</p></div>
+</section>
+<section class="active-delivery orders-width" aria-labelledby="active-order-label">
+<div class="active-delivery-heading"><h2 id="active-order-label"><span class="orders-dot"></span>ACTIVE ORDER</h2></div>
+<p id="active-order-empty" class="orders-empty" hidden>No active order. <a href="#home">Find your next delivery &rarr;</a></p>
+<div id="active-orders" class="active-delivery-grid">
+<div class="active-delivery-info"><div class="active-delivery-title"><h3 id="active-order-id"></h3><span id="active-order-status" class="delivery-status">INITIATED</span></div>
+<div id="active-order-service" class="active-order-service"></div>
+<ol class="delivery-stops"><li><span>Pickup</span><strong id="active-order-pickup"></strong><p id="active-order-origin"></p></li><li><span>Destination</span><strong id="active-order-dropoff"></strong><p id="active-order-destination"></p></li></ol>
+<button id="order-client-button" class="order-client" type="button"><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M3 22v-3a9 9 0 0 1 18 0v3H3Z"/></svg><span><small>Client</small><strong id="active-order-client"></strong></span><span aria-hidden="true">›</span></button>
+</div>
+<section id="order-tracking" class="delivery-tracking" aria-label="Delivery tracking">
+<div class="delivery-map-frame"><div id="delivery-map" role="region" aria-label="Delivery route from pickup to destination" aria-describedby="delivery-map-status"></div></div>
+<div class="delivery-route-feedback"><p id="delivery-map-status" class="sr-only" role="status" aria-live="polite">Open My Orders to load the route.</p><button id="retry-delivery-route" class="back-button" type="button" hidden>Retry route</button></div>
+<div class="delivery-metrics"><div><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="M16 6c-7-3-9 15 0 12M5 10h10M5 14h9" stroke="#062315"/></svg><strong id="order-earnings">—</strong><span>Earnings</span></div><div><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9c0 4-4 7-4 7s-4-3-4-7a4 4 0 0 1 8 0ZM16 19c0 2 2 3 2 3s2-1 2-3a2 2 0 0 0-4 0ZM5 8v1M12 15c8-9 11-3 7 0"/></svg><strong id="tracking-distance">—</strong><span>Route distance</span></div></div>
+</section>
+<div class="order-assigned-vehicle"><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16V6h12v10H3Zm12-7h3l3 4v3h-6M3 16v2h2m14 0h2v-2M9 18h6"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span><small>Assigned vehicle</small><strong id="active-order-vehicle"></strong></span></div>
+<button id="open-order-status" class="order-status-trigger" type="button" aria-haspopup="dialog" aria-controls="order-status-dialog"><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 5v10l9 5 9-5V8M12 13v10M7.5 5.5l9 5"/></svg><span class="order-status-label"><span>Update Order Status</span><span id="order-current-status" class="order-current-status" role="status" aria-live="polite" aria-atomic="true">Current status: Initiated</span></span><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 3 5 5-12 12H4v-5L16 3Zm-2 2 5 5"/></svg></button>
+</div></section>
+<section class="active-orders-overview orders-width" aria-labelledby="active-orders-list-title">
+<div class="active-orders-list-heading"><h2 id="active-orders-list-title">Active orders <span id="active-orders-count">0</span></h2><p>Select an order to view its details above.</p></div>
+<div id="active-orders-list" class="active-orders-list"></div>
+<p id="active-orders-list-empty" class="orders-empty" hidden>No active deliveries.</p>
+</section>
+<section id="completed-orders" class="orders-history" aria-labelledby="history-title"><div class="history-width">
+<div class="history-heading"><div><p class="orders-eyebrow">ORDER HISTORY</p><h2 id="history-title">Recent deliveries</h2></div><div class="history-filters"><label class="sr-only" for="orders-period">History period</label><select id="orders-period"><option value="30">Last 30 days</option><option value="7">Last 7 days</option><option value="all">All orders</option></select><label class="history-search"><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></svg><span class="sr-only">Search orders</span><input id="orders-search" type="search" placeholder="Search orders..."></label></div></div>
+<div class="history-table-scroll"><table class="history-table"><thead><tr><th scope="col">ORDER ID</th><th scope="col">CLIENT</th><th scope="col">ROUTE</th><th scope="col">DISTANCE</th><th scope="col">EARNINGS</th><th scope="col">DATE</th><th scope="col">ACTIONS</th></tr></thead><tbody id="orders-history-body"></tbody></table></div>
+<p id="orders-history-empty" class="orders-empty" role="status" hidden>No matching orders.</p>
+<button id="orders-history-all" class="full-history-button" type="button"><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><span>View Full Order History</span><svg class="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button>
+</div></section>
+</div>
+<div data-courier-view="sos" class="courier-container destination-wrapper" hidden>
+<a href="#home" class="destination-back">&larr; Courier Home</a>
+<section class="profile-section">
+<div class="courier-section-heading">
+<div>
+<h1>Report an Incident</h1>
+<p>Tell operations what happened with your delivery or vehicle.</p>
+</div>
+</div>
+<form id="incident-form" class="destination-form">
+<div class="form-grid">
+<div class="form-group">
+<label for="incident-category">Issue type *</label>
+<select id="incident-category" name="category" required>
+<option value="">Select an issue</option>
+<option>Vehicle issue</option>
+<option>Delivery delay</option>
+<option>Damaged parcel</option>
+<option>Other</option>
+</select>
+</div>
+<div class="form-group">
+<label for="incident-order">Order ID *</label>
+<select id="incident-order" name="order" aria-describedby="incident-order-hint" required>
+<option value="">Select an active order</option>
+</select>
+<p id="incident-order-hint" class="field-hint" aria-live="polite"></p>
+</div>
+<div class="form-group full-width">
+<label for="incident-address">Exact SOS address *</label>
+<input type="text" id="incident-address" name="address" maxlength="300" autocomplete="off" aria-describedby="incident-address-hint" placeholder="Street, building number, postal code and city" required>
+<p id="incident-address-hint" class="field-hint">Enter the exact location where assistance is needed.</p>
+</div>
+<div class="form-group full-width">
+<label for="incident-description">Description *</label>
+<textarea id="incident-description" name="description" rows="6" required>
+</textarea>
+</div>
+</div>
+<p role="status" class="profile-feedback">
+</p>
+<div class="dialog-actions">
+<a href="#home" class="back-button">Back</a>
+<button class="next-button" type="submit">Submit Incident</button>
+</div>
+</form>
+</section>
+</div>
+<div data-courier-view="register-vehicle" class="courier-container destination-wrapper" hidden>
+<a href="#home" class="destination-back">&larr; Courier Home</a>
+<section class="profile-section">
+<div class="courier-section-heading">
+<div>
+<h1>Register Vehicles</h1>
+<p>Add your vehicle details for staff review.</p>
+</div>
+</div>
+<form id="vehicle-registration-form" class="registration-form vehicle-registration-form" novalidate>
+<div class="vehicle-batch" data-vehicle-batch><p class="field-hint">Add all vehicles for this request, including their documents, then submit them together for review.</p><div data-vehicle-list><section class="vehicle-batch-card"><div class="vehicle-batch-card-heading"><h3 data-vehicle-heading>Vehicle 1</h3><button type="button" class="back-button" data-remove-vehicle>Remove vehicle</button></div>                <div class="vehicle-type-section">
+
+                    <label class="group-title">
+                        Vehicle Type *
+                    </label>
+
+                    <div class="vehicle-options">
+
+                        <label class="vehicle-option">
+
+                            <input
+                                type="radio"
+                                name="vehicle_type"
+                                value="motorcycle" required>
+
+                            <span class="vehicle-option-content">
+
+                                <span class="vehicle-icon">
+                                    🏍️
+                                </span>
+
+                                <strong>
+                                    Motorcycle
+                                </strong>
+
+                            </span>
+
+                        </label>
+
+                        <label class="vehicle-option">
+
+                            <input
+                                type="radio"
+                                name="vehicle_type"
+                                value="car" required>
+
+                            <span class="vehicle-option-content">
+
+                                <span class="vehicle-icon">
+                                    🚗
+                                </span>
+
+                                <strong>
+                                    Car
+                                </strong>
+
+                            </span>
+
+                        </label>
+
+                        <label class="vehicle-option">
+
+                            <input
+                                type="radio"
+                                name="vehicle_type"
+                                value="van"
+                                checked required>
+
+                            <span class="vehicle-option-content">
+
+                                <span class="vehicle-icon">
+                                    🚐
+                                </span>
+
+                                <strong>
+                                    Van
+                                </strong>
+
+                            </span>
+
+                        </label>
+
+                        <label class="vehicle-option">
+
+                            <input
+                                type="radio"
+                                name="vehicle_type"
+                                value="truck" required>
+
+                            <span class="vehicle-option-content">
+
+                                <span class="vehicle-icon">
+                                    🚚
+                                </span>
+
+                                <strong>
+                                    Truck
+                                </strong>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="form-grid vehicle-grid">
+
+                    <div class="form-group">
+
+                        <label for="brand">
+                            Brand *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="brand"
+                            name="brand"
+                            placeholder="e.g. Mercedes Benz"
+                            pattern="[\p{L}\p{M} ]+"
+                            title="Enter letters and spaces only."
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="model">
+                            Model *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="model"
+                            name="model"
+                            placeholder="e.g. Sprinter"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="vehicle-color">
+                            Color *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="vehicle-color"
+                            name="vehicle_color"
+                            placeholder="e.g. White"
+                            pattern="[\p{L}\p{M} ]+"
+                            title="Enter letters and spaces only."
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="vehicle-year">
+                            Year *
+                        </label>
+
+                        <input
+                            type="text" title="Enter a year between 2000 and 2026."
+                            id="vehicle-year"
+                            name="vehicle_year"
+                            placeholder="2024"
+                            inputmode="numeric" pattern="20(?:[01][0-9]|2[0-6])" maxlength="4" data-digits required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="license-plate">
+                            License Plate *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="license-plate"
+                            name="license_plate"
+                            placeholder="AA-12-BB"
+                            minlength="8"
+                            maxlength="8"
+                            pattern="([A-Za-z]{2}|[0-9]{2})-([A-Za-z]{2}|[0-9]{2})-([A-Za-z]{2}|[0-9]{2})"
+                            title="Each pair must contain two letters or two numbers. Hyphens are added automatically."
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="fuel">
+                            Fuel Type *
+                        </label>
+
+                        <select
+                            id="fuel"
+                            name="fuel_type"
+                            required>
+
+                            <option value="">
+                                Select fuel type
+                            </option>
+
+                            <option value="diesel">
+                                Diesel
+                            </option>
+
+                            <option value="petrol">
+                                Gasoline
+                            </option>
+
+                            <option value="gas">
+                                Gas
+                            </option>
+
+                            <option value="electric">
+                                Electric
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="max-weight">
+                            Maximum Weight (kg) *
+                        </label>
+
+                        <div class="input-with-unit">
+
+                            <input
+                                type="text"
+                                id="max-weight"
+                                name="max_weight"
+                                placeholder="3500"
+                                inputmode="numeric" pattern="[0-9]+" data-digits required>
+
+                            <span>
+                                kg
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="max-volume">
+                            Maximum Volume (m³) *
+                        </label>
+
+                        <div class="input-with-unit">
+
+                            <input
+                                type="text"
+                                id="max-volume"
+                                name="max_volume"
+                                placeholder="12"
+                                inputmode="numeric" pattern="[0-9]+" data-digits required>
+
+                            <span>
+                                m³
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+<div class="documents-upload-area">
+<div class="document-upload-grid">
+<section class="document-upload-card" aria-labelledby="vehicle-insurance-document-title">
+<h3 id="vehicle-insurance-document-title">Vehicle Insurance Certificate</h3>
+<label for="vehicle-insurance-document" class="documents-upload-box" aria-label="Upload Vehicle Insurance Certificate">
+<span class="upload-icon" aria-hidden="true">&#8593;</span>
+<span class="browse-button">Choose file</span>
+<span class="file-types">PDF, JPG or PNG (optional)</span>
+</label>
+<input type="file" id="vehicle-insurance-document" name="vehicle_insurance_document" accept=".pdf,.jpg,.jpeg,.png" class="hidden-file-input">
+</section>
+<section class="document-upload-card" aria-labelledby="vehicle-inspection-document-title">
+<h3 id="vehicle-inspection-document-title">Vehicle Inspection Certificate</h3>
+<label for="vehicle-inspection-document" class="documents-upload-box" aria-label="Upload Vehicle Inspection Certificate">
+<span class="upload-icon" aria-hidden="true">&#8593;</span>
+<span class="browse-button">Choose file</span>
+<span class="file-types">PDF, JPG or PNG (optional)</span>
+</label>
+<input type="file" id="vehicle-inspection-document" name="vehicle_inspection_document" accept=".pdf,.jpg,.jpeg,.png" class="hidden-file-input">
+</section>
+<section class="document-upload-card" aria-labelledby="vehicle-registration-document-title">
+<h3 id="vehicle-registration-document-title">Vehicle Registration Certificate</h3>
+<label for="vehicle-registration-document" class="documents-upload-box" aria-label="Upload Vehicle Registration Certificate">
+<span class="upload-icon" aria-hidden="true">&#8593;</span>
+<span class="browse-button">Choose file</span>
+<span class="file-types">PDF, JPG or PNG (optional)</span>
+</label>
+<input type="file" id="vehicle-registration-document" name="vehicle_registration_document" accept=".pdf,.jpg,.jpeg,.png" class="hidden-file-input">
+</section>
+</div>
+</div>
+</section></div><div class="vehicle-batch-actions"><button type="button" class="back-button" data-add-vehicle>+ Add another vehicle</button><p data-vehicle-count role="status" aria-live="polite"></p></div></div>
+<div class="form-navigation"><a href="#fleet" class="back-button">Back to My Fleet</a><button type="submit" class="next-button">Submit Vehicle Request</button></div>
+</form>
+</section>
+</div>
+<div data-courier-view="statistics" class="courier-container statistics-view" hidden>
+<a href="#home" class="destination-back">&larr; Courier Home</a>
+
+<!-- Statistics Header -->
+<div class="statistics-header">
+<div class="statistics-introduction">
+<p class="hero-label">COURIER &middot; STATISTICS</p>
+<h1 id="statistics-title">Your performance,<br><span class="heading-accent">at a glance.</span></h1>
+<p>Track your activity, earnings and delivery performance over time.</p>
+</div>
+<!-- Statistics Filters -->
+<div class="statistics-filters">
+<fieldset class="statistics-periods"><legend>Time Period</legend>
+<div class="statistics-period-buttons">
+<button type="button" data-statistics-period="7D" aria-pressed="false">7D</button>
+<button type="button" data-statistics-period="30D" aria-pressed="true">30D</button>
+<button type="button" data-statistics-period="3M" aria-pressed="false">3M</button>
+<button type="button" data-statistics-period="6M" aria-pressed="false">6M</button>
+<button type="button" data-statistics-period="1Y" aria-pressed="false">1Y</button>
+<button type="button" data-statistics-period="ALL" aria-pressed="false">ALL</button>
+</div></fieldset>
+</div>
+</div>
+
+<!-- Performance Overview: one bar, four contextual metrics. -->
+<section class="statistics-overview" aria-labelledby="statistics-overview-title">
+<div class="statistics-section-heading"><h2 id="statistics-overview-title">Performance Overview</h2></div>
+<dl class="statistics-overview-values">
+<div><dt>Trips Completed</dt><dd id="statistics-trips">248</dd></div>
+<div><dt>Total Earnings</dt><dd id="statistics-earnings">&euro;3,842</dd></div>
+<div><dt>Average Rating</dt><dd>4.8 <small>/ 5</small></dd></div>
+<div><dt>Total Distance Travelled</dt><dd><span id="statistics-distance">7,420</span> <small>km</small></dd></div>
+</dl>
+</section>
+
+<!-- Main Performance Chart: one chart switches between three measures. -->
+<section class="statistics-chart-section" aria-labelledby="statistics-chart-heading">
+<div class="statistics-chart-header"><div><p class="technical">YOUR ACTIVITY</p><h2 id="statistics-chart-heading">Performance over time</h2></div></div>
+<div class="statistics-chart-summary"><div><span id="statistics-chart-total-label">Total earnings</span><strong id="statistics-chart-total"></strong></div></div>
+<div class="statistics-chart-legend"><span><i></i><span id="statistics-chart-series-label">Earnings</span></span><span><i class="average-key"></i>Period average</span></div>
+<figure id="statistics-chart-panel" aria-labelledby="statistics-chart-heading" tabindex="0">
+<div class="statistics-chart-inspector" aria-live="polite" aria-atomic="true"><span id="statistics-point-date"></span><strong id="statistics-point-value"></strong></div>
+<div id="statistics-chart" class="statistics-chart"></div>
+</figure>
+</section>
+
+<!-- Delivery Performance -->
+<section class="statistics-delivery-section" aria-labelledby="statistics-delivery-title">
+<div class="statistics-section-heading"><h2 id="statistics-delivery-title">Delivery Performance</h2></div>
+<div class="statistics-delivery-values">
+<div><h3>Most Used Vehicle</h3><p class="statistics-vehicle-model">Mercedes-Benz Sprinter</p><p class="statistics-detail-value"><strong id="statistics-vehicle-trips">126</strong> <small>trips</small></p></div>
+<div><h3>Earnings per km</h3><p class="statistics-detail-value"><span id="statistics-earnings-per-km">&euro;0.52</span> <small>/ km</small></p><p class="statistics-explanation">Average earnings generated per kilometre travelled.</p></div>
+<div><h3>Average Rating</h3><p class="statistics-detail-value">4.8 <small>/ 5</small></p><div class="statistics-stars" aria-hidden="true"><span>★★★★★</span><span class="statistics-stars-fill">★★★★★</span></div><p class="statistics-explanation">Based on <span id="statistics-rating-count">186</span> ratings</p></div>
+</div>
+</section>
+
+</div>
+</main>
+<footer id="about"><div class="footer-container"><div><strong>CMS</strong><p>Courier Management System</p></div><p>Keep moving. Deliver with confidence.</p><p>Enterprise Information Systems · FEUP</p></div></footer>
+<dialog id="courier-vehicle-registration-success" class="courier-dialog compact-dialog" aria-labelledby="courier-vehicle-success-title" aria-describedby="courier-vehicle-success-message"><h2 id="courier-vehicle-success-title">Vehicle request submitted</h2><p id="courier-vehicle-success-message">Your request has been submited and is waiting for staff approval</p><div class="dialog-actions"><button type="button" class="next-button" data-close-dialog>Understood</button></div></dialog>
+<dialog id="order-status-dialog" class="courier-dialog compact-dialog" aria-labelledby="order-status-title">
+<div class="dialog-heading"><div><h2 id="order-status-title">Update order status</h2><p id="order-status-current" class="pod-hint"></p></div><button type="button" class="dialog-close" data-close-dialog aria-label="Close status update">&times;</button></div>
+<form id="order-status-form" novalidate>
+<fieldset class="order-status-fieldset"><legend>Select the new status</legend><div id="order-status-options" class="order-status-options"></div></fieldset>
+<p id="order-status-error" class="field-error" role="status" aria-live="polite"></p>
+<div class="dialog-actions"><button type="button" class="back-button" data-close-dialog>Cancel</button><button id="save-order-status" type="submit" class="next-button">Save</button></div>
+</form>
+</dialog>
+
+<dialog id="order-cancel-dialog" class="courier-dialog compact-dialog order-cancel-dialog" aria-labelledby="order-cancel-title" aria-describedby="order-cancel-description">
+<div class="dialog-heading"><div><h2 id="order-cancel-title">Cancel order</h2><p id="order-cancel-id" class="pod-hint"></p></div><button type="button" class="dialog-close" data-close-dialog aria-label="Close order cancellation">&times;</button></div>
+<p id="order-cancel-description" class="dialog-introduction">This order will leave your active deliveries and appear in your history as cancelled.</p>
+<form id="order-cancel-form" novalidate>
+<div class="form-group"><label for="order-cancel-reason">Cancellation reason *</label><select id="order-cancel-reason" name="cancellation_reason" required aria-describedby="order-cancel-reason-error"><option value="">Select a reason</option></select><p id="order-cancel-reason-error" class="field-error" aria-live="polite"></p></div>
+<div class="form-group"><label for="order-cancel-note">Additional note (optional)</label><textarea id="order-cancel-note" name="cancellation_note" rows="4" maxlength="1000" aria-describedby="order-cancel-note-hint order-cancel-note-error"></textarea><p id="order-cancel-note-hint" class="field-hint">Up to 1,000 characters. The reason and note will be visible in the order details.</p><p id="order-cancel-note-error" class="field-error" aria-live="polite"></p></div>
+<p id="order-cancel-error" class="field-error" role="status"></p>
+<div class="dialog-actions"><button type="button" class="back-button" data-close-dialog>Keep order</button><button id="confirm-order-cancellation" type="submit" class="next-button cancel-order-confirm">Confirm cancellation</button></div>
+</form>
+</dialog>
+
+<dialog id="work-mode-dialog" class="courier-dialog compact-dialog" aria-labelledby="work-mode-dialog-title" aria-describedby="work-mode-dialog-description">
+<h2 id="work-mode-dialog-title">Choose your work mode</h2>
+<p id="work-mode-dialog-description">Choose a mode for new orders.</p>
+<form id="work-mode-form" novalidate><fieldset class="work-mode-options"><legend>Choose your work mode</legend>
+<label class="work-mode-option"><input type="radio" name="work_mode" value="express" required><span><strong>Express</strong><span>Delivery within 24 hours of pickup, even for future bookings.</span><small>Urgent deliveries with higher earnings.</small></span></label>
+<label class="work-mode-option"><input type="radio" name="work_mode" value="standard" required><span><strong>Standard</strong><span>Pickup at least 24 hours ahead.</span><small>Plan your routes and workload in advance.</small></span></label>
+</fieldset><p id="work-mode-feedback" class="field-error" role="status"></p><div class="dialog-actions"><button type="submit" class="next-button">Confirm work mode</button></div></form>
+</dialog>
+<dialog id="order-vehicle-dialog" class="courier-dialog" aria-labelledby="order-vehicle-title">
+<div class="dialog-heading"><div><h2 id="order-vehicle-title">Choose your active vehicle</h2><p id="order-vehicle-summary" class="pod-hint"></p></div><button type="button" class="dialog-close" data-close-dialog aria-label="Close vehicle selection">&times;</button></div>
+<form id="order-vehicle-form" novalidate><fieldset class="vehicle-picker-fieldset"><legend>Available fleet</legend><div id="order-vehicle-options" class="vehicle-picker-options"></div></fieldset>
+<p id="order-vehicle-feedback" class="pod-feedback" role="status" aria-live="polite"></p>
+<p class="pod-hint">This vehicle will be used for all orders you accept while available. Active orders reserve capacity and must stay with their assigned vehicle.</p>
+<div class="dialog-actions"><button type="button" class="back-button" data-close-dialog>Cancel</button><button id="order-vehicle-confirm" type="submit" class="next-button" disabled>Go available</button></div></form></dialog>
+
+<dialog id="order-accept-dialog" class="courier-dialog compact-dialog" aria-labelledby="order-accept-title">
+<div class="dialog-heading"><div><h2 id="order-accept-title">Accept order</h2><p id="order-accept-summary" class="pod-hint"></p></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close order confirmation">&times;</button></div>
+<form id="order-accept-form" novalidate>
+<div class="order-accept-vehicle"><p class="technical">Active vehicle</p><strong id="order-accept-vehicle"></strong><p id="order-accept-cargo" class="pod-hint"></p></div>
+<div class="order-accept-capacity"><section><h3>Remaining now</h3><dl><div><dt>Weight</dt><dd id="order-accept-weight"></dd></div><div><dt>Volume</dt><dd id="order-accept-volume"></dd></div></dl></section><section><h3>After accepting</h3><dl><div><dt>Weight</dt><dd id="order-accept-weight-after"></dd></div><div><dt>Volume</dt><dd id="order-accept-volume-after"></dd></div></dl></section></div>
+<p id="order-accept-feedback" class="field-error" role="status" aria-live="polite"></p>
+<div class="dialog-actions"><button class="back-button" type="button" data-close-dialog>Back</button><button id="order-accept-confirm" class="next-button" type="submit">Accept order</button></div>
+</form>
+</dialog>
+
+<dialog id="pod-submit-dialog" class="courier-dialog pod-dialog" aria-labelledby="pod-submit-title">
+<div class="dialog-heading"><div><h2 id="pod-submit-title">Proof of delivery</h2><p id="pod-submit-order"></p></div><button type="button" class="dialog-close" data-close-dialog aria-label="Close proof of delivery">&times;</button></div>
+<p id="pod-introduction" class="pod-introduction">Add a delivery photo or the client's signature to complete this order. At least one is required; you can provide both.</p>
+<form id="pod-submit-form" novalidate>
+<fieldset id="pod-pickup-fields" class="pod-pickup-fields" hidden disabled>
+<legend>Pickup point details</legend>
+<div class="form-grid">
+<div class="form-group full-width"><label for="pod-pickup-reason">Reason for delivery to a pickup point *</label><textarea id="pod-pickup-reason" name="pickup_point_reason" rows="3" maxlength="1000" required></textarea></div>
+<div class="form-group full-width"><label for="pod-pickup-name">Pickup point name *</label><input id="pod-pickup-name" name="pickup_point_name" type="text" maxlength="160" required></div>
+</div>
+</fieldset>
+<div class="pod-parts">
+<section class="pod-part" aria-labelledby="pod-photo-title"><h3 id="pod-photo-title">Delivery photo</h3><label class="pod-upload" for="pod-photo">Choose or take a photo<input id="pod-photo" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label><p class="pod-hint">JPG, PNG or WebP · up to 5 MB.</p><img id="pod-photo-preview" class="pod-preview" alt="Delivery photo preview" hidden></section>
+<section class="pod-part" aria-labelledby="pod-signature-title"><h3 id="pod-signature-title">Client signature</h3><p id="pod-client-name" class="pod-hint"></p><p id="pod-signature-instructions" class="pod-hint">Draw the client's signature below, or upload a signature image.</p><canvas id="pod-signature" width="1000" height="300" aria-label="Client signature drawing area" aria-describedby="pod-signature-instructions">Use the signature image upload below if drawing is unavailable.</canvas><div class="pod-signature-actions"><button id="pod-clear-signature" type="button" class="back-button">Clear signature</button><label for="pod-signature-file" class="pod-hint">Upload signature<input id="pod-signature-file" type="file" accept="image/jpeg,image/png,image/webp"></label></div><img id="pod-signature-preview" class="pod-preview pod-signature-preview" alt="Uploaded client signature preview" hidden></section>
+</div>
+<p id="pod-submit-feedback" class="pod-feedback" role="status" aria-live="polite"></p>
+<div class="dialog-actions"><button type="button" class="back-button" data-close-dialog>Cancel</button><button id="pod-save" type="submit" class="next-button">Save POD &amp; complete order</button></div>
+</form></dialog>
+
+<dialog id="order-details-dialog" class="courier-dialog" aria-labelledby="order-details-title"><div class="dialog-heading"><h2 id="order-details-title">Order details</h2><button class="dialog-close" type="button" data-close-dialog aria-label="Close order details">&times;</button></div><div id="order-details-content"></div></dialog>
+<dialog id="profile-editor" class="courier-dialog" aria-labelledby="profile-editor-title">
+<div class="dialog-heading">
+<div>
+<h2 id="profile-editor-title">Edit Profile</h2>
+</div>
+<button type="button" class="dialog-close" data-close-dialog aria-label="Close profile editor">×</button>
+</div>
+<p class="dialog-introduction">Changes in this demonstration are kept until you reload the page.</p>
+<form id="profile-edit-form">
+<div class="form-grid">
+<div class="form-group full-width">
+<label for="edit-name">Full Name</label>
+<input id="edit-name" name="name" value="João Silva" pattern="[\p{L}\p{M} ]+" required>
+</div>
+<div class="form-group">
+<label for="edit-email">Email</label>
+<input id="edit-email" name="email" type="email" value="joao.silva@example.com" required>
+</div>
+<div class="form-group">
+<label for="edit-phone">Phone Number</label>
+<input id="edit-phone" name="phone" value="912345678" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
+</div>
+<div class="form-group">
+<label for="edit-birth">Date of Birth</label>
+<input id="edit-birth" name="birth" type="date" value="1994-04-12" required>
+</div>
+<div class="form-group">
+<label for="edit-citizen">Citizen Card Number</label>
+<input id="edit-citizen" name="citizen" value="12345678" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required>
+</div>
+<div class="form-group">
+<label for="edit-nif">NIF</label>
+<input id="edit-nif" name="nif" value="245678901" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
+</div>
+<div class="form-group full-width">
+<label for="edit-address">Address</label>
+<input id="edit-address" name="address" value="Rua das Flores, 123" required>
+</div>
+<div class="form-group">
+<label for="edit-city">District</label>
+<input id="edit-city" name="city" value="Porto" placeholder="Filled automatically from the postal code" aria-describedby="profile-postal-status" readonly>
+</div>
+<div class="form-group">
+<label for="edit-postal">Postal Code</label>
+<input id="edit-postal" name="postal" value="4000-123" pattern="[0-9]{4}-[0-9]{3}" maxlength="8" required>
+<p id="profile-postal-status" class="field-hint" role="status" aria-live="polite"></p>
+<button id="profile-postal-retry" class="postal-retry" type="button" hidden>Retry district lookup</button>
+</div>
+</div>
+<div class="dialog-actions">
+<button class="back-button" type="button" data-close-dialog>Cancel</button>
+<button class="next-button" type="submit">Save Changes</button>
+</div>
+</form>
+</dialog>
+
+
+<aside id="sos-success-notification" class="sos-success-notification" aria-label="SOS" hidden>
+<p id="sos-success-message" role="status" aria-live="polite" aria-atomic="true"></p>
+<button id="close-sos-notification" type="button" aria-label="Close notification">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"/></svg>
+</button>
+</aside>
+
+<script src="Menu_courierJS.js?v=pickup-required-pod" defer>
+</script>
+</body>
+</html>
