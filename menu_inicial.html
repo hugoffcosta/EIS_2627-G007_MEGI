@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="home-page">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#083e43">
   <title>TrustPort | Trust in every move.</title>
   <link rel="stylesheet" href="menu_inicial.css">
-  <script src="menu_incial.js" defer></script>
+  <script src="menu_inicial.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-en="Skip to content" data-pt="Saltar para o conteúdo">Skip to content</a>
@@ -17,14 +17,15 @@
     </a>
     <button class="menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" data-en="Menu" data-pt="Menu">Menu</button>
     <nav id="main-navigation" aria-label="Main navigation">
-      <a href="#about" data-en="About us" data-pt="Sobre nós">About us</a>
-      <a href="#sustainability-dashboard" data-en="Sustainability" data-pt="Sustentabilidade">Sustainability</a>
-      <a href="#simulator" data-en="Simulator" data-pt="Simulador">Simulator</a>
-      <a href="#contact" data-en="Contact us" data-pt="Contactos">Contact us</a>
-      <a href="#faq">FAQs</a>
+      <a href="menu_inicial.html#about" data-en="About us" data-pt="Sobre nós">About us</a>
+      <a href="menu_inicial.html#sustainability-dashboard" data-en="Sustainability" data-pt="Sustentabilidade">Sustainability</a>
+      <a href="menu_inicial.html#simulator" data-en="Simulator" data-pt="Simulador">Simulator</a>
+      <a href="menu_inicial.html#contact" data-en="Contact us" data-pt="Contactos">Contact us</a>
+      <a href="menu_inicial.html#faq">FAQs</a>
       <a href="equipa.html" data-en="Team" data-pt="Equipa">Team</a>
-      <a href="#join-us" data-en="Join Us" data-pt="Junta-te a nós">Join Us</a>
-      <button class="account-button" type="button" data-section="account" data-en="Login / Register" data-pt="Entrar / Registar">Login / Register</button>
+      <a href="menu_inicial.html#join-us" data-en="Join Us" data-pt="Junta-te a nós">Join Us</a>
+      <a class="account-button" href="menu_login.html" data-en="Login" data-pt="Entrar">Login</a>
+      <a class="account-button" href="menu_registration.html" data-en="Register" data-pt="Registar">Register</a>
     </nav>
     <div class="language-switch" role="group" aria-label="Language / Idioma">
       <button type="button" data-language="pt" aria-pressed="false">PT</button>
@@ -143,7 +144,7 @@
 
     <!-- 1. GRELHA DE KPIS COMERCIAIS (SEM ÍCONES, FOCO EXECUTIVO) -->
     <div class="dashboard-kpi-grid client-focus-grid">
-      
+
       <!-- KPI 1: LEAD TIME (EXPRESS VS STANDARD) -->
       <div class="dashboard-kpi-card client-card-wide">
         <span class="kpi-tag green-tag" data-en="LEAD TIME" data-pt="TEMPO DE ENTREGA (LEAD TIME)">TEMPO DE ENTREGA (LEAD TIME)</span>
@@ -196,7 +197,7 @@
 
     <!-- 2. NOVO BLOCO: AVALIAÇÃO GERAL DA EMPRESA & REVIEWS DE CLIENTES -->
     <div class="dashboard-reviews-wrapper">
-      
+
       <div class="company-rating-banner">
         <div class="rating-overall-score">
           <span class="giant-rating-num">4.6</span>
@@ -211,7 +212,7 @@
       </div>
 
       <div class="reviews-grid">
-        
+
         <!-- Review 1 -->
         <div class="review-card">
           <div class="review-header">
@@ -248,7 +249,7 @@
 
     <!-- 2. CORPO DO DASHBOARD: GRÁFICO E CHAMADA À AÇÃO -->
     <div class="dashboard-body-grid">
-      
+
       <!-- GRÁFICO DE EVOLUÇÃO DE EMISSÕES -->
       <div class="dashboard-panel chart-panel">
         <div class="panel-header">
@@ -256,7 +257,7 @@
           <h4 data-en="Emissions intensity trend index" data-pt="Índice de tendência de intensidade de emissões">Índice de tendência de intensidade de emissões</h4>
           <span class="chart-baseline" data-en="Index · 2020 baseline = 100" data-pt="Índice · Base 2020 = 100">Index · 2020 baseline = 100</span>
         </div>
-        
+
         <div class="chart-bars-container">
           <div class="chart-bar-item">
             <span class="bar-value">100</span>
@@ -372,12 +373,5 @@
     <span>© <span id="year">2026</span> TrustPort</span>
   </footer>
 
-  <dialog id="section-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
-    <button class="dialog-close" type="button" aria-label="Close / Fechar">×</button>
-    <span class="dialog-eyebrow">TRUSTPORT</span>
-    <h2 id="dialog-title"></h2>
-    <p id="dialog-description"></p>
-    <button class="dialog-back" type="button" data-en="Back to home" data-pt="Voltar ao início">Back to home</button>
-  </dialog>
 </body>
 </html>
