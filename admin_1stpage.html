@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrustPort CMS — Painel de Administração</title>
-    <link rel="stylesheet" href="styles_admin.css">
+    <link rel="stylesheet" href="styles_admin(marta).css">
     <!-- FontAwesome para ícones da interface -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -13,8 +13,17 @@
     <!-- Cabeçalho Principal (Navbar) -->
     <header class="navbar">
         <div class="logo">
-            <i class="fa-solid fa-truck-fast"></i>
-            <span>TrustPort CMS Admin</span>
+            <span class="logo-icon" aria-hidden="true">
+                <svg class="site-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 5h12v12H2zM14 9h4l4 5v3h-8M17 9v5h5"/>
+                    <circle cx="6" cy="18" r="2"/>
+                    <circle cx="18" cy="18" r="2"/>
+                </svg>
+            </span>
+            <span class="logo-copy">
+                <span class="brand-name">CMS</span>
+                <span class="brand-subtitle">Courier Management System</span>
+            </span>
         </div>
         <div class="user-menu">
             <span class="user-name"><i class="fa-solid fa-user-gear"></i> Admin System</span>
@@ -834,6 +843,14 @@
 
         </main>
     </div>
+
+    <footer>
+        <div class="footer-container">
+            <div><strong>CMS</strong><p>Courier Management System</p></div>
+            <p>Keep moving. Deliver with confidence.</p>
+            <p>Enterprise Information Systems · FEUP</p>
+        </div>
+    </footer>
 
     <script src="admin.js"></script>
 </body>
