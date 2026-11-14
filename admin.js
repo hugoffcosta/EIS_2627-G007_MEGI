@@ -317,7 +317,7 @@ function renderChatSidebar() {
             <div style="width: 40px; height: 50px; border-radius: 6px; overflow: hidden; flex-shrink: 0; border: 1px solid #dce5df; background: #fff;">
                 <img src="${photoPath}" alt="${emp.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(emp.name)}&background=083e43&color=b9e6d2'">
             </div>
-            <div style="flex-grow: 1; min-width: 0;">
+            <div style="flex: 1; min-width: 0;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                     <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;">${emp.name}</strong>
                     <small style="color: #888; font-size: 11px;">${lastMsg.time}</small>

@@ -117,9 +117,11 @@ body {
 
 /* PAINEL PRINCIPAL DE CONTEÚDO */
 .main-content {
-    flex: 1;
+    flex: 1 !important;
+    min-width: 0 !important; /* Vital para o Flexbox não rebentar */
+    box-sizing: border-box !important;
     padding: 2rem;
-    max-width: 1300px;
+    max-width: 1300px; /* (podes manter ou ajustar se necessário) */
 }
 
 .tab-content {
@@ -407,12 +409,10 @@ body {
 
    ========================================================================== */
 .messages-layout {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 0;
-    padding: 0;
-    overflow: hidden;
-    min-height: 520px;
+    display: grid !important;
+    grid-template-columns: 280px minmax(0, 1fr) !important; /* minmax(0, 1fr) impede que conteúdos compridos rebentem o grid */
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .chat-sidebar {
@@ -457,8 +457,8 @@ body {
 }
 
 .chat-avatar {
-    width: 42px !important;
-    height: 52px !important;
+    width: 40px !important;
+    height: 50px !important;
     border-radius: 6px !important;
     overflow: hidden !important;
     flex-shrink: 0 !important;
@@ -799,10 +799,12 @@ body {
    ORGANOGRAMA TRUSTPORT (BOARD + DEPARTAMENTOS)
    ========================================================================== */
 .org-chart-section {
-    max-width: 1280px;
-    margin: 2rem auto;
-    padding: 2rem 1.5rem;
+    width: 100% !important;     /* Garante que ocupa exatamente 100% do espaço disponível */
+    max-width: 100% !important; /* Remove o limite de 1280px que empurrava o layout */
+    margin: 0 !important;       /* Remove a margem automática que desviava o bloco */
+    padding: 1.5rem 0;
     font-family: 'Segoe UI', Arial, sans-serif;
+    box-sizing: border-box !important;
 }
 
 .org-header {
@@ -1113,64 +1115,4 @@ body {
     background: var(--petrol);
     color: var(--white);
     border-color: var(--petrol);
-}
-
-/* ==========================================================================
-   SOLUÇÃO DEFINITIVA DE ESTABILIZAÇÃO DE LAYOUT
-   ========================================================================== */
-
-/* 1. Forçar o layout geral a manter os blocos lado a lado em absoluto */
-.app-container {
-    display: flex !important;
-    flex-direction: row !important;
-    width: 100% !important;
-    min-height: calc(100vh - 65px) !important;
-    position: relative !important;
-    overflow-x: hidden !important;
-}
-
-/* 2. Barra lateral fixa com largura estrita */
-aside.sidebar, .sidebar {
-    width: 260px !important;
-    min-width: 260px !important;
-    max-width: 260px !important;
-    flex: 0 0 260px !important;
-    height: calc(100vh - 65px) !important;
-    position: sticky !important;
-    top: 65px !important;
-    background-color: #ffffff !important;
-    border-right: 1px solid #dce5df !important;
-    z-index: 50 !important;
-}
-
-/* 3. Área principal de conteúdo restrita estritamente ao espaço remanescente */
-main.main-content {
-    flex: 1 !important;
-    width: calc(100% - 260px) !important;
-    max-width: calc(100vw - 260px) !important;
-    min-width: 0 !important;
-    padding: 2rem !important;
-    box-sizing: border-box !important;
-    background-color: var(--paper) !important;
-}
-
-/* 4. Neutralizar qualquer limite de largura nas abas e no chat que empurre o layout */
-.tab-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.messages-layout {
-    display: grid !important;
-    grid-template-columns: 300px 1fr !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.org-chart-section {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
 }
