@@ -3,6 +3,12 @@ const navigation = document.querySelector('#main-navigation');
 const dialog = document.querySelector('#section-dialog');
 let language = 'en';
 let currentSection = null;
+const homepageSampleMetrics = Object.freeze({
+  completedDeliveries: 12480,
+  approvedCarriers: 186,
+  registeredClients: 3420,
+  referenceDate: '2026-11-14'
+});
 const titles = {
   about: { en: 'About us', pt: 'Sobre nós' },
   sustainability: { en: 'Sustainability', pt: 'Sustentabilidade' },
@@ -310,16 +316,12 @@ navigation.querySelectorAll('a').forEach(link => {
   });
 });
 
-// Both homepage and admin derive their figures from the same sample records.
 function renderHomepageMetrics() {
-  if (!window.TrustPortData || !window.TrustPortMetrics) return;
-  const metrics = window.TrustPortMetrics.getHomepageMetrics(window.TrustPortData);
   const reference = document.querySelector('#metrics-reference');
-  reference.dateTime = window.TrustPortData.meta.referenceDate;
+  reference.dateTime = homepageSampleMetrics.referenceDate;
   reference.textContent = new Intl.DateTimeFormat(language === 'pt' ? 'pt-PT' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Lisbon' }).format(new Date(reference.dateTime));
   const formatter = new Intl.NumberFormat(language === 'pt' ? 'pt-PT' : 'en-GB');
   document.querySelectorAll('[data-metric]').forEach(element => {
-    element.textContent = formatter.format(metrics[element.dataset.metric]);
+    element.textContent = formatter.format(homepageSampleMetrics[element.dataset.metric]);
   });
 }
-window.addEventListener('trustport:data-updated', renderHomepageMetrics);
