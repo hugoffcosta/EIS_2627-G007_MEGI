@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Company fleet, courier and delivery operations dashboard.">
+    <title>Company Fleet Dashboard | CMS</title>
+    <link rel="stylesheet" href="Registration_Courier_CSS.css">
+    <link rel="stylesheet" href="Menu_companyCSS.css">
+    <script src="Menu_companyJS.js" defer></script>
+</head>
+<body class="company-dashboard-page">
+    <a class="skip-link" href="#company-main">Skip to content</a>
+    <header class="main-header company-header">
+        <nav class="navbar company-navbar" aria-label="Company navigation">
+            <a href="#overview" class="brand" aria-label="CMS company dashboard"><span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h12v12H2zM14 9h4l4 5v3h-8M17 9v5h5"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><span><span class="brand-name">CMS</span><span class="brand-subtitle">Company Fleet Management</span></span></a>
+            <div class="nav-links"><a href="#overview">Overview</a><a href="#fleet">My Fleet</a><a href="#operations">Active Orders</a><a href="#history">Order History</a><a href="#couriers">Couriers</a></div>
+            <div class="company-nav-actions">
+                <details id="company-notifications" class="company-dropdown notification-dropdown">
+                    <summary id="company-notifications-toggle" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span id="company-notification-count" class="company-notification-count" hidden>0</span></summary>
+                    <div class="company-dropdown-panel company-notification-panel"><div class="company-dropdown-heading"><div><h2>Notifications</h2><p>Fleet and document alerts</p></div><button id="clear-company-notifications" type="button">Clear all</button></div><ul id="company-notification-list" class="company-notification-list"></ul><div id="company-notification-empty" class="company-empty-state"><strong>You're all caught up</strong><span>No fleet alerts to show.</span></div></div>
+                </details>
+                <details class="company-dropdown account-dropdown">
+                    <summary><span class="company-avatar" data-company-initials>PE</span><span class="company-account-name"><strong data-company-name>Porto Express Logistics</strong><small>Fleet Manager</small></span><span aria-hidden="true">⌄</span></summary>
+                    <div class="company-dropdown-panel account-panel"><p><small>Company ID</small><strong data-company-id>COMP-2026-7A4K92QX</strong></p><a href="menu_login.html">Logout</a></div>
+                </details>
+            </div>
+        </nav>
+    </header>
+
+    <main id="company-main" tabindex="-1">
+        <section class="company-view company-overview-view" data-company-view="overview" aria-labelledby="overview-title">
+            <div class="company-hero"><div class="company-container company-hero-layout"><div><p class="company-eyebrow">COMPANY OPERATIONS</p><h1 id="overview-title">Your fleet,<br><span>under control.</span></h1><p>Monitor vehicles, documents, couriers and deliveries from one operational dashboard.</p><div class="company-hero-actions"><button id="open-company-vehicle-registration" class="company-primary-button" type="button">+ Register vehicles</button></div></div><aside class="company-identity-card"><span>Company account</span><strong data-company-name>Porto Express Logistics</strong><small data-company-id>COMP-2026-7A4K92QX</small><span class="company-status-pill status-approved">Approved</span></aside></div></div>
+            <div class="company-container company-dashboard-content">
+                <section aria-labelledby="fleet-summary-title"><div class="company-section-heading"><div><p class="company-eyebrow">TODAY</p><h2 id="fleet-summary-title">Operational overview</h2></div><time id="company-current-date"></time></div><div class="overview-list-grid"><article class="overview-list-panel"><header><div><span class="overview-list-kicker">FLEET</span><h3>Vehicles</h3></div><span id="overview-vehicle-count" class="overview-list-count"></span></header><div class="overview-list-columns" aria-hidden="true"><span>Vehicle</span><span>Status</span><span>Assigned courier</span></div><ul id="overview-vehicle-list" class="overview-entity-list"></ul><a href="#fleet" class="overview-list-link">View complete fleet →</a></article><article class="overview-list-panel"><header><div><span class="overview-list-kicker">TEAM</span><h3>Couriers</h3></div><span id="overview-courier-count" class="overview-list-count"></span></header><div class="overview-list-columns" aria-hidden="true"><span>Courier</span><span>Status</span><span>Work mode</span></div><ul id="overview-courier-list" class="overview-entity-list"></ul><a href="#couriers" class="overview-list-link">View all couriers →</a></article></div></section>
+                <section class="company-attention-section" aria-labelledby="attention-title"><div class="company-section-heading"><div><p class="company-eyebrow">ACTION NEEDED</p><h2 id="attention-title">Documents requiring attention</h2></div></div><div id="document-warning-list" class="document-warning-list"></div></section>
+                <section aria-labelledby="overview-live-title"><div class="company-section-heading"><div><p class="company-eyebrow">ACTIVE ORDERS</p><h2 id="overview-live-title">Deliveries in progress</h2></div><a href="#operations" class="company-text-link">View active orders →</a></div><div id="overview-live-orders" class="overview-live-orders"></div></section>
+            </div>
+        </section>
+
+        <section class="company-view" data-company-view="fleet" aria-labelledby="fleet-title" hidden>
+            <div class="company-page-heading company-container"><div><p class="company-eyebrow">FLEET MANAGEMENT</p><h1 id="fleet-title">My Fleet</h1><p>Review vehicle availability, approval and document validity.</p></div><a href="#overview" class="company-back-button">← Back to overview</a></div>
+            <div class="company-container company-view-content">
+                <div class="company-filter-bar"><label class="company-search"><span class="sr-only">Search fleet</span><input id="fleet-search" type="search" placeholder="Search plate, model or courier"></label><label>Status<select id="fleet-status-filter"><option value="all">All statuses</option><option value="in_use">In use</option><option value="parked">Parked</option><option value="pending">Pending approval</option></select></label><label>Documents<select id="fleet-document-filter"><option value="all">All documents</option><option value="attention">Requires attention</option><option value="valid">All valid</option></select></label></div>
+                <div class="company-table-card"><div class="company-table-scroll"><table class="company-table"><thead><tr><th>Vehicle</th><th>Status</th><th>Current courier</th><th>Documents</th><th>Current order</th><th>Action</th></tr></thead><tbody id="fleet-table-body"></tbody></table></div><p id="fleet-empty" class="company-table-empty" hidden>No vehicles match these filters.</p></div>
+            </div>
+        </section>
+
+        <section class="company-view" data-company-view="operations" aria-labelledby="operations-title" hidden>
+            <div class="company-page-heading company-container"><div><p class="company-eyebrow">CURRENT OPERATIONS</p><h1 id="operations-title">Active Orders</h1></div><a href="#overview" class="company-back-button">← Back to overview</a></div>
+            <div class="company-container company-view-content"><div class="operations-toolbar"><label>Show<select id="operations-filter"><option value="all">All active orders</option><option value="express">Express</option><option value="standard">Standard</option></select></label></div><div id="live-operations-list" class="live-operations-list"></div></div>
+        </section>
+
+        <section class="company-view" data-company-view="history" aria-labelledby="history-title" hidden>
+            <div class="company-page-heading company-container"><div><p class="company-eyebrow">AUDIT TRAIL</p><h1 id="history-title">Order History</h1><p>Review completed and cancelled deliveries by vehicle or courier.</p></div><a href="#overview" class="company-back-button">← Back to overview</a></div>
+            <div class="company-container company-view-content"><div class="company-filter-bar history-filter-bar"><label class="company-search"><span class="sr-only">Search orders</span><input id="history-search" type="search" placeholder="Search order, route or client"></label><label>Vehicle<select id="history-vehicle-filter"><option value="all">All vehicles</option></select></label><label>Courier<select id="history-courier-filter"><option value="all">All couriers</option></select></label><label>Status<select id="history-status-filter"><option value="all">All statuses</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></label></div><div class="company-table-card"><div class="company-table-scroll"><table class="company-table history-table"><thead><tr><th>Order</th><th>Route</th><th>Courier</th><th>Vehicle</th><th>Service</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody id="company-history-body"></tbody></table></div><p id="company-history-empty" class="company-table-empty" hidden>No orders match these filters.</p></div></div>
+        </section>
+
+        <section class="company-view" data-company-view="couriers" aria-labelledby="couriers-title" hidden>
+            <div class="company-page-heading company-container"><div><p class="company-eyebrow">AFFILIATED TEAM</p><h1 id="couriers-title">Fleet Couriers</h1><p>Consult every approved courier with access to the company fleet.</p></div><a href="#overview" class="company-back-button">← Back to overview</a></div>
+            <div class="company-container company-view-content"><div id="courier-summary" class="courier-summary"></div><div class="company-filter-bar courier-filter-bar"><label class="company-search"><span class="sr-only">Search couriers</span><input id="courier-search" type="search" placeholder="Search courier, email or vehicle"></label><label>Operational status<select id="courier-status-filter"><option value="all">All active couriers</option><option value="on_delivery">On delivery</option><option value="available">Available</option><option value="offline">Offline</option></select></label></div><div id="courier-list" class="courier-list"></div><p id="courier-empty" class="company-table-empty" hidden>No couriers match these filters.</p></div>
+        </section>
+    </main>
+
+    <dialog id="vehicle-details-dialog" class="company-dialog" aria-labelledby="vehicle-dialog-title"><div class="company-dialog-heading"><div><p class="company-eyebrow">VEHICLE DETAILS</p><h2 id="vehicle-dialog-title"></h2></div><button type="button" class="company-dialog-close" data-close-company-dialog aria-label="Close vehicle details">×</button></div><div id="vehicle-dialog-content"></div></dialog>
+    <dialog id="order-details-dialog" class="company-dialog" aria-labelledby="order-dialog-title"><div class="company-dialog-heading"><div><p class="company-eyebrow">ORDER DETAILS</p><h2 id="order-dialog-title"></h2></div><button type="button" class="company-dialog-close" data-close-company-dialog aria-label="Close order details">×</button></div><div id="order-dialog-content"></div></dialog>
+    <dialog id="company-vehicle-registration-dialog" class="company-dialog company-vehicle-registration-dialog" aria-labelledby="company-vehicle-registration-title"><div class="company-dialog-heading"><div><p class="company-eyebrow">FLEET REGISTRATION</p><h2 id="company-vehicle-registration-title">Register vehicles</h2><p>Add one or more vehicles and submit them together for staff approval.</p></div><button type="button" class="company-dialog-close" data-close-company-dialog aria-label="Close vehicle registration">×</button></div><form id="company-vehicle-registration-form" novalidate><div id="company-vehicle-form-list" class="company-vehicle-form-list"></div><div class="company-vehicle-form-actions"><button id="add-company-vehicle" type="button" class="company-back-button">+ Add another vehicle</button><span id="company-vehicle-form-count" role="status"></span></div><p id="company-vehicle-form-error" class="company-form-error" role="alert"></p><div class="company-dialog-actions"><button type="button" class="company-back-button" data-close-company-dialog>Cancel</button><button type="submit" class="company-primary-button">Submit for approval</button></div></form></dialog>
+    <dialog id="company-vehicle-registration-success" class="company-dialog company-submission-success" aria-labelledby="company-vehicle-success-title"><div class="company-submission-success-icon" aria-hidden="true">✓</div><p class="company-eyebrow">PENDING APPROVAL</p><h2 id="company-vehicle-success-title">Vehicle request submitted</h2><p id="company-vehicle-success-message">Your request has been submited and is waiting for staff approval</p><button type="button" class="company-primary-button" data-close-company-dialog>Understood</button></dialog>
+
+    <footer id="about"><div class="footer-container"><div><strong>CMS</strong><p>Courier Management System</p></div><p>Keep moving. Deliver with confidence.</p><p>Enterprise Information Systems · FEUP</p></div></footer>
+</body>
+</html>

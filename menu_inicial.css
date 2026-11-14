@@ -311,7 +311,7 @@ input[readonly] { background: #e1ebe3; cursor: default; }
 .distance-retry { grid-column: 1 / -1; justify-self: start; border: 1px solid var(--green); border-radius: 18px; padding: 10px 18px; background: white; color: var(--petrol); cursor: pointer; }
 .flow-form button:disabled { opacity: .55; cursor: wait; }
 
-/* Public indicators computed from dados.js. */
+/* Static illustrative public indicators. */
 .public-metrics { padding: 35px max(5%, calc((100vw - 1240px) / 2)) 42px; background: #fff; }
 .metrics-caption { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .metrics-caption h2 { font-size: 20px; letter-spacing: -.02em; margin: 0; }
