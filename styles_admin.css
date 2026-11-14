@@ -121,7 +121,7 @@ body {
     min-width: 0 !important; /* Vital para o Flexbox não rebentar */
     box-sizing: border-box !important;
     padding: 2rem;
-    max-width: 1300px; /* (podes manter ou ajustar se necessário) */
+    max-width: 1300px;
 }
 
 .tab-content {
@@ -189,7 +189,57 @@ body {
     outline: 2px solid var(--green);
 }
 
-/* KPIS */
+/* ==========================================================================
+   NOVA ESTÉTICA DO DASHBOARD (PROFISSIONAL, TONS VERDES & VERMELHO)
+   ========================================================================== */
+.dashboard-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.period-filter {
+    display: inline-flex;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.filter-btn {
+    border: none;
+    background: transparent;
+    color: var(--petrol);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background: #edf4ef;
+}
+
+.filter-btn.active {
+    background: var(--petrol);
+    color: var(--white);
+}
+
+.dashboard-block-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #516961;
+    margin: 1.5rem 0 0.85rem;
+}
+
+/* Grelha limpa de KPIs em tons de verde/petróleo */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -197,55 +247,174 @@ body {
     margin-bottom: 1.5rem;
 }
 
-.kpi-card {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.kpi-card.pro-green, .kpi-card.pro-financial {
+    background: var(--white) !important;
+    border: 1px solid var(--line) !important;
+    border-left: 4px solid var(--green) !important;
+    border-radius: 12px !important;
+    padding: 1.25rem !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.kpi-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    color: var(--white);
+.kpi-card.pro-green:hover, .kpi-card.pro-financial:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(8, 62, 67, 0.07);
 }
 
-.kpi-icon.blue   { background-color: #0369a1; }
-.kpi-icon.green  { background-color: var(--green); }
-.kpi-icon.purple { background-color: #7c3aed; }
-.kpi-icon.orange { background-color: #c2410c; }
+.kpi-card.pro-financial {
+    border-left-color: var(--petrol) !important;
+}
 
-.kpi-data h3 { font-size: 1.6rem; color: var(--petrol); font-weight: 700; }
-.kpi-data p  { font-size: 0.85rem; color: #516961; }
+.kpi-category {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #516961;
+    display: block;
+    margin-bottom: 4px;
+}
 
-/* BARRAS DE PROGRESSO */
+.kpi-data h3 {
+    font-size: 1.8rem !important;
+    color: var(--petrol) !important;
+    font-weight: 700 !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.kpi-trend {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.kpi-trend.positive { color: var(--green) !important; }
+.kpi-trend.alert    { color: var(--danger) !important; font-weight: 700 !important; }
+.kpi-trend.neutral  { color: #64786e !important; }
+
+/* Gráficos e Barras Profissionais */
 .dashboard-charts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
 }
 
+.dashboard-charts.three-cols {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.pro-card {
+    border-top: 3px solid var(--petrol) !important;
+}
+
+.pro-card h3 {
+    color: var(--petrol) !important;
+    font-size: 1.05rem !important;
+    margin-bottom: 1.2rem !important;
+}
+
 .progress-group { margin-bottom: 1rem; }
 .progress-label { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--petrol); font-weight: 600; }
 .progress-bar-bg { background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden; }
 .progress-bar { height: 100%; border-radius: 5px; }
-.progress-bar.blue   { background: #0369a1; }
-.progress-bar.orange { background: #c2410c; }
-.progress-bar.green  { background: var(--green); }
-.progress-bar.red    { background: var(--danger); }
+
+/* Cores de progresso unificadas em verde e vermelho de alerta */
+.progress-bar.dark-green  { background: var(--petrol) !important; }
+.progress-bar.mid-green   { background: var(--green) !important; }
+.progress-bar.light-green { background: #52b788 !important; }
+.progress-bar.red-alert   { background: var(--danger) !important; }
 
 .stats-list { list-style: none; }
 .stats-list li { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; color: var(--petrol); }
+.stats-list li.highlight-stat { border-bottom: none; margin-top: 4px; padding-top: 10px; color: var(--green); font-weight: 700; }
 
-/* TABELAS */
+.card-mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.card-mini-header h3 {
+    margin-bottom: 0 !important;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #516961;
+}
+
+.chart-legend .dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.chart-legend .dot.dark-g  { background: var(--petrol) !important; }
+.chart-legend .dot.light-g { background: #52b788 !important; }
+
+.fin-bars-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 155px;
+    padding: 10px 10px 8px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 10px;
+}
+
+.fin-bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.fin-bar-pair {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 120px;
+}
+
+.f-bar {
+    width: 16px;
+    border-radius: 5px 5px 2px 2px;
+    transition: height 0.4s ease;
+}
+
+.f-bar.dark-g  { background: var(--petrol) !important; }
+.f-bar.light-g { background: #74c69d !important; }
+
+.fin-bar-group span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #516961;
+}
+
+.chart-footer-note {
+    font-size: 0.78rem;
+    color: #64786e;
+    margin: 0;
+}
+
+/* ==========================================================================
+   TABELAS
+   ========================================================================== */
 .table-responsive { overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; text-align: left; }
 .data-table th, .data-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
@@ -405,12 +574,10 @@ body {
 
 /* ==========================================================================
    MÓDULO DE CONVERSAS E CHAT INTERNO
-
-
    ========================================================================== */
 .messages-layout {
     display: grid !important;
-    grid-template-columns: 280px minmax(0, 1fr) !important; /* minmax(0, 1fr) impede que conteúdos compridos rebentem o grid */
+    grid-template-columns: 280px minmax(0, 1fr) !important;
     width: 100% !important;
     box-sizing: border-box !important;
 }
@@ -615,193 +782,12 @@ body {
 }
 
 /* ==========================================================================
-   APRIMORAMENTO DO DASHBOARD OPERACIONAL & FINANCEIRO
-   ========================================================================== */
-.dashboard-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.period-filter {
-    display: inline-flex;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    padding: 4px;
-    gap: 4px;
-}
-
-.filter-btn {
-    border: none;
-    background: transparent;
-    color: var(--petrol);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.filter-btn:hover {
-    background: #edf4ef;
-}
-
-.filter-btn.active {
-    background: var(--petrol);
-    color: var(--white);
-}
-
-.dashboard-block-label {
-    font-size: 0.82rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #516961;
-    margin: 1.5rem 0 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.kpi-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.kpi-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(8, 62, 67, 0.07);
-}
-
-.financial-card {
-    border-left: 4px solid var(--green);
-}
-
-.kpi-icon.petrol  { background-color: var(--petrol); }
-.kpi-icon.teal    { background-color: #0f766e; }
-.kpi-icon.amber   { background-color: #b45309; }
-.kpi-icon.emerald { background-color: #059669; }
-
-.kpi-trend {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-top: 4px;
-}
-
-.kpi-trend.positive { color: var(--success); }
-.kpi-trend.neutral  { color: #64786e; }
-
-.dashboard-charts.three-cols {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-.dashboard-charts .card h3 {
-    color: var(--petrol);
-    font-size: 1.05rem;
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.card-mini-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 1rem;
-}
-
-.card-mini-header h3 {
-    margin-bottom: 0 !important;
-}
-
-.chart-legend {
-    display: flex;
-    gap: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #516961;
-}
-
-.chart-legend .dot {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    margin-right: 4px;
-}
-
-.chart-legend .dot.rev  { background: var(--petrol); }
-.chart-legend .dot.cost { background: #94b8a8; }
-
-.fin-bars-wrapper {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    height: 155px;
-    padding: 10px 10px 8px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 10px;
-}
-
-.fin-bar-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    justify-content: flex-end;
-    gap: 6px;
-}
-
-.fin-bar-pair {
-    display: flex;
-    align-items: flex-end;
-    gap: 5px;
-    height: 120px;
-}
-
-.f-bar {
-    width: 16px;
-    border-radius: 5px 5px 2px 2px;
-    transition: height 0.4s ease;
-}
-
-.f-bar.rev  { background: var(--petrol); }
-.f-bar.cost { background: #94b8a8; }
-
-.fin-bar-group span {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #516961;
-}
-
-.chart-footer-note {
-    font-size: 0.78rem;
-    color: #64786e;
-    margin: 0;
-}
-
-.stats-list li.highlight-stat {
-    border-bottom: none;
-    margin-top: 4px;
-    padding-top: 10px;
-    color: var(--green);
-    font-weight: 700;
-}
-
-/* ==========================================================================
    ORGANOGRAMA TRUSTPORT (BOARD + DEPARTAMENTOS)
    ========================================================================== */
 .org-chart-section {
-    width: 100% !important;     /* Garante que ocupa exatamente 100% do espaço disponível */
-    max-width: 100% !important; /* Remove o limite de 1280px que empurrava o layout */
-    margin: 0 !important;       /* Remove a margem automática que desviava o bloco */
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
     padding: 1.5rem 0;
     font-family: 'Segoe UI', Arial, sans-serif;
     box-sizing: border-box !important;
@@ -929,7 +915,7 @@ body {
 }
 
 .dept-header.sos {
-    background: #c2410c; /* Destaque para a equipa de intervenção SOS */
+    background: #c2410c;
 }
 
 .dept-header i {
@@ -963,6 +949,32 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.staff-org-list li::after {
+    content: "\f086";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #13866d;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.staff-org-list li:hover {
+    transform: translateY(-2px);
+    border-color: #13866d;
+    box-shadow: 0 4px 12px rgba(19, 134, 109, 0.12);
+}
+
+.staff-org-list li:hover::after {
+    opacity: 1;
 }
 
 .staff-org-list li.lead {
@@ -994,38 +1006,6 @@ body {
 }
 
 /* ==========================================================================
-   INTERATIVIDADE DOS CARTÕES DO ORGANOGRAMA -> CHAT
-   ========================================================================== */
-.staff-org-list li {
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-}
-
-.staff-org-list li::after {
-    content: "\f086"; /* Ícone de chat FontAwesome */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #13866d;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.staff-org-list li:hover {
-    transform: translateY(-2px);
-    border-color: #13866d;
-    box-shadow: 0 4px 12px rgba(19, 134, 109, 0.12);
-}
-
-.staff-org-list li:hover::after {
-    opacity: 1;
-}
-
-/* ==========================================================================
    FOTOGRAFIA TIPO PASSE NA FICHA DO FUNCIONÁRIO
    ========================================================================== */
 .employee-photo-banner {
@@ -1041,7 +1021,7 @@ body {
 
 .passport-photo-frame {
     width: 90px;
-    height: 115px; /* Proporção oficial tipo passe (35x45mm) */
+    height: 115px;
     border-radius: 10px;
     overflow: hidden;
     border: 2px solid var(--petrol);
