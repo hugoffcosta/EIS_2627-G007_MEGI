@@ -712,3 +712,207 @@ input[type="file"]::file-selector-button:hover {
   color: var(--green);
   margin-top: 4px;
 }
+
+/* ==========================================================================
+   AJUSTES PARA AS MÉTRICAS COMERCIAIS DO MENU INICIAL
+   ========================================================================== */
+.client-focus-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.client-card-wide {
+  grid-column: span 2;
+}
+
+.lead-time-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.lead-time-col {
+  flex: 1;
+}
+
+.lead-type {
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  color: var(--muted, #516961);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.lead-divider {
+  width: 1px;
+  height: 55px;
+  background: var(--line, #dce5df);
+  margin: 0 24px;
+}
+
+.accent-positive {
+  color: var(--green, #13866d) !important;
+}
+
+.positive-card-border {
+  border-left: 4px solid var(--green, #13866d) !important;
+}
+
+@media (max-width: 768px) {
+  .client-focus-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .client-card-wide {
+    grid-column: span 1;
+  }
+  .lead-time-flex {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .lead-divider {
+    width: 100%;
+    height: 1px;
+    margin: 8px 0;
+  }
+}
+
+/* ==========================================================================
+   ESTILOS PARA AVALIAÇÃO GLOBAL E REVIEWS DE CLIENTES (MENU INICIAL)
+   ========================================================================== */
+.dashboard-reviews-wrapper {
+  padding: 0 30px 24px;
+}
+
+.company-rating-banner {
+  background: #f7faf6;
+  border: 1px solid #e1eae2;
+  border-radius: 20px;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.rating-overall-score {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.giant-rating-num {
+  font-size: 2.8rem;
+  font-weight: 750;
+  color: var(--petrol, #083e43);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.rating-stars-group {
+  color: #f59e0b; /* Cor dourada clássica de estrelas */
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.rating-details-text h4 {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--petrol, #083e43);
+}
+
+.rating-details-text p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #64786e;
+  line-height: 1.4;
+}
+
+/* Grelha de Reviews de Clientes */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.review-card {
+  background: #f7faf6;
+  border: 1px solid #e1eae2;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(8, 62, 67, 0.06);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.review-header strong {
+  font-size: 0.92rem;
+  color: var(--petrol, #083e43);
+}
+
+.review-stars {
+  font-size: 0.8rem;
+  color: #f59e0b;
+  font-weight: 600;
+  text-align: right;
+}
+
+.review-stars small {
+  display: block;
+  font-size: 0.72rem;
+  color: #64786e;
+}
+
+.review-text {
+  font-size: 0.85rem;
+  color: #3b5249;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.review-author {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--green, #13866d);
+  border-top: 1px solid #e1eae2;
+  padding-top: 10px;
+  margin-top: auto;
+}
+
+/* Responsividade para telemóveis e tablets */
+@media (max-width: 900px) {
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+  .company-rating-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-reviews-wrapper {
+    padding: 0 20px 20px;
+  }
+}
