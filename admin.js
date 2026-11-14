@@ -282,7 +282,7 @@ const chatHistories = {
     ]
 };
 
-// Renderiza a barra lateral APENAS com os colaboradores que já têm mensagens trocadas
+// Renderiza a barra lateral com a foto e o histórico dos colaboradores
 function renderChatSidebar() {
     const chatList = document.getElementById('chat-list');
     if (!chatList) return;
@@ -300,19 +300,29 @@ function renderChatSidebar() {
         const lastMsg = msgs[msgs.length - 1];
         const previewText = lastMsg.type === 'outgoing' ? `Tu: ${lastMsg.text}` : lastMsg.text;
 
+        const formattedId = String(emp.id).padStart(3, '0');
+        const photoPath = emp.customPhoto || `fotos_staff/EMP${formattedId}.jpeg`;
+
         const li = document.createElement('li');
         li.className = `chat-item ${empId === activeChatEmpId ? 'active' : ''}`;
         li.id = `chat-item-${empId}`;
         li.onclick = () => selectChat(empId);
 
+        // Forçamos o layout em flex horizontal com estilos inline para evitar conflitos
+        li.style.display = 'flex';
+        li.style.alignItems = 'center';
+        li.style.gap = '12px';
+
         li.innerHTML = `
-            <div class="chat-avatar"><i class="fa-solid fa-user"></i></div>
-            <div class="chat-info">
-                <div class="chat-name-row">
-                    <strong>${emp.name}</strong>
-                    <small>${lastMsg.time}</small>
+            <div style="width: 40px; height: 50px; border-radius: 6px; overflow: hidden; flex-shrink: 0; border: 1px solid #dce5df; background: #fff;">
+                <img src="${photoPath}" alt="${emp.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(emp.name)}&background=083e43&color=b9e6d2'">
+            </div>
+            <div style="flex-grow: 1; min-width: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;">${emp.name}</strong>
+                    <small style="color: #888; font-size: 11px;">${lastMsg.time}</small>
                 </div>
-                <p class="chat-preview">${previewText}</p>
+                <p style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #666; font-size: 13px;">${previewText}</p>
             </div>
         `;
         chatList.appendChild(li);
@@ -335,6 +345,15 @@ function selectChat(empId) {
 
     activeChatEmpId = empId;
     renderChatSidebar();
+
+    const formattedId = String(emp.id).padStart(3, '0');
+    const photoPath = emp.customPhoto || `fotos_staff/EMP${formattedId}.jpeg`;
+
+    // Se tiveres um elemento no cabeçalho do chat para a foto (ex: ID 'chat-active-avatar'), atualiza-o aqui:
+    const activeAvatar = document.getElementById('chat-active-avatar');
+    if (activeAvatar) {
+        activeAvatar.src = photoPath;
+    }
 
     document.getElementById('chat-active-name').innerText = `${emp.name} (${emp.empCode})`;
     document.getElementById('chat-active-role').innerText = emp.role;
@@ -402,6 +421,37 @@ document.addEventListener('DOMContentLoaded', () => {
     selectChat(2);
 });
 
+// --- RENDERIZAR TABELA PRINCIPAL DE FUNCIONÁRIOS COM FOTOS ---
+function renderEmployeesTable() {
+    const tableBody = document.getElementById('employees-table-body');
+    if (!tableBody) return;
+
+    tableBody.innerHTML = '';
+
+    employeesData.forEach(emp => {
+        const formattedId = String(emp.id).padStart(3, '0');
+        const photoPath = emp.customPhoto || `fotos_staff/EMP${formattedId}.jpeg`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td style="text-align: center; vertical-align: middle; padding: 4px;">
+                <img src="${photoPath}" alt="${emp.name}" style="width: 34px; height: 42px; object-fit: cover; border-radius: 4px; border: 1px solid #dce5df; display: block; margin: 0 auto;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(emp.name)}&background=083e43&color=b9e6d2'">
+            </td>
+            <td><strong>${emp.empCode}</strong></td>
+            <td>${emp.name}</td>
+            <td>${emp.role}</td>
+            <td>${emp.nif}</td>
+            <td>${emp.salary.toLocaleString('pt-PT', { minimumFractionDigits: 2 })} €</td>
+            <td><span class="badge-status approved">${emp.vacationDays - emp.vacationTaken} Dias</span></td>
+            <td>
+                <button class="btn-action edit" onclick="switchTab(null, 'profile'); loadEmployeeData(${emp.id});">
+                    <i class="fa-solid fa-pen-to-square"></i> Ver / Editar
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
 // --- DADOS DINÂMICOS DO DASHBOARD OPERACIONAL & FINANCEIRO ---
 const dashboardPeriods = {
     today: {
