@@ -22,7 +22,7 @@
         </div>
     </header>
 
-    <div class="app-container">
+    <div class="app-container" style="display: flex !important; flex-direction: row !important; width: 100% !important;">
         <!-- Barra Lateral de Navegação (Sidebar) -->
         <aside class="sidebar">
             <nav class="sidebar-nav">
@@ -48,7 +48,6 @@
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
-
             <!-- SECÇÃO 1: DASHBOARD & KPIS OPERACIONAIS E FINANCEIROS -->
             <section id="dashboard" class="tab-content active">
                 <div class="section-header dashboard-top-bar">
@@ -499,7 +498,7 @@
                             <input type="file" id="emp-photo-upload" accept="image/*" hidden onchange="previewUploadedPhoto(event)">
                         </div>
                     </div>
-                    <<div class="form-header-group">
+                    <div class="form-header-group">
                         <div class="employee-selector-group">
                             <label for="select-employee-dropdown"><i class="fa-solid fa-user-gear"></i> Selecionar Funcionário:</label>
                             <select id="select-employee-dropdown" class="select-employee-dropdown" onchange="loadEmployeeData(parseInt(this.value))">
@@ -628,7 +627,7 @@
                     </form>
                 </div>
             </section>
-            <!-- SECÇÃO 4: CONVERSAS & MENSAGENS COM STAFF -->
+<!-- SECÇÃO 4: CONVERSAS & MENSAGENS COM STAFF -->
             <section id="messages" class="tab-content">
                 <div class="section-header">
                     <h2><i class="fa-solid fa-comments"></i> Centro de Comunicação Interna</h2>
@@ -678,176 +677,166 @@
 
             <!-- SECÇÃO 5: ORGANOGRAMA & ESTRUTURA DO STAFF -->
             <section id="org-chart" class="tab-content">
-            <section class="org-chart-section">
-                <div class="org-header">
-                    <span class="eyebrow">ESTRUTURA ORGANIZACIONAL</span>
-                    <h2>Organograma TrustPort</h2>
-                    <p>Governação executiva e equipas funcionais de suporte à plataforma logística.</p>
-                </div>
-
-                <!-- NÍVEL 1: BOARD / ADMINS -->
-                <div class="org-level-board">
-                    <div class="level-badge">Conselho de Administração (Admins)</div>
-                    <div class="board-grid">
-                        <div class="org-card admin-card">
-                            <span class="role-tag">CEO</span>
-                            <strong>Gonçalo Marques</strong>
-                            <small>Estratégia e Direção Geral</small>
-                        </div>
-                        <div class="org-card admin-card">
-                            <span class="role-tag">COO</span>
-                            <strong>Pedro Gomes</strong>
-                            <small>Operações e Rede Couriers</small>
-                        </div>
-                        <div class="org-card admin-card">
-                            <span class="role-tag">CTO</span>
-                            <strong>Hugo Costa</strong>
-                            <small>Tecnologia e Plataforma</small>
-                        </div>
-                        <div class="org-card admin-card">
-                            <span class="role-tag">CFO</span>
-                            <strong>Vera Silva</strong>
-                            <small>Finanças e Sustentabilidade</small>
-                        </div>
-                         <div class="org-card admin-card">
-                            <span class="role-tag">CPO</span>
-                            <strong>Marta Costa</strong>
-                            <small>Recursos Humanos e Qualidade</small>
-                        </div>
-                    </div>
-                </div>
-
-    
-                <div class="org-connector-vertical"></div>
-                <div class="org-connector-horizontal"></div>
-
-    
-                <div class="departments-grid">
-        
-
-                    <div class="dept-column">
-                        <div class="dept-header">
-                            <i class="fa-solid fa-route"></i>
-                            <h3>Operações e Parceiros</h3>
-                            <span>4 Colaboradores</span>
-                        </div>
-                        <ul class="staff-org-list">
-                            <li class="lead" onclick="openStaffChat(2)">
-                                <span class="emp-id">#EMP-002 · Líder</span>
-                                <strong>Beatriz Maria Santos</strong>
-                                <small>Gestora de Logística e Rotas</small>
-                            </li>
-                            <li onclick="openStaffChat(3)">
-                                <span class="emp-id">#EMP-003</span>
-                                <strong>João Pedro Oliveira</strong>
-                                <small>Coordenador de Tráfego e GPS</small>
-                            </li>
-                            <li onclick="openStaffChat(7)">
-                                <span class="emp-id">#EMP-007</span>
-                                <strong>Diogo José Pereira</strong>
-                                <small>Gestor de Onboarding e Parceiros</small>
-                            </li>
-                            <li onclick="openStaffChat(9)">
-                                <span class="emp-id">#EMP-009</span>
-                                <strong>Gonçalo André Carvalho</strong>
-                                <small>Analista de Otimização de Rotas</small>
-                            </li>
-                        </ul>
+                <div class="org-chart-section">
+                    <div class="org-header">
+                        <span class="eyebrow">ESTRUTURA ORGANIZACIONAL</span>
+                        <h2>Organograma TrustPort</h2>
+                        <p>Governação executiva e equipas funcionais de suporte à plataforma logística.</p>
                     </div>
 
-        
-                    <div class="dept-column">
-                        <div class="dept-header sos">
-                            <i class="fa-solid fa-truck-medical"></i>
-                            <h3>Assistência e Suporte SOS</h3>
-                            <span>3 Colaboradores</span>
+                    <!-- NÍVEL 1: BOARD / ADMINS -->
+                    <div class="org-level-board">
+                        <div class="level-badge">Conselho de Administração (Admins)</div>
+                        <div class="board-grid">
+                            <div class="org-card admin-card">
+                                <span class="role-tag">CEO</span>
+                                <strong>Gonçalo Marques</strong>
+                                <small>Estratégia e Direção Geral</small>
+                            </div>
+                            <div class="org-card admin-card">
+                                <span class="role-tag">COO</span>
+                                <strong>Pedro Gomes</strong>
+                                <small>Operações e Rede Couriers</small>
+                            </div>
+                            <div class="org-card admin-card">
+                                <span class="role-tag">CTO</span>
+                                <strong>Hugo Costa</strong>
+                                <small>Tecnologia e Plataforma</small>
+                            </div>
+                            <div class="org-card admin-card">
+                                <span class="role-tag">CFO</span>
+                                <strong>Vera Silva</strong>
+                                <small>Finanças e Sustentabilidade</small>
+                            </div>
+                             <div class="org-card admin-card">
+                                <span class="role-tag">CPO</span>
+                                <strong>Marta Costa</strong>
+                                <small>Recursos Humanos e Qualidade</small>
+                            </div>
                         </div>
-                        <ul class="staff-org-list">
-                            <li class="lead" onclick="openStaffChat(5)">
-                                <span class="emp-id">#EMP-005 · Líder</span>
-                                <strong>Rui Miguel Costa</strong>
-                                <small>Coord. Assistência SOS e Segurança</small>
-                            </li>
-                            <li onclick="openStaffChat(11)">
-                                <span class="emp-id">#EMP-011</span>
-                                <strong>Tiago Alexandre Lopes</strong>
-                                <small>Especialista Suporte Operacional</small>
-                            </li>
-                            <li onclick="openStaffChat(15)">
-                                <span class="emp-id">#EMP-015</span>
-                                <strong>Pedro Henrique Almeida</strong>
-                                <small>Técnico de Assistência Rápida SOS</small>
-                            </li>
-                        </ul>
                     </div>
 
-        
-                    <div class="dept-column">
-                        <div class="dept-header">
-                            <i class="fa-solid fa-microchip"></i>
-                            <h3>Tecnologia, Dados e Eco</h3>
-                            <span>4 Colaboradores</span>
-                        </div>
-                        <ul class="staff-org-list">
-                            <li class="lead" onclick="openStaffChat(13)">
-                                <span class="emp-id">#EMP-013 · Líder</span>
-                                <strong>Nuno Miguel Henriques</strong>
-                                <small>Desenvolvedor de Sistemas / IT</small>
-                            </li>
-                            <li onclick="openStaffChat(1)">
-                                <span class="emp-id">#EMP-001</span>
-                                <strong>Manuel Silva Fernandes</strong>
-                                <small>Técnico de Manutenção de Plataforma</small>
-                            </li>
-                            <li onclick="openStaffChat(6)">
-                                <span class="emp-id">#EMP-006</span>
-                                <strong>Sofia Alexandre Martins</strong>
-                                <small>Gestora de Sustentabilidade</small>
-                            </li>
-                            <li onclick="openStaffChat(14)">
-                                <span class="emp-id">#EMP-014</span>
-                                <strong>Patricia Alexandra Fonte</strong>
-                                <small>Analista de Dados e BI</small>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="org-connector-vertical"></div>
+                    <div class="org-connector-horizontal"></div>
 
-        
-                    <div class="dept-column">
-                        <div class="dept-header">
-                            <i class="fa-solid fa-briefcase"></i>
-                            <h3>Finanças, RH e Apoio ao Cliente</h3>
-                            <span>4 Colaboradores</span>
+                    <div class="departments-grid">
+                        <div class="dept-column">
+                            <div class="dept-header">
+                                <i class="fa-solid fa-route"></i>
+                                <h3>Operações e Parceiros</h3>
+                                <span>4 Colaboradores</span>
+                            </div>
+                            <ul class="staff-org-list">
+                                <li class="lead" onclick="openStaffChat(2)">
+                                    <span class="emp-id">#EMP-002 · Líder</span>
+                                    <strong>Beatriz Maria Santos</strong>
+                                    <small>Gestora de Logística e Rotas</small>
+                                </li>
+                                <li onclick="openStaffChat(3)">
+                                    <span class="emp-id">#EMP-003</span>
+                                    <strong>João Pedro Oliveira</strong>
+                                    <small>Coordenador de Tráfego e GPS</small>
+                                </li>
+                                <li onclick="openStaffChat(7)">
+                                    <span class="emp-id">#EMP-007</span>
+                                    <strong>Diogo José Pereira</strong>
+                                    <small>Gestor de Onboarding e Parceiros</small>
+                                </li>
+                                <li onclick="openStaffChat(9)">
+                                    <span class="emp-id">#EMP-009</span>
+                                    <strong>Gonçalo André Carvalho</strong>
+                                    <small>Analista de Otimização de Rotas</small>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="staff-org-list">
-                            <li class="lead" onclick="openStaffChat(8)">
-                                <span class="emp-id">#EMP-008 · Líder</span>
-                                <strong>Inês Filipa Neto</strong>
-                                <small>Analista Financeira e Faturação</small>
-                            </li>
-                            <li onclick="openStaffChat(10)">
-                                <span class="emp-id">#EMP-010</span>
-                                <strong>Mariana Rosa Pinho</strong>
-                                <small>Técnica de Recursos Humanos</small>
-                            </li>
-                            <li onclick="openStaffChat(12)">
-                                <span class="emp-id">#EMP-012</span>
-                                <strong>Catarina Isabel Marques</strong>
-                                <small>Especialista e Designer de Processos</small>
-                            </li>
-                            <li onclick="openStaffChat(4)">
-                                <span class="emp-id">#EMP-004</span>
-                                <strong>Carla Sofia Ribeiro</strong>
-                                <small>Especialista Apoio ao Cliente</small>
-                            </li>
-                        </ul>
-                    </div>
 
+                        <div class="dept-column">
+                            <div class="dept-header sos">
+                                <i class="fa-solid fa-truck-medical"></i>
+                                <h3>Assistência e Suporte SOS</h3>
+                                <span>3 Colaboradores</span>
+                            </div>
+                            <ul class="staff-org-list">
+                                <li class="lead" onclick="openStaffChat(5)">
+                                    <span class="emp-id">#EMP-005 · Líder</span>
+                                    <strong>Rui Miguel Costa</strong>
+                                    <small>Coord. Assistência SOS e Segurança</small>
+                                </li>
+                                <li onclick="openStaffChat(11)">
+                                    <span class="emp-id">#EMP-011</span>
+                                    <strong>Tiago Alexandre Lopes</strong>
+                                    <small>Especialista Suporte Operacional</small>
+                                </li>
+                                <li onclick="openStaffChat(15)">
+                                    <span class="emp-id">#EMP-015</span>
+                                    <strong>Pedro Henrique Almeida</strong>
+                                    <small>Técnico de Assistência Rápida SOS</small>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dept-column">
+                            <div class="dept-header">
+                                <i class="fa-solid fa-microchip"></i>
+                                <h3>Tecnologia, Dados e Eco</h3>
+                                <span>4 Colaboradores</span>
+                            </div>
+                            <ul class="staff-org-list">
+                                <li class="lead" onclick="openStaffChat(13)">
+                                    <span class="emp-id">#EMP-013 · Líder</span>
+                                    <strong>Nuno Miguel Henriques</strong>
+                                    <small>Desenvolvedor de Sistemas / IT</small>
+                                </li>
+                                <li onclick="openStaffChat(1)">
+                                    <span class="emp-id">#EMP-001</span>
+                                    <strong>Manuel Silva Fernandes</strong>
+                                    <small>Técnico de Manutenção de Plataforma</small>
+                                </li>
+                                <li onclick="openStaffChat(6)">
+                                    <span class="emp-id">#EMP-006</span>
+                                    <strong>Sofia Alexandre Martins</strong>
+                                    <small>Gestora de Sustentabilidade</small>
+                                </li>
+                                <li onclick="openStaffChat(14)">
+                                    <span class="emp-id">#EMP-014</span>
+                                    <strong>Patricia Alexandra Fonte</strong>
+                                    <small>Analista de Dados e BI</small>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dept-column">
+                            <div class="dept-header">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <h3>Finanças, RH e Apoio ao Cliente</h3>
+                                <span>4 Colaboradores</span>
+                            </div>
+                            <ul class="staff-org-list">
+                                <li class="lead" onclick="openStaffChat(8)">
+                                    <span class="emp-id">#EMP-008 · Líder</span>
+                                    <strong>Inês Filipa Neto</strong>
+                                    <small>Analista Financeira e Faturação</small>
+                                </li>
+                                <li onclick="openStaffChat(10)">
+                                    <span class="emp-id">#EMP-010</span>
+                                    <strong>Mariana Rosa Pinho</strong>
+                                    <small>Técnica de Recursos Humanos</small>
+                                </li>
+                                <li onclick="openStaffChat(12)">
+                                    <span class="emp-id">#EMP-012</span>
+                                    <strong>Catarina Isabel Marques</strong>
+                                    <small>Especialista e Designer de Processos</small>
+                                </li>
+                                <li onclick="openStaffChat(4)">
+                                    <span class="emp-id">#EMP-004</span>
+                                    <strong>Carla Sofia Ribeiro</strong>
+                                    <small>Especialista Apoio ao Cliente</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
-            </section>  
-        </main>
-    </div>
 
     
     <script src="admin.js"></script>
