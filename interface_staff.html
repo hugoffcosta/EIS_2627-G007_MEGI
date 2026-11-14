@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Logistics - Master Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- LEAFLET.JS FOR MAP (Operations Center) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- LINK AO FICHEIRO CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========================================================== -->
+    <!-- SIDEBAR NAVIGATION -->
+    <!-- ========================================================== -->
+    <div class="sidebar">
+        <div class="sidebar-header">CMS Logistics</div>
+        <div class="sidebar-menu">
+            <a class="menu-item active" onclick="switchMainView('view-admin', this)">Admin & Support</a>
+            <a class="menu-item" onclick="switchMainView('view-operations', this)">Operations Center</a>
+            <a class="menu-item" onclick="switchMainView('view-fleet', this)">Fleet Directory</a>
+            <a class="menu-item" onclick="switchMainView('view-payments', this)">Payments & Billing</a>
+            <a class="menu-item" onclick="switchMainView('view-archive', this)">Archive & Audit</a>
+        </div>
+        <div class="sidebar-footer">
+            <p style="margin: 0 0 10px 0;">Logged in as<br><strong style="color: white;">Head Staff</strong></p>
+            <a class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- MAIN WRAPPER (SPA CONTAINER) -->
+    <!-- ========================================================== -->
+    <div class="main-wrapper">
+        
+        <!-- SOS Banner (Only visible in Operations) -->
+        <div id="global-sos-banner" class="sos-banner">
+            <strong>SYSTEM ALERT:</strong> There is 1 order in SOS state awaiting Staff intervention. <a href="#" style="color: white; text-decoration: underline;" onclick="document.getElementById('search-ongoing').focus()">View on Tracking Map</a>.
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- 1. VIEW: ADMIN & SUPPORT -->
+        <!-- ========================================================== -->
+        <div id="view-admin" class="view-section active">
+            <h1 class="page-title">Administrative & Support Panel</h1>
+
+            <!-- PENDING APPROVALS -->
+            <div class="header-section">
+                <h2>Inbox (Pending Approvals)</h2>
+                <input type="text" id="search-admin" class="search-bar no-margin" placeholder="Search NIF, name, email or company..." onkeyup="filterTable('search-admin', 'tbody-admin')">
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Request Type</th>
+                            <th>Applicant (Company/Person)</th>
+                            <th>Request ID</th>
+                            <th>Request Date</th>
+                            <th>Quick Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-admin">
+                        
+                        <!-- FLEET COMPANY -->
+                        <tr class="main-row" onclick="toggleDetails('details-aprov1')">
+                            <td class="icon-expand">▼</td>
+                            <td><span class="badge type-company">Fleet Registration (Company)</span></td>
+                            <td><strong>Transportes Rápidos Lda.</strong></td>
+                            <td class="request-id">COMP-2026-<br>1LF3DWD1</td>
+                            <td>Today, 09:15</td>
+                            <td style="white-space: nowrap;">
+                                <button class="btn btn-approve" style="width:auto;" onclick="event.stopPropagation(); confirmAction('approve', 'the company Transportes Rápidos Lda. and its fleet')">Approve</button>
+                                <button class="btn btn-reject" style="width:auto;" onclick="event.stopPropagation(); confirmAction('reject', 'this request')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr class="details-row" id="details-aprov1">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Company Information</h4>
+                                        <p><strong>NIF:</strong> 501222333</p>
+                                        <p><strong>Responsible Manager:</strong> Carlos Silva</p>
+                                        <p><strong>Corporate Email:</strong> fleet@transportesrapidos.pt</p>
+                                        <p><strong>Phone:</strong> +351 223 444 555</p>
+                                        <p><strong>Headquarters:</strong> Rua da Indústria, Warehouse 4, 4470-000 Maia</p>
+                                        <p><strong>IBAN:</strong> PT50 0000 0000 1234 5678 9012 3</p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Fleet & Validation Documentation</h4>
+                                        <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;"><strong>Company Affiliation Code:</strong> CMP-TRL-2026</p>
+                                        
+                                        <div class="vehicle-block">
+                                            <strong style="font-size: 13px;">1x Volvo FH16 (2022) - 18000 kg / 45 m3</strong>
+                                            <p style="margin: 4px 0 8px 0; font-size: 12px; color: #475569;">Fuel: Diesel | Color: White | Plate: AA-11-BB</p>
+                                            <div style="display: flex; gap: 5px;">
+                                                <button class="btn btn-view" style="flex:1" onclick="viewDocument('Registration_AA-11-BB.pdf')">Registration</button>
+                                                <button class="btn btn-view" style="flex:1" onclick="viewDocument('Insurance_AA-11-BB.pdf')">Insurance</button>
+                                                <button class="btn btn-view" style="flex:1" onclick="viewDocument('Inspection_AA-11-BB.pdf')">Inspection</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="vehicle-block">
+                                            <strong style="font-size: 13px;">2x Renault Master (2023) - 1500 kg / 12 m3 (per vehicle)</strong>
+                                            <p style="margin: 4px 0 8px 0; font-size: 12px; color: #475569;">Fuel: Diesel | Color: White | Plates: CC-22-DD / EE-33-FF</p>
+                                            <div style="display: flex; gap: 5px;">
+                                                <button class="btn btn-view" style="flex:1" onclick="viewDocument('Registration_Vans.zip')">Registration</button>
+                                                <button class="btn btn-view" style="flex:1" onclick="viewDocument('Insurance_Vans.zip')">Insurance</button>
+                                                <button class="btn btn-view" style="flex:1" onclick="viewDocument('Inspection_Vans.zip')">Inspection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- AFFILIATE COURIER -->
+                        <tr class="main-row" onclick="toggleDetails('details-aprov2')">
+                            <td class="icon-expand">▼</td>
+                            <td><span class="badge type-affiliate">Affiliate Courier (B2B)</span></td>
+                            <td><strong>Marta Dias</strong></td>
+                            <td class="request-id">AFCOU-2026-<br>7YR2RY27</td>
+                            <td>Yesterday, 16:40</td>
+                            <td style="white-space: nowrap;">
+                                <button class="btn btn-approve" style="width:auto;" onclick="event.stopPropagation(); confirmAction('approve', 'the courier Marta Dias')">Approve</button>
+                                <button class="btn btn-reject" style="width:auto;" onclick="event.stopPropagation(); confirmAction('reject', 'this request')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr class="details-row" id="details-aprov2">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Courier Information</h4>
+                                        <p><strong>NIF:</strong> 255555666</p>
+                                        <p><strong>Email:</strong> marta.dias@email.com</p>
+                                        <p><strong>Mobile:</strong> +351 933 111 222</p>
+                                        <p><strong>Address:</strong> Praceta das Flores, 12, 3rd Left, 4000-000 Porto</p>
+                                        <p><strong>IBAN:</strong> PT50 1234 5678 9012 3456 7890 1</p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Affiliation & Validation Documentation</h4>
+                                        <p style="font-size: 12px; color: #047857; font-weight: 500; margin-bottom: 6px;">Works for <strong>Transportes Rápidos Lda.</strong> (Will access the company fleet via App).</p>
+                                        <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;"><strong>Company Affiliation Code:</strong> CMP-TRL-2026</p>
+                                        
+                                        <div style="display: flex; gap: 5px; margin-bottom: 10px; flex-direction: column;">
+                                            <button class="btn btn-view" onclick="viewDocument('CitizenCard_Marta.pdf')">Citizen Card</button>
+                                            <button class="btn btn-view" onclick="viewDocument('CriminalRecord_Marta.pdf')">Criminal Record</button>
+                                            <button class="btn btn-view" onclick="viewDocument('B2B_Affiliation_Proof.pdf')">B2B Affiliation Proof</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- INDEPENDENT COURIER -->
+                        <tr class="main-row" onclick="toggleDetails('details-aprov3')">
+                            <td class="icon-expand">▼</td>
+                            <td><span class="badge type-independent">Independent Courier</span></td>
+                            <td><strong>Rui Costa</strong></td>
+                            <td class="request-id">INDCOU-2026-<br>7YU8D38B</td>
+                            <td>Yesterday, 11:20</td>
+                            <td style="white-space: nowrap;">
+                                <button class="btn btn-approve" style="width:auto;" onclick="event.stopPropagation(); confirmAction('approve', 'the account and vehicle of Rui Costa')">Approve</button>
+                                <button class="btn btn-reject" style="width:auto;" onclick="event.stopPropagation(); confirmAction('reject', 'this request')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr class="details-row" id="details-aprov3">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Courier Information</h4>
+                                        <p><strong>NIF:</strong> 298765432</p>
+                                        <p><strong>Email:</strong> rui.costa@email.com</p>
+                                        <p><strong>Mobile:</strong> +351 966 555 444</p>
+                                        <p><strong>Address:</strong> Rua da Boavista, 500, 4100-111 Porto</p>
+                                        <p><strong>IBAN:</strong> PT50 9876 5432 1098 7654 3210 9</p>
+                                        
+                                        <div style="display: flex; gap: 5px; margin-top: 15px; flex-direction: column;">
+                                            <button class="btn btn-view" onclick="viewDocument('CitizenCard_Rui.pdf')">Citizen Card</button>
+                                            <button class="btn btn-view" onclick="viewDocument('CriminalRecord_Rui.pdf')">Criminal Record</button>
+                                            <button class="btn btn-view" onclick="viewDocument('DriversLicense_Rui.pdf')">Driver's License</button>
+                                        </div>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Vehicle & Validation Documentation</h4>
+                                        <div class="vehicle-block">
+                                            <strong style="font-size: 13px;">1x Piaggio Liberty (2020) - 15 kg / 0.1 m3</strong>
+                                            <p style="margin: 4px 0 8px 0; font-size: 12px; color: #475569;">Fuel: Gasoline | Color: Black | Plate: 11-XX-22</p>
+                                            <div style="display: flex; gap: 5px; flex-direction: column;">
+                                                <button class="btn btn-view" onclick="viewDocument('Registration_11-XX-22.pdf')">Registration</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Insurance_11-XX-22.pdf')">Insurance</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Inspection_11-XX-22.pdf')">Inspection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CUSTOMER SUPPORT -->
+            <div class="header-section" style="margin-top: 60px;">
+                <h2>Helpdesk (Customer & Partner Support)</h2>
+                <input type="text" id="search-tickets" class="search-bar no-margin" placeholder="Search ID, subject, sender..." onkeyup="filterTable('search-tickets', 'tbody-tickets')">
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Sender (Customer)</th>
+                            <th>Subject</th>
+                            <th>Priority</th>
+                            <th>Reception Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-tickets">
+                        
+                        <!-- Ticket 1 -->
+                        <tr class="main-row" onclick="toggleDetails('details-ticket1')">
+                            <td style="font-weight: 600; color: #64748b;">#TK-9021</td>
+                            <td><span class="badge ticket-pending">Awaiting Reply</span></td>
+                            <td><strong>Sofia Tavares</strong> (sofia.t@email.com)</td>
+                            <td>Address error on order ORD-7392</td>
+                            <td><span class="priority-high">High / Urgent</span></td>
+                            <td>2 hours ago</td>
+                        </tr>
+                        <tr class="details-row" id="details-ticket1">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content" style="align-items: flex-start;">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Message History</h4>
+                                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                                            <div style="width: 40px; height: 40px; background-color: #e2e8f0; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #475569;">ST</div>
+                                            <div style="flex: 1;">
+                                                <p style="margin: 0; font-size: 12px; color: #64748b; font-weight: 600;">Sofia Tavares submitted via Website:</p>
+                                                <div class="ticket-message-box">
+                                                    "Good afternoon. I placed an order this morning, but I just noticed I put the wrong door number. It is number 45 and not 54 on Rua Brito Capelo. Can you notify the courier before he arrives at the location? Thank you very much and sorry for the inconvenience!"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; border-left: 1px solid #e2e8f0; padding-left: 30px;">
+                                        <h4>Send Reply (Helpdesk)</h4>
+                                        <p style="font-size: 12px; color: #64748b;">The reply will be sent to: <strong>sofia.t@email.com</strong></p>
+                                        <textarea class="form-control" rows="5" placeholder="Write your professional reply here..."></textarea>
+                                        <button class="btn btn-send" style="width:100%" onclick="replyTicket(this, 'details-ticket1')">Send Reply Email</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Ticket 2 -->
+                        <tr class="main-row" onclick="toggleDetails('details-ticket2')">
+                            <td style="font-weight: 600; color: #64748b;">#TK-8954</td>
+                            <td><span class="badge ticket-resolved">Resolved</span></td>
+                            <td><strong>Jorge Mendes</strong> (Store XYZ)</td>
+                            <td>Question about corporate partnership proposal</td>
+                            <td><span class="priority-normal">Normal</span></td>
+                            <td>Yesterday, 14:00</td>
+                        </tr>
+                        <tr class="details-row" id="details-ticket2">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content" style="align-items: flex-start; opacity: 0.85;">
+                                    <div class="details-column">
+                                        <h4>Message History</h4>
+                                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                                            <div style="width: 40px; height: 40px; background-color: #e2e8f0; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #475569;">JM</div>
+                                            <div style="flex: 1;">
+                                                <p style="margin: 0; font-size: 12px; color: #64748b; font-weight: 600;">Jorge Mendes submitted via Website:</p>
+                                                <div class="ticket-message-box">
+                                                    "I would like to know what rates apply to a retail company that needs to ship about 50 packages a day through your logistics platform."
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="border-left: 1px solid #e2e8f0; padding-left: 30px;">
+                                        <h4>Team Resolution (Yesterday, 16:30)</h4>
+                                        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 8px; font-size: 13px; color: #166534;">
+                                            <strong>Replied by: Head Staff</strong><br><br>
+                                            "Dear Jorge, thank you for reaching out.<br><br>For volumes exceeding 30 shipments/day, we have a Corporate package with a 15% discount on base rates. Attached is the PDF with our B2B pricing table..."
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- 2. VIEW: OPERATIONS CENTER                                 -->
+        <!-- ========================================================== -->
+        <div id="view-operations" class="view-section">
+            <h1 class="page-title">Operations Center & Dispatch</h1>
+
+            <!-- NEW ORDERS -->
+            <div class="header-section">
+                <h2>New Orders (Awaiting Allocation)</h2>
+                <input type="text" id="search-new-orders" class="search-bar no-margin" placeholder="Search order or client..." onkeyup="filterTable('search-new-orders', 'tbody-new-orders')">
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Order ID</th>
+                            <th>Regime Type</th>
+                            <th>Client ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-new-orders">
+                        
+                        <tr class="main-row" onclick="toggleDetails('details-allocation1')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#ORD-7400</strong></td>
+                            <td><span class="badge badge-standard">Standard</span></td>
+                            <td>João Alves<span class="client-id">CLI-98210</span></td>
+                            <td><span class="badge status-new">Awaiting Courier</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-allocation1">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Delivery Data</h4>
+                                        <p><strong>Pickup Address:</strong> Rua de Santa Catarina, 500, Porto</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Pickup Coordinates:</strong> 41.1533, -8.6046</p>
+                                        <p><strong>Delivery Address:</strong> Avenida da República, 1200, Gaia</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Delivery Coordinates:</strong> 41.1215, -8.6059</p>
+                                        <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8192</span></p>
+                                        <p><strong>Target Date:</strong> 2026-11-15 14:30</p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Cargo Specifications</h4>
+                                        <p><strong>Category:</strong> Standard Parcel</p>
+                                        <p><strong>Description:</strong> 2x / Box / 3kg / 0.05 m3</p>
+                                        <p><strong>Delivery Instructions:</strong> Fragile, please handle with care.</p>
+                                        <p><strong>Client:</strong> João Alves - <span class="client-id" style="display: inline;">CLI-98210</span></p>
+                                        <p><strong>Price:</strong> 12.50 €</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" onclick="toggleDetails('details-allocation2')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#ORD-7401</strong></td>
+                            <td><span class="badge badge-express">Express</span></td>
+                            <td>XPTO Textile Company<span class="client-id">CLI-44023</span></td>
+                            <td><span class="badge status-new">Awaiting Courier</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-allocation2">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Delivery Data</h4>
+                                        <p><strong>Pickup Address:</strong> Maia Industrial Zone</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Pickup Coordinates:</strong> 41.2355, -8.6231</p>
+                                        <p><strong>Delivery Address:</strong> Gondomar</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Delivery Coordinates:</strong> 41.1444, -8.5333</p>
+                                        <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8144</span></p>
+                                        <p><strong>Target Date:</strong> 2026-11-13 18:00</p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Cargo Specifications</h4>
+                                        <p><strong>Category:</strong> Heavy Freight</p>
+                                        <p><strong>Description:</strong> 4x / Pallet / 1200kg / 3.5 m3</p>
+                                        <p><strong>Delivery Instructions:</strong> Requires forklift at delivery destination.</p>
+                                        <p><strong>Client:</strong> XPTO Textile Company - <span class="client-id" style="display: inline;">CLI-44023</span></p>
+                                        <p><strong>Price:</strong> 45.00 € (Express Fee Applied)</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ONGOING ORDERS (MAP) -->
+            <div class="header-section" id="panel2" style="margin-top: 60px;">
+                <h2>Execution Map (Ongoing Orders)</h2>
+                <input type="text" id="search-ongoing" class="search-bar no-margin" placeholder="Search no., courier or vehicle..." onkeyup="filterTable('search-ongoing', 'tbody-ongoing')">
+            </div>
+            
+            <div class="table-container">
+                <div id="leaflet-map"></div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Order ID</th>
+                            <th>Assigned Courier</th>
+                            <th>Affiliation & Vehicle ID</th>
+                            <th>Delivery Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-ongoing">
+                        
+                        <!-- SOS (Filipe Gomes) -->
+                        <tr class="main-row row-sos" onclick="toggleDetailsMap('details-ord-sos', 41.1614, -8.6015, 41.1816, -8.6008, 'VCI (Breakdown Location)', 'S. João Hospital')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#ORD-8001</strong></td>
+                            <td>Filipe Gomes<span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                            <td>(Independent)<span class="client-id">VEH-VAL-10293</span></td>
+                            <td><span class="badge status-sos">SOS (Blocked)</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-ord-sos">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content sos-content">
+                                    <div class="details-column">
+                                        <h4>Delivery Data</h4>
+                                        <p><strong>Pickup Address:</strong> Rua de Costa Cabral, 850, Porto</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Pickup Coordinates:</strong> 41.1614, -8.6015</p>
+                                        <p><strong>Delivery Address:</strong> Pharmacy, S. João Hospital</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Delivery Coordinates:</strong> 41.1816, -8.6008</p>
+                                        <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8195</span></p>
+                                        <p><strong>Target Date:</strong> 2026-11-13 15:00</p>
+                                        <p><strong>Client:</strong> Clínica X - <span class="client-id" style="display: inline;">CLI-10293</span></p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Cargo & Vehicle</h4>
+                                        <p><strong>Category:</strong> Medical Supplies</p>
+                                        <p><strong>Description:</strong> 1x / Box / 2kg / 0.02 m3</p>
+                                        <p><strong>Delivery Instructions:</strong> Urgent delivery direct to pharmacy reception.</p>
+                                        <p><strong>Vehicle:</strong> Van Renault Kangoo (12-AB-34)</p>
+                                        <p><strong>Price:</strong> 15.00 €</p>
+                                    </div>
+                                    <div class="details-column" style="background-color: #fef2f2; padding: 15px; border-radius: 8px; border: 1px solid #fca5a5;">
+                                        <h4>Emergency Reallocation</h4>
+                                        <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Breakdown Location:</strong> VCI (Via de Cintura Interna), Km 12.5, Porto</p>
+                                        <p style="color: #b91c1c; font-weight: bold; font-size: 13px; margin-bottom: 12px;">"Rear tire puncture on VCI. I need a tow truck."</p>
+                                        <select class="select-courier" style="border-color: #fca5a5;">
+                                            <option value="">Select available courier nearby...</option>
+                                            <option value="1">João Silva (Independent) - Free Van (2km away)</option>
+                                            <option value="2">Maria Pereira (Log. Norte) - Free Van (3.5km away)</option>
+                                            <option value="3" disabled>Carlos Mendes - Motorcycle (Incompatible)</option>
+                                        </select>
+                                        <button class="btn btn-assign" style="background-color: #ef4444;" onclick="reallocateOrder('ORD-8001')">Reallocate Immediately</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- In Progress (Carlos) -->
+                        <tr class="main-row" onclick="toggleDetailsMap('details-ord1', 41.1522, -8.6092, 41.1844, -8.6942, 'Trindade', 'Matosinhos')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#ORD-7391</strong></td>
+                            <td>Carlos Mendes<span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                            <td>(Independent)<span class="client-id">VEH-VAL-44023</span></td>
+                            <td><span class="badge status-transit">Picking Up</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-ord1">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Delivery Data</h4>
+                                        <p><strong>Pickup Address:</strong> Praça da Trindade, 12, Porto</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Pickup Coordinates:</strong> 41.1522, -8.6092</p>
+                                        <p><strong>Delivery Address:</strong> Rua de Brito Capelo, 45, Matosinhos</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Delivery Coordinates:</strong> 41.1844, -8.6942</p>
+                                        <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8196</span></p>
+                                        <p><strong>Target Date:</strong> 2026-11-13 16:30</p>
+                                        <p><strong>Client:</strong> Mário Ribeiro - <span class="client-id" style="display: inline;">CLI-55412</span></p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Cargo & Vehicle</h4>
+                                        <p><strong>Category:</strong> Document / Small Parcel</p>
+                                        <p><strong>Description:</strong> 1x / Bag / 1kg / 0.01 m3</p>
+                                        <p><strong>Delivery Instructions:</strong> Deliver directly to the receptionist.</p>
+                                        <p><strong>Vehicle:</strong> Motorcycle Honda PCX (77-XX-99)</p>
+                                        <p><strong>Price:</strong> 8.50 €</p>
+                                    </div>
+                                    <div class="details-column" style="display: flex; flex-direction: column;">
+                                        <h4>Operational Actions</h4>
+                                        <div style="margin-top: auto;">
+                                            <button class="btn btn-view" style="margin-bottom: 0;" onclick="viewDocument('TransportGuide_7391.pdf')">View Transport Guide</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- In Progress (Ana) -->
+                        <tr class="main-row" onclick="toggleDetailsMap('details-ord2', 41.1579, -8.6291, 41.1481, -8.6670, 'Boavista Roundabout', 'Foz do Douro')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#ORD-7392</strong></td>
+                            <td>Ana Pires<span class="client-id">AFCOU-2026-7Y8U3G6D</span></td>
+                            <td><strong style="color:#0369a1;">(Log. Norte)</strong><span class="client-id">VEH-VAL-99212</span></td>
+                            <td><span class="badge status-transit">In Transit</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-ord2">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Delivery Data</h4>
+                                        <p><strong>Pickup Address:</strong> Boavista Roundabout, 100, Porto</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Pickup Coordinates:</strong> 41.1579, -8.6291</p>
+                                        <p><strong>Delivery Address:</strong> Avenida do Brasil, 300, Foz do Douro</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Delivery Coordinates:</strong> 41.1481, -8.6670</p>
+                                        <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8197</span></p>
+                                        <p><strong>Target Date:</strong> 2026-11-13 17:00</p>
+                                        <p><strong>Client:</strong> Sofia Costa - <span class="client-id" style="display: inline;">CLI-88902</span></p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Cargo & Vehicle</h4>
+                                        <p><strong>Category:</strong> Furniture</p>
+                                        <p><strong>Description:</strong> 1x / Sofa / 45kg / 1.5 m3</p>
+                                        <p><strong>Delivery Instructions:</strong> Customer will be available to help unload.</p>
+                                        <p><strong>Vehicle:</strong> Van Renault Master (CC-22-DD)</p>
+                                        <p><strong>Price:</strong> 35.00 €</p>
+                                    </div>
+                                    <div class="details-column" style="display: flex; flex-direction: column;">
+                                        <h4>Operational Actions</h4>
+                                        <div style="margin-top: auto;">
+                                            <button class="btn btn-view" style="margin-bottom: 0;" onclick="viewDocument('TransportGuide_7392.pdf')">View Transport Guide</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- In Progress (Tiago) -->
+                        <tr class="main-row" onclick="toggleDetailsMap('details-ord3', 41.2333, -8.6210, 41.1714, -8.5855, 'Maia', 'Areosa')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#ORD-7395</strong></td>
+                            <td>Tiago Santos<span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                            <td>(Independent)<span class="client-id">VEH-VAL-88331</span></td>
+                            <td><span class="badge status-transit">Delivering</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-ord3">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column">
+                                        <h4>Delivery Data</h4>
+                                        <p><strong>Pickup Address:</strong> Maia Industrial Zone, Rua A</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Pickup Coordinates:</strong> 41.2333, -8.6210</p>
+                                        <p><strong>Delivery Address:</strong> Circunvalação, Areosa</p>
+                                        <p style="color: #64748b; font-size: 11px; margin-top: -6px;"><strong>Delivery Coordinates:</strong> 41.1714, -8.5855</p>
+                                        <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8198</span></p>
+                                        <p><strong>Target Date:</strong> 2026-11-13 18:30</p>
+                                        <p><strong>Client:</strong> António Silva - <span class="client-id" style="display: inline;">CLI-33120</span></p>
+                                    </div>
+                                    <div class="details-column">
+                                        <h4>Cargo & Vehicle</h4>
+                                        <p><strong>Category:</strong> Heavy Cargo / Pallets</p>
+                                        <p><strong>Description:</strong> 2x / Pallet / 800kg / 2.0 m3</p>
+                                        <p><strong>Delivery Instructions:</strong> Please call 10 mins before arrival.</p>
+                                        <p><strong>Vehicle:</strong> Truck Volvo FH16 (99-CC-88)</p>
+                                        <p><strong>Price:</strong> 85.00 €</p>
+                                    </div>
+                                    <div class="details-column" style="display: flex; flex-direction: column;">
+                                        <h4>Operational Actions</h4>
+                                        <div style="margin-top: auto;">
+                                            <button class="btn btn-view" style="margin-bottom: 0;" onclick="viewDocument('TransportGuide_7395.pdf')">View Transport Guide</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- 3. VIEW: FLEET DIRECTORY                                   -->
+        <!-- ========================================================== -->
+        <div id="view-fleet" class="view-section">
+            <h1 class="page-title">Global Fleet Status (Directory)</h1>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Registered Vehicles</div>
+                    <div class="kpi-value text-blue">6</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Registered Couriers</div>
+                    <div class="kpi-value text-blue">4</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Currently Couriers In Service</div>
+                    <div class="kpi-value text-orange">2</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Currently Couriers Available</div>
+                    <div class="kpi-value text-green">1</div>
+                </div>
+                <div class="kpi-card" style="border-left: 4px solid #ef4444;">
+                    <div class="kpi-title">Action Required</div>
+                    <div class="kpi-value text-red">1 <span class="kpi-subtitle">SOS / Blocked</span></div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="filter-tabs">
+                    <button class="tab-btn-pill active" data-filter="all" onclick="filterTableFleet(this, 'all')">All Fleet</button>
+                    <button class="tab-btn-pill" data-filter="Fleet Company" onclick="filterTableFleet(this, 'Fleet Company')">Fleet Companies</button>
+                    <button class="tab-btn-pill" data-filter="Affiliate" onclick="filterTableFleet(this, 'Affiliate')">Affiliated Couriers</button>
+                    <button class="tab-btn-pill" data-filter="Independent" onclick="filterTableFleet(this, 'Independent')">Independent Couriers</button>
+                    <button class="tab-btn-pill" data-filter="Blocked" style="color: #dc2626; border-color: #fca5a5; background-color: #fef2f2;" onclick="filterTableFleet(this, 'Blocked')">Blocked</button>
+                </div>
+                <input type="text" id="search-fleet-dir" class="search-bar no-margin" placeholder="Search company, courier or vehicle..." onkeyup="filterTable('search-fleet-dir', 'tbody-fleet-dir')">
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Company / Courier</th>
+                            <th>Business Model</th>
+                            <th>Registered Vehicle(s)</th>
+                            <th>Operational Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-fleet-dir">
+                        
+                        <!-- B2B COMPANY -->
+                        <tr class="main-row" data-type="Fleet Company" data-status="Available" onclick="toggleDetails('details-fleet-company')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>Logística Norte Lda.</strong><span class="client-id">CMP-TRL-2026</span></td>
+                            <td><span class="badge type-company">Fleet Company</span></td>
+                            <td>3 Vehicles Registered</td>
+                            <td><span class="badge status-ok">Available</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-fleet-company">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2; display: flex; flex-direction: column;">
+                                        <div>
+                                            <h4>Company Information</h4>
+                                            <p><strong>NIF:</strong> 509888777</p>
+                                            <p><strong>Responsible Manager:</strong> Mário Costa</p>
+                                            <p><strong>Corporate Email:</strong> fleet@logisticanorte.pt</p>
+                                            <p><strong>Phone:</strong> +351 223 999 888</p>
+                                            <p><strong>Headquarters:</strong> Via Norte, Warehouse B, Maia</p>
+                                            <p><strong>IBAN:</strong> PT50 0000 0000 1234 5678 9012 3</p>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-message" onclick="alert('Opening secure chat with Company Manager.')">Message Company Manager</button>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="flex: 2.5; display: flex; flex-direction: column;">
+                                        <div>
+                                            <div style="display: flex; gap: 20px;">
+                                                <div style="flex: 2;"><h4>Fleet & Validation Documentation</h4></div>
+                                                <div style="flex: 1;"><h4>Status</h4></div>
+                                            </div>
+                                            <div class="vehicle-row">
+                                                <div style="flex: 2;">
+                                                    <strong style="font-size: 13px;">1x Volvo FH16 (2022) - 18000 kg / 45 m3</strong>
+                                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #475569;">Plate: AA-11-BB <span class="client-id" style="display: inline-block; margin-left: 10px;">VEH-VAL-88201</span></p>
+                                                </div>
+                                                <div style="flex: 1; display: flex; align-items: center;">
+                                                    <span class="badge status-ok">Available</span>
+                                                </div>
+                                            </div>
+                                            <div class="vehicle-row">
+                                                <div style="flex: 2;">
+                                                    <strong style="font-size: 13px;">1x Renault Master (2023) - 1500 kg / 12 m3</strong>
+                                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #475569;">Plate: CC-22-DD <span class="client-id" style="display: inline-block; margin-left: 10px;">VEH-VAL-99212</span></p>
+                                                </div>
+                                                <div style="flex: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                                    <span class="badge status-transit">In Service</span>
+                                                    <span class="client-id" style="display: inline-block;">AFCOU-2026-7Y8U3G6D</span>
+                                                </div>
+                                            </div>
+                                            <div class="vehicle-row">
+                                                <div style="flex: 2;">
+                                                    <strong style="font-size: 13px;">1x Renault Master (2023) - 1500 kg / 12 m3</strong>
+                                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #475569;">Plate: EE-33-FF <span class="client-id" style="display: inline-block; margin-left: 10px;">VEH-VAL-99213</span></p>
+                                                </div>
+                                                <div style="flex: 1; display: flex; align-items: center;">
+                                                    <span class="badge status-ok">Available</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-view" style="width: auto; padding-left: 20px; padding-right: 20px;" onclick="alert('Opening documents ZIP.')">View Vehicle Documents</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- AFFILIATE COURIER -->
+                        <tr class="main-row" data-type="Affiliate" data-status="In Service" onclick="toggleDetails('details-fleet-ana')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>Ana Pires</strong><span class="client-id">AFCOU-2026-7Y8U3G6D</span></td>
+                            <td><span class="badge type-affiliate">Affiliate</span></td>
+                            <td>Uses Company Fleet</td>
+                            <td><span class="badge status-transit">In Service</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-fleet-ana">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2; display: flex; flex-direction: column;">
+                                        <div>
+                                            <h4>Courier Information</h4>
+                                            <p><strong>NIF:</strong> 255555666</p>
+                                            <p><strong>Email:</strong> ana.pires@email.com</p>
+                                            <p><strong>Mobile:</strong> +351 933 111 222</p>
+                                            <p><strong>Address:</strong> Praceta das Flores, 12, 3rd Left, 4000-000 Porto</p>
+                                            <p><strong>IBAN:</strong> PT50 1234 5678 9012 3456 7890 1</p>
+                                            <p><strong>Work Preference (This Month):</strong> <span class="pref-standard">Standard Regime</span></p>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-message" onclick="alert('Opening internal chat.')">Message Courier</button>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="flex: 2.5; display: flex; gap: 20px;">
+                                        <div style="flex: 2;">
+                                            <h4>Affiliation & Validation Documentation</h4>
+                                            <p style="font-size: 12px; color: #047857; font-weight: 500; margin-bottom: 6px;">Works for <strong>Logística Norte Lda.</strong></p>
+                                            <p style="font-size: 12px; color: #64748b; margin-bottom: 15px;"><strong>Company Affiliation Code:</strong> CMP-TRL-2026</p>
+                                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CitizenCard_Ana.pdf')">Citizen Card</button>
+                                                <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CriminalRecord_Ana.pdf')">Criminal Record</button>
+                                                <button class="btn btn-view" style="width: auto;" onclick="alert('Opening B2B_Affiliation_Proof.pdf')">B2B Affiliation Proof</button>
+                                            </div>
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <h4>Status</h4>
+                                            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                                <span class="badge status-transit">In Service</span>
+                                                <span class="client-id" style="display: inline-block;">VEH-VAL-99212</span>
+                                                <span class="client-id" style="display: inline-block;">#ORD-7392</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- INDEPENDENT COURIER (AVAILABLE) -->
+                        <tr class="main-row" data-type="Independent" data-status="Available" onclick="toggleDetails('details-fleet-carlos')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>Carlos Mendes</strong><span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                            <td><span class="badge type-independent">Independent</span></td>
+                            <td>1 Vehicle Registered</td>
+                            <td><span class="badge status-ok">Available</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-fleet-carlos">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2; display: flex; flex-direction: column;">
+                                        <div>
+                                            <h4>Courier Information</h4>
+                                            <p><strong>NIF:</strong> 211222333</p>
+                                            <p><strong>Email:</strong> carlos.mendes@email.com</p>
+                                            <p><strong>Mobile:</strong> +351 911 222 333</p>
+                                            <p><strong>Address:</strong> Rua da Boavista, 500, 4100-111 Porto</p>
+                                            <p><strong>IBAN:</strong> PT50 9876 5432 1098 7654 3210 9</p>
+                                            <p><strong>Work Preference (This Month):</strong> <span class="pref-express">Express Regime</span></p>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-message" onclick="alert('Opening internal chat.')">Message Courier</button>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="flex: 2.5; display: flex; flex-direction: column;">
+                                        <div>
+                                            <div style="margin-bottom: 25px;">
+                                                <h4>Validation Documentation</h4>
+                                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CitizenCard_Carlos.pdf')">Citizen Card</button>
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CriminalRecord_Carlos.pdf')">Criminal Record</button>
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening DriversLicense_Carlos.pdf')">Driver's License</button>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; gap: 20px;">
+                                                <div style="flex: 2;"><h4>Vehicle(s) & Validation Documentation</h4></div>
+                                                <div style="flex: 1;"><h4>Status</h4></div>
+                                            </div>
+                                            <div class="vehicle-row">
+                                                <div style="flex: 2;">
+                                                    <strong style="font-size: 13px;">1x Honda PCX (2020) - 15 kg / 0.1 m3</strong>
+                                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #475569;">Plate: 77-XX-99 <span class="client-id" style="display: inline-block; margin-left: 10px;">VEH-VAL-44023</span></p>
+                                                </div>
+                                                <div style="flex: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                                    <span class="badge status-ok">Available</span>
+                                                    <span class="client-id" style="display: inline-block;">VEH-VAL-44023</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-view" style="width: auto; padding-left: 20px; padding-right: 20px;" onclick="alert('Opening vehicle documents ZIP.')">View Vehicle Documents</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- INDEPENDENT COURIER (IN SERVICE) -->
+                        <tr class="main-row" data-type="Independent" data-status="In Service" onclick="toggleDetails('details-fleet-tiago')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>Tiago Santos</strong><span class="client-id">INDCOU-2026-9M2N4B1V</span></td>
+                            <td><span class="badge type-independent">Independent</span></td>
+                            <td>1 Vehicle Registered</td>
+                            <td><span class="badge status-transit">In Service</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-fleet-tiago">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2; display: flex; flex-direction: column;">
+                                        <div>
+                                            <h4>Courier Information</h4>
+                                            <p><strong>NIF:</strong> 277888999</p>
+                                            <p><strong>Email:</strong> tiago.santos@email.com</p>
+                                            <p><strong>Mobile:</strong> +351 922 111 000</p>
+                                            <p><strong>Address:</strong> Rua de São João, 200, 4400-123 Gaia</p>
+                                            <p><strong>IBAN:</strong> PT50 1111 2222 3333 4444 5555 6</p>
+                                            <p><strong>Work Preference (This Month):</strong> <span class="pref-standard">Standard Regime</span></p>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-message" onclick="alert('Opening internal chat.')">Message Courier</button>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="flex: 2.5; display: flex; flex-direction: column;">
+                                        <div>
+                                            <div style="margin-bottom: 25px;">
+                                                <h4>Validation Documentation</h4>
+                                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CitizenCard_Tiago.pdf')">Citizen Card</button>
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CriminalRecord_Tiago.pdf')">Criminal Record</button>
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening DriversLicense_Tiago.pdf')">Driver's License (Heavy)</button>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; gap: 20px;">
+                                                <div style="flex: 2;"><h4>Vehicle(s) & Validation Documentation</h4></div>
+                                                <div style="flex: 1;"><h4>Status</h4></div>
+                                            </div>
+                                            <div class="vehicle-row">
+                                                <div style="flex: 2;">
+                                                    <strong style="font-size: 13px;">1x Volvo FH16 (2022) - 24000 kg / 60 m3</strong>
+                                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #475569;">Plate: 99-CC-88 <span class="client-id" style="display: inline-block; margin-left: 10px;">VEH-VAL-88331</span></p>
+                                                </div>
+                                                <div style="flex: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                                    <span class="badge status-transit">In Service</span>
+                                                    <span class="client-id" style="display: inline-block;">VEH-VAL-88331</span>
+                                                    <span class="client-id" style="display: inline-block;">#ORD-7395</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-view" style="width: auto; padding-left: 20px; padding-right: 20px;" onclick="alert('Opening vehicle documents ZIP.')">View Vehicle Documents</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- INDEPENDENT COURIER (SOS) -->
+                        <tr class="main-row row-sos" data-type="Independent" data-status="Blocked" onclick="toggleDetails('details-fleet-filipe')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>Filipe Gomes</strong><span class="client-id">INDCOU-2026-3A1B9C4D</span></td>
+                            <td><span class="badge type-independent">Independent</span></td>
+                            <td>1 Vehicle Registered</td>
+                            <td><span class="badge status-sos">Blocked</span></td>
+                        </tr>
+                        <tr class="details-row" id="details-fleet-filipe">
+                            <td colspan="5" style="padding: 0;">
+                                <div class="details-content sos-content">
+                                    <div class="details-column" style="flex: 1.2; display: flex; flex-direction: column;">
+                                        <div>
+                                            <h4>Courier Information</h4>
+                                            <p><strong>NIF:</strong> 266777888</p>
+                                            <p><strong>Email:</strong> filipe.gomes@email.com</p>
+                                            <p><strong>Mobile:</strong> +351 919 888 777</p>
+                                            <p><strong>Address:</strong> Avenida dos Aliados, 10, 4000-001 Porto</p>
+                                            <p><strong>IBAN:</strong> PT50 5555 6666 7777 8888 9999 0</p>
+                                            <p><strong>Work Preference (This Month):</strong> <span class="pref-standard">Standard Regime</span></p>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-message" onclick="alert('Opening internal chat.')">Message Courier</button>
+                                        </div>
+                                    </div>
+                                    <div class="details-column" style="flex: 2.5; display: flex; flex-direction: column;">
+                                        <div>
+                                            <div style="margin-bottom: 25px;">
+                                                <h4>Validation Documentation</h4>
+                                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CitizenCard_Filipe.pdf')">Citizen Card</button>
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening CriminalRecord_Filipe.pdf')">Criminal Record</button>
+                                                    <button class="btn btn-view" style="width: auto;" onclick="alert('Opening DriversLicense_Filipe.pdf')">Driver's License</button>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex; gap: 20px;">
+                                                <div style="flex: 2;"><h4>Vehicle(s) & Validation Documentation</h4></div>
+                                                <div style="flex: 1;"><h4>Status</h4></div>
+                                            </div>
+                                            <div class="vehicle-row">
+                                                <div style="flex: 2;">
+                                                    <strong style="font-size: 13px;">1x Renault Kangoo (2019) - 600 kg / 3 m3</strong>
+                                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #475569;">Plate: 12-AB-34 <span class="client-id" style="display: inline-block; margin-left: 10px;">VEH-VAL-10293</span></p>
+                                                </div>
+                                                <div style="flex: 1;">
+                                                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                                        <span class="badge status-sos">Blocked</span>
+                                                        <span class="client-id" style="display: inline-block;">VEH-VAL-10293</span>
+                                                        <span class="client-id" style="display: inline-block;">#ORD-8001</span>
+                                                        <p style="color: #b91c1c; font-weight: 600; font-size: 12px; margin-top: 8px; width: 100%;">Reason: SOS / Breakdown reported on VCI. Awaiting tow truck.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: auto; padding-top: 20px;">
+                                            <button class="btn btn-view" style="width: auto; padding-left: 20px; padding-right: 20px;" onclick="alert('Opening vehicle documents ZIP.')">View Vehicle Documents</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- 4. VIEW: PAYMENTS & BILLING                                -->
+        <!-- ========================================================== -->
+        <div id="view-payments" class="view-section">
+            <div class="header-top">
+                <h1 class="page-title">Payments & Billing Dashboard</h1>
+                <select class="month-selector">
+                    <option value="2026-11" selected>November 2026</option>
+                    <option value="2026-10">October 2026</option>
+                    <option value="2026-09">September 2026</option>
+                </select>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Revenue (Inbound)</div>
+                    <div class="kpi-value text-blue">€ 201<span style="font-size: 16px;">.00</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Payouts (Outbound)</div>
+                    <div class="kpi-value text-orange">€ 170<span style="font-size: 16px;">.85</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Net Profit</div>
+                    <div class="kpi-value text-purple">€ 30<span style="font-size: 16px;">.15</span></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Processed Orders</div>
+                    <div class="kpi-value text-green">6 <span class="kpi-subtitle">This Month</span></div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="filter-tabs-fin">
+                    <button class="tab-btn-pill active" data-filter="Inbound" onclick="filterTablePayments(this, 'Inbound')">Client Invoices (Inbound)</button>
+                    <button class="tab-btn-pill" data-filter="Outbound" onclick="filterTablePayments(this, 'Outbound')">Courier Payouts (Outbound)</button>
+                    <button class="tab-btn-pill" data-filter="Profit" style="background-color: #faf5ff; border-color: #e9d5ff; color: #7e22ce;" onclick="filterTablePayments(this, 'Profit')">Platform Profit Ledger</button>
+                </div>
+                <input type="text" id="search-pay-live" class="search-bar no-margin" placeholder="Search ID, entity or amount..." onkeyup="filterTableSearchFin('search-pay-live', 'tbody-pay-live')">
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Transaction ID</th>
+                            <th id="th-entity-live">Client ID</th>
+                            <th id="th-related-live">Order ID</th>
+                            <th>Amount & Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-pay-live">
+                        
+                        <!-- INBOUND -->
+                        <tr class="main-row" data-type="Inbound" onclick="toggleDetails('pay-in-1')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-IN-9801</strong></td>
+                            <td>João Alves<span class="client-id">CLI-98210</span></td>
+                            <td><span class="client-id">#ORD-7400</span></td>
+                            <td><strong>€ 12.50</strong><br><span class="badge type-inbound" style="margin-top: 4px;">Inbound</span></td>
+                            <td><span class="badge status-paid">Paid</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-in-1">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Transaction Details</h4>
+                                        <p><strong>Date Processed:</strong> 2026-11-13 14:05:22</p>
+                                        <p><strong>Method:</strong> Credit Card</p>
+                                        <p><strong>Client ID:</strong> <span class="inline-id">CLI-98210</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Rate (Standard)</span> <span>€ 10.16</span></div>
+                                        <div class="financial-row"><span>VAT (23%)</span> <span>€ 2.34</span></div>
+                                        <div class="financial-total"><span>Total Paid by Client</span> <span>€ 12.50</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Downloading Receipt.')">Download Receipt</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Inbound" onclick="toggleDetails('pay-in-2')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-IN-9802</strong></td>
+                            <td>XPTO Textile Company<span class="client-id">CLI-44023</span></td>
+                            <td><span class="client-id">#ORD-7401</span></td>
+                            <td><strong>€ 45.00</strong><br><span class="badge type-inbound" style="margin-top: 4px;">Inbound</span></td>
+                            <td><span class="badge status-paid">Paid</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-in-2">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Transaction Details</h4>
+                                        <p><strong>Date Processed:</strong> 2026-11-13 10:15:00</p>
+                                        <p><strong>Method:</strong> B2B Bank Transfer</p>
+                                        <p><strong>Client ID:</strong> <span class="inline-id">CLI-44023</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Rate (Heavy)</span> <span>€ 25.00</span></div>
+                                        <div class="financial-row"><span>Express Fee</span> <span>€ 11.59</span></div>
+                                        <div class="financial-row"><span>VAT (23%)</span> <span>€ 8.41</span></div>
+                                        <div class="financial-total"><span>Total Paid by Client</span> <span>€ 45.00</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Downloading Invoice.')">Download Invoice</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Inbound" onclick="toggleDetails('pay-in-3')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-IN-9803</strong></td>
+                            <td>Clínica X<span class="client-id">CLI-10293</span></td>
+                            <td><span class="client-id">#ORD-8001</span></td>
+                            <td><strong>€ 15.00</strong><br><span class="badge type-inbound" style="margin-top: 4px;">Inbound</span></td>
+                            <td><span class="badge status-paid">Paid</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-in-3">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Transaction Details</h4>
+                                        <p><strong>Date Processed:</strong> 2026-11-13 11:20:05</p>
+                                        <p><strong>Method:</strong> MBWay</p>
+                                        <p><strong>Client ID:</strong> <span class="inline-id">CLI-10293</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Rate (Standard)</span> <span>€ 12.20</span></div>
+                                        <div class="financial-row"><span>VAT (23%)</span> <span>€ 2.80</span></div>
+                                        <div class="financial-total"><span>Total Paid by Client</span> <span>€ 15.00</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Downloading Receipt.')">Download Receipt</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Inbound" onclick="toggleDetails('pay-in-4')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-IN-9804</strong></td>
+                            <td>Mário Ribeiro<span class="client-id">CLI-55412</span></td>
+                            <td><span class="client-id">#ORD-7391</span></td>
+                            <td><strong>€ 8.50</strong><br><span class="badge type-inbound" style="margin-top: 4px;">Inbound</span></td>
+                            <td><span class="badge status-paid">Paid</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-in-4">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Transaction Details</h4>
+                                        <p><strong>Date Processed:</strong> 2026-11-13 12:45:12</p>
+                                        <p><strong>Method:</strong> Credit Card</p>
+                                        <p><strong>Client ID:</strong> <span class="inline-id">CLI-55412</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Rate (Small)</span> <span>€ 6.91</span></div>
+                                        <div class="financial-row"><span>VAT (23%)</span> <span>€ 1.59</span></div>
+                                        <div class="financial-total"><span>Total Paid by Client</span> <span>€ 8.50</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Downloading Receipt.')">Download Receipt</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Inbound" onclick="toggleDetails('pay-in-5')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-IN-9805</strong></td>
+                            <td>Sofia Costa<span class="client-id">CLI-88902</span></td>
+                            <td><span class="client-id">#ORD-7392</span></td>
+                            <td><strong>€ 35.00</strong><br><span class="badge type-inbound" style="margin-top: 4px;">Inbound</span></td>
+                            <td><span class="badge status-paid">Paid</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-in-5">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Transaction Details</h4>
+                                        <p><strong>Date Processed:</strong> 2026-11-13 13:10:44</p>
+                                        <p><strong>Method:</strong> MBWay</p>
+                                        <p><strong>Client ID:</strong> <span class="inline-id">CLI-88902</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Rate (Large Item)</span> <span>€ 28.45</span></div>
+                                        <div class="financial-row"><span>VAT (23%)</span> <span>€ 6.55</span></div>
+                                        <div class="financial-total"><span>Total Paid by Client</span> <span>€ 35.00</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Downloading Receipt.')">Download Receipt</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Inbound" onclick="toggleDetails('pay-in-6')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-IN-9806</strong></td>
+                            <td>António Silva<span class="client-id">CLI-33120</span></td>
+                            <td><span class="client-id">#ORD-7395</span></td>
+                            <td><strong>€ 85.00</strong><br><span class="badge type-inbound" style="margin-top: 4px;">Inbound</span></td>
+                            <td><span class="badge status-paid">Paid</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-in-6">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Transaction Details</h4>
+                                        <p><strong>Date Processed:</strong> 2026-11-13 14:22:18</p>
+                                        <p><strong>Method:</strong> Credit Card</p>
+                                        <p><strong>Client ID:</strong> <span class="inline-id">CLI-33120</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Rate (Heavy Cargo)</span> <span>€ 69.10</span></div>
+                                        <div class="financial-row"><span>VAT (23%)</span> <span>€ 15.90</span></div>
+                                        <div class="financial-total"><span>Total Paid by Client</span> <span>€ 85.00</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Downloading Receipt.')">Download Receipt</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- OUTBOUND -->
+                        <tr class="main-row" data-type="Outbound" style="display: none;" onclick="toggleDetails('pay-out-live-1')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-OUT-5501</strong></td>
+                            <td>Ana Pires<span class="client-id">AFCOU-2026-7Y8U3G6D</span></td>
+                            <td>1 Order</td>
+                            <td><strong>€ 29.75</strong><br><span class="badge type-outbound" style="margin-top: 4px;">Outbound</span></td>
+                            <td><span class="badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-out-live-1">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Payout Details</h4>
+                                        <p><strong>Method:</strong> SEPA Transfer</p>
+                                        <p><strong>Courier ID:</strong> <span class="inline-id">AFCOU-2026-7Y8U3G6D</span></p>
+                                        <p><strong>Related Order:</strong> <span class="inline-id">#ORD-7392</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Earned</span> <span>€ 35.00</span></div>
+                                        <div class="financial-row" style="color: #ef4444;"><span>Platform Fee (15%)</span> <span>- € 5.25</span></div>
+                                        <div class="financial-total"><span>Total to Transfer</span> <span>€ 29.75</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-action" onclick="alert('Forcing SEPA transfer to Courier.')">Process Payment</button>
+                                        <button class="btn btn-view" onclick="alert('View Statement.')">View Statement</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Outbound" style="display: none;" onclick="toggleDetails('pay-out-live-2')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-OUT-5502</strong></td>
+                            <td>Carlos Mendes<span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                            <td>2 Orders</td>
+                            <td><strong>€ 17.85</strong><br><span class="badge type-outbound" style="margin-top: 4px;">Outbound</span></td>
+                            <td><span class="badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-out-live-2">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Payout Details</h4>
+                                        <p><strong>Method:</strong> SEPA Transfer</p>
+                                        <p><strong>Courier ID:</strong> <span class="inline-id">INDCOU-2026-7E9V6F5D</span></p>
+                                        <p><strong>Related Orders:</strong> <span class="inline-id">#ORD-7400, #ORD-7391</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Deliveries Earned (2)</span> <span>€ 21.00</span></div>
+                                        <div class="financial-row" style="color: #ef4444;"><span>Platform Fee (15%)</span> <span>- € 3.15</span></div>
+                                        <div class="financial-total"><span>Total to Transfer</span> <span>€ 17.85</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-action" onclick="alert('Forcing SEPA transfer to Courier.')">Process Payment</button>
+                                        <button class="btn btn-view" onclick="alert('View Statement.')">View Statement</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Outbound" style="display: none;" onclick="toggleDetails('pay-out-live-3')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-OUT-5503</strong></td>
+                            <td>Tiago Santos<span class="client-id">INDCOU-2026-9M2N4B1V</span></td>
+                            <td>2 Orders</td>
+                            <td><strong>€ 110.50</strong><br><span class="badge type-outbound" style="margin-top: 4px;">Outbound</span></td>
+                            <td><span class="badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-out-live-3">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Payout Details</h4>
+                                        <p><strong>Method:</strong> SEPA Transfer</p>
+                                        <p><strong>Courier ID:</strong> <span class="inline-id">INDCOU-2026-9M2N4B1V</span></p>
+                                        <p><strong>Related Orders:</strong> <span class="inline-id">#ORD-7401, #ORD-7395</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Deliveries Earned (2)</span> <span>€ 130.00</span></div>
+                                        <div class="financial-row" style="color: #ef4444;"><span>Platform Fee (15%)</span> <span>- € 19.50</span></div>
+                                        <div class="financial-total"><span>Total to Transfer</span> <span>€ 110.50</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-action" onclick="alert('Forcing SEPA transfer to Courier.')">Process Payment</button>
+                                        <button class="btn btn-view" onclick="alert('View Statement.')">View Statement</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="main-row" data-type="Outbound" style="display: none;" onclick="toggleDetails('pay-out-live-4')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#TXN-OUT-5504</strong></td>
+                            <td>Filipe Gomes<span class="client-id">INDCOU-2026-3A1B9C4D</span></td>
+                            <td>1 Order</td>
+                            <td><strong>€ 12.75</strong><br><span class="badge type-outbound" style="margin-top: 4px;">Outbound</span></td>
+                            <td><span class="badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-out-live-4">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Payout Details</h4>
+                                        <p><strong>Method:</strong> SEPA Transfer</p>
+                                        <p><strong>Courier ID:</strong> <span class="inline-id">INDCOU-2026-3A1B9C4D</span></p>
+                                        <p><strong>Related Order:</strong> <span class="inline-id">#ORD-8001</span></p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Financial Breakdown</h4>
+                                        <div class="financial-row"><span>Delivery Earned</span> <span>€ 15.00</span></div>
+                                        <div class="financial-row" style="color: #ef4444;"><span>Platform Fee (15%)</span> <span>- € 2.25</span></div>
+                                        <div class="financial-total"><span>Total to Transfer</span> <span>€ 12.75</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-action" onclick="alert('Forcing SEPA transfer to Courier.')">Process Payment</button>
+                                        <button class="btn btn-view" onclick="alert('View Statement.')">View Statement</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- PROFIT -->
+                        <tr class="main-row" data-type="Profit" style="display: none;" onclick="toggleDetails('pay-profit-live-1')">
+                            <td class="icon-expand">▼</td>
+                            <td><strong>#FEE-2026-11-ALL</strong></td>
+                            <td>CMS Logistics Platform</td>
+                            <td><span class="client-id">All Processed Orders</span></td>
+                            <td><strong>€ 30.15</strong><br><span class="badge status-profit" style="margin-top: 4px;">Platform Revenue</span></td>
+                            <td><span class="badge status-paid">Cleared</span></td>
+                        </tr>
+                        <tr class="details-row" id="pay-profit-live-1">
+                            <td colspan="6" style="padding: 0;">
+                                <div class="details-content profit-content">
+                                    <div class="details-column" style="flex: 1.2;">
+                                        <h4>Ledger Details</h4>
+                                        <p><strong>Aggregation Period:</strong> November 2026 (Live)</p>
+                                        <p><strong>Source:</strong> 15% Commission on 6 Orders</p>
+                                    </div>
+                                    <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <h4>Profit Breakdown</h4>
+                                        <div class="financial-row"><span>Fee from Ana Pires</span> <span>€ 5.25</span></div>
+                                        <div class="financial-row"><span>Fee from Carlos Mendes</span> <span>€ 3.15</span></div>
+                                        <div class="financial-row"><span>Fee from Tiago Santos</span> <span>€ 19.50</span></div>
+                                        <div class="financial-row"><span>Fee from Filipe Gomes</span> <span>€ 2.25</span></div>
+                                        <div class="financial-profit"><span>Net Platform Revenue</span> <span>€ 30.15</span></div>
+                                    </div>
+                                    <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                        <button class="btn btn-view" onclick="alert('Exporting Profit Ledger CSV.')">Export CSV</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- 5. VIEW: ARCHIVE & AUDIT                                   -->
+        <!-- ========================================================== -->
+        <div id="view-archive" class="view-section">
+            <h1 class="page-title">Digital Archive & Audit</h1>
+
+            <div class="export-bar">
+                <div class="filter-group">
+                    <label>Start Date</label>
+                    <input type="date" value="2026-10-01">
+                </div>
+                <div class="filter-group">
+                    <label>End Date</label>
+                    <input type="date" value="2026-10-31">
+                </div>
+                <button class="btn-export" onclick="exportReport()">Export Report (Excel/CSV)</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab(event, 'tab-orders')">Completed Orders</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-profiles')">Inactive Profiles</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-fleet')">Archived Fleet</button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-payments-arch')">Financial Archive</button>
+            </div>
+
+            <!-- TAB 1: COMPLETED ORDERS -->
+            <div id="tab-orders" class="tab-content active">
+                <input type="text" id="search-orders" class="search-bar" placeholder="Search order ID, client, courier..." onkeyup="filterTable('search-orders', 'tbody-orders')">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Order ID</th>
+                                <th>Completion Date</th>
+                                <th>Courier ID</th>
+                                <th>Billing</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-orders">
+                            
+                            <tr class="main-row" onclick="toggleDetails('details-hist-ord1')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>#ORD-7105</strong></td>
+                                <td>2026-10-22 15:30</td>
+                                <td>Ana Pires<span class="client-id">AFCOU-2026-7Y8U3G6D</span></td>
+                                <td>€ 12.50</td>
+                                <td><span class="badge status-ok">Delivered</span></td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-ord1">
+                                <td colspan="6" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column">
+                                            <h4>Delivery Data</h4>
+                                            <p><strong>Pickup Address:</strong> Rua de Santa Catarina, 500, Porto</p>
+                                            <p><strong>Delivery Address:</strong> Avenida da Boavista, 1200, Porto</p>
+                                            <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8192</span></p>
+                                            <p><strong>Client:</strong> António Marques <span class="inline-id">CLI-81293</span></p>
+                                        </div>
+                                        <div class="details-column" style="display: flex; flex-direction: column;">
+                                            <div>
+                                                <h4>Execution</h4>
+                                                <p><strong>Vehicle Used:</strong> Renault Van (CC-22-DD) <span class="inline-id">VEH-VAL-99212</span></p>
+                                                <p><strong>Regime Type:</strong> Standard</p>
+                                                <p><strong>Total Time:</strong> 1h 15m</p>
+                                            </div>
+                                            <div style="margin-top: auto; padding-top: 15px;">
+                                                <button class="btn btn-view" style="margin-bottom: 0;" onclick="viewDocument('TransportGuide_7105.pdf')">View Transport Guide</button>
+                                            </div>
+                                        </div>
+                                        <div class="details-column">
+                                            <h4>Audit & Billing</h4>
+                                            <button class="btn btn-view" onclick="viewDocument('e-POD_7105.pdf')">e-POD (Digital Signature)</button>
+                                            <button class="btn btn-view" onclick="viewDocument('Invoice_CLI_7105.pdf')">Issued Client Invoice (PDF)</button>
+                                            <button class="btn btn-view" onclick="viewDocument('Receipt_LogNorte_7105.pdf')">Payout Receipt (Company)</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="main-row" onclick="toggleDetails('details-hist-ord2')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>#ORD-7089</strong></td>
+                                <td>2026-10-20 11:15</td>
+                                <td>Carlos Mendes<span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                                <td>€ 45.00</td>
+                                <td><span class="badge status-ok">Delivered</span></td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-ord2">
+                                <td colspan="6" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column">
+                                            <h4>Delivery Data</h4>
+                                            <p><strong>Pickup Address:</strong> Rua 25 de Abril, 110, Gondomar</p>
+                                            <p><strong>Delivery Address:</strong> Avenida Visconde de Barreiros, 300, Maia</p>
+                                            <p><strong>Route ID:</strong> <span class="inline-id">RT-2026-8144</span></p>
+                                            <p><strong>Client:</strong> Farmácia Central <span class="inline-id">CLI-11204</span></p>
+                                        </div>
+                                        <div class="details-column" style="display: flex; flex-direction: column;">
+                                            <div>
+                                                <h4>Execution</h4>
+                                                <p><strong>Vehicle Used:</strong> Honda Motorcycle (77-XX-99) <span class="inline-id">VEH-VAL-44023</span></p>
+                                                <p><strong>Regime Type:</strong> Express</p>
+                                                <p><strong>Total Time:</strong> 2h 15m</p>
+                                            </div>
+                                            <div style="margin-top: auto; padding-top: 15px;">
+                                                <button class="btn btn-view" style="margin-bottom: 0;" onclick="viewDocument('TransportGuide_7089.pdf')">View Transport Guide</button>
+                                            </div>
+                                        </div>
+                                        <div class="details-column">
+                                            <h4>Audit & Billing</h4>
+                                            <button class="btn btn-view" onclick="viewDocument('e-POD_7089.pdf')">e-POD (Digital Signature)</button>
+                                            <button class="btn btn-view" onclick="viewDocument('Invoice_CLI_7089.pdf')">Issued Client Invoice (PDF)</button>
+                                            <button class="btn btn-view" onclick="viewDocument('Receipt_CarlosM_7089.pdf')">Payout Receipt (Courier)</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: INACTIVE PROFILES -->
+            <div id="tab-profiles" class="tab-content">
+                <input type="text" id="search-profiles" class="search-bar" placeholder="Search Request ID, NIF, name..." onkeyup="filterTable('search-profiles', 'tbody-profiles')">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Request ID / Company ID / Courier ID</th>
+                                <th>NIF</th>
+                                <th>Deactivation Date</th>
+                                <th>Status / Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-profiles">
+                            
+                            <!-- REJECTED -->
+                            <tr class="main-row" onclick="toggleDetails('details-hist-prof1')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>Nuno Ribeiro</strong><span class="client-id">INDCOU-2026-87FE83E8</span></td>
+                                <td>288999000</td>
+                                <td>2026-10-25</td>
+                                <td><span class="badge status-rejected">Registration Rejected</span></td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-prof1">
+                                <td colspan="5" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column" style="flex: 1.2;">
+                                            <h4>Courier Information</h4>
+                                            <p><strong>NIF:</strong> 288999000</p>
+                                            <p><strong>Email:</strong> nuno.ribeiro@email.com</p>
+                                            <p><strong>Mobile:</strong> +351 911 888 777</p>
+                                            <p><strong>Address:</strong> Praceta das Amoreiras, 33, 4400-111 Gaia</p>
+                                            <p><strong>IBAN:</strong> PT50 1234 5678 9012 3456 7890 1</p>
+                                            
+                                            <div style="margin-top: 15px; margin-bottom: 25px;">
+                                                <button class="btn btn-view" onclick="viewDocument('CitizenCard_Nuno.pdf')">Citizen Card</button>
+                                                <button class="btn btn-view" onclick="viewDocument('CriminalRecord_Nuno.pdf')">Criminal Record</button>
+                                                <button class="btn btn-view" onclick="viewDocument('DriversLicense_Nuno.pdf')">Driver's License</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="details-column" style="flex: 1.5;">
+                                            <h4>Vehicle & Validation Documentation</h4>
+                                            <strong style="font-size: 13px;">1x Renault Kangoo (2012) - 600 kg / 3 m3</strong>
+                                            <p style="margin: 4px 0 15px 0; font-size: 12px; color: #475569;">Fuel: Diesel | Color: White | Plate: 12-AB-34</p>
+                                            
+                                            <div style="margin-bottom: 25px;">
+                                                <button class="btn btn-view" onclick="viewDocument('Registration_Nuno.pdf')">Registration</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Insurance_Nuno.pdf')">Insurance</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Inspection_Nuno.pdf')">Inspection</button>
+                                            </div>
+                                            
+                                            <div style="background-color: #fef2f2; padding: 15px; border-radius: 8px; border: 1px solid #fca5a5;">
+                                                <h4 style="color: #b91c1c; border-bottom: none; margin-bottom: 10px;">Rejection Report</h4>
+                                                <p style="color: #b91c1c; font-weight: bold; margin-top: 0;">Reason: Invalid / Expired Documentation.</p>
+                                                <p><strong>Evaluator:</strong> Head Staff</p>
+                                                <p><strong>Notes:</strong> "The submitted driver's license was expired for over 6 months and the auto insurance did not cover commercial activity."</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- CLOSED -->
+                            <tr class="main-row" onclick="toggleDetails('details-hist-prof2')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>Distribuições XYZ, Lda.</strong><span class="client-id">CMP-XYZ-2025</span></td>
+                                <td>505555444</td>
+                                <td>2026-05-15</td>
+                                <td><span class="badge status-archived">Account Closed</span></td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-prof2">
+                                <td colspan="5" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column" style="flex: 1.2;">
+                                            <h4>Company Information</h4>
+                                            <p><strong>NIF:</strong> 505555444</p>
+                                            <p><strong>Responsible Manager:</strong> Fernando Pinto</p>
+                                            <p><strong>Corporate Email:</strong> admin@xyz-dist.pt</p>
+                                            <p><strong>Phone:</strong> +351 229 111 222</p>
+                                            <p><strong>Headquarters:</strong> Zona Industrial da Maia, Armazém C</p>
+                                            <p><strong>IBAN:</strong> PT50 1111 2222 3333 4444 5555 6</p>
+                                        </div>
+                                        
+                                        <div class="details-column" style="flex: 1.5; display: flex; flex-direction: column;">
+                                            <div style="background-color: #f1f5f9; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 20px;">
+                                                <h4>Closure Report</h4>
+                                                <p><strong>Reason:</strong> Contract termination at the company's request.</p>
+                                                <p><strong>Active Period:</strong> Jan 2025 to May 2026</p>
+                                                <p><strong>Final Metrics:</strong> 450 successfully completed orders.</p>
+                                            </div>
+                                            
+                                            <div>
+                                                <h4>Tax & Fleet Audit</h4>
+                                                <button class="btn btn-view" onclick="viewDocument('Termination_Term_XYZ.pdf')">Signed Termination Agreement</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Billing_Extract_XYZ.csv')">Export Company Billing History</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Vehicle_Documents_XYZ.zip')">View Vehicle Documents</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: ARCHIVED FLEET -->
+            <div id="tab-fleet" class="tab-content">
+                <input type="text" id="search-fleet-arch" class="search-bar" placeholder="Search Vehicle ID, company, courier..." onkeyup="filterTable('search-fleet-arch', 'tbody-fleet-arch')">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Vehicle ID</th>
+                                <th>Company ID / Courier ID</th>
+                                <th>Removal Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-fleet-arch">
+                            
+                            <tr class="main-row" onclick="toggleDetails('details-hist-fleet1')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>VEH-VAL-99000</strong></td>
+                                <td><strong>Logística Norte Lda.</strong><span class="client-id">CMP-TRL-2026</span></td>
+                                <td>2026-09-10</td>
+                                <td><span class="badge status-archived">Removed from Fleet</span></td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-fleet1">
+                                <td colspan="5" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column" style="flex: 1.5;">
+                                            <h4>Vehicle & Validation Documentation</h4>
+                                            <strong style="font-size: 13px;">1x Iveco Daily Van (2020) - 3500 kg / 15 m3</strong>
+                                            <p style="margin: 4px 0 15px 0; font-size: 12px; color: #475569;">Fuel: Diesel | Color: White | Plate: 99-ZZ-00</p>
+                                            
+                                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                                <button class="btn btn-view" onclick="viewDocument('Archived_Registration_99-ZZ-00.pdf')">Archived Registration</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Archived_Insurance_99-ZZ-00.pdf')">Archived Insurance</button>
+                                                <button class="btn btn-view" onclick="viewDocument('Old_Inspection_99-ZZ-00.pdf')">Last Inspection Sheet</button>
+                                            </div>
+                                        </div>
+                                        <div class="details-column" style="flex: 1.2;">
+                                            <div style="background-color: #f1f5f9; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                                                <h4>Archive Report</h4>
+                                                <p><strong>Removal Reason:</strong> End of Leasing contract. The vehicle was returned to the rental company by the partner and replaced on the platform.</p>
+                                                <p><strong>Registered Mileage:</strong> 45,300 km</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: FINANCIAL ARCHIVE -->
+            <div id="tab-payments-arch" class="tab-content">
+                
+                <div class="controls-section">
+                    <div class="filter-tabs-fin">
+                        <button class="tab-btn-fin active" data-filter="Inbound" onclick="filterTableArchivePayments(this, 'Inbound')">Client Invoices (Inbound)</button>
+                        <button class="tab-btn-fin" data-filter="Outbound" onclick="filterTableArchivePayments(this, 'Outbound')">Courier Payouts (Outbound)</button>
+                    </div>
+                    <input type="text" id="search-payments-arch" class="search-bar no-margin" placeholder="Search transaction ID, entity..." onkeyup="filterTableSearchFinArch('search-payments-arch', 'tbody-payments-archive')">
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Transaction ID</th>
+                                <th id="th-entity-archive">Client ID</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Status / Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-payments-archive">
+                            
+                            <!-- INBOUND ARCHIVE -->
+                            <tr class="main-row" data-type="Inbound" onclick="toggleDetails('details-hist-pay1')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>#TXN-IN-9100</strong></td>
+                                <td>João Alves<span class="client-id">CLI-98210</span></td>
+                                <td><span class="badge type-inbound">Inbound</span></td>
+                                <td><strong>€ 12.50</strong></td>
+                                <td><span class="badge status-ok">Cleared</span> (2026-10-15)</td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-pay1">
+                                <td colspan="6" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column" style="flex: 1.2;">
+                                            <h4>Transaction Details</h4>
+                                            <p><strong>Method:</strong> Credit Card (**** 4242)</p>
+                                            <p><strong>Order ID:</strong> <span class="inline-id">ORD-6802</span></p>
+                                            <p><strong>Cleared On:</strong> 2026-10-15 10:12:00</p>
+                                        </div>
+                                        <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                            <h4>Financial Breakdown</h4>
+                                            <div class="financial-row"><span>Base Delivery Rate</span> <span>€ 10.16</span></div>
+                                            <div class="financial-row"><span>VAT (23%)</span> <span>€ 2.34</span></div>
+                                            <div class="financial-total"><span>Total Settled</span> <span>€ 12.50</span></div>
+                                        </div>
+                                        <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                            <button class="btn btn-view" onclick="viewDocument('Invoice_INV-9100.pdf')">Download Invoice</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- OUTBOUND ARCHIVE -->
+                            <tr class="main-row" data-type="Outbound" style="display: none;" onclick="toggleDetails('details-hist-pay2')">
+                                <td class="icon-expand">▼</td>
+                                <td><strong>#TXN-OUT-4100</strong></td>
+                                <td>Carlos Mendes<span class="client-id">INDCOU-2026-7E9V6F5D</span></td>
+                                <td><span class="badge type-outbound">Outbound</span></td>
+                                <td><strong>€ 210.00</strong></td>
+                                <td><span class="badge status-ok">Settled</span> (2026-10-31)</td>
+                            </tr>
+                            <tr class="details-row" id="details-hist-pay2">
+                                <td colspan="6" style="padding: 0;">
+                                    <div class="details-content">
+                                        <div class="details-column" style="flex: 1.2;">
+                                            <h4>Payout Details</h4>
+                                            <p><strong>Method:</strong> SEPA Transfer</p>
+                                            <p><strong>Cycle:</strong> Oct 2026</p>
+                                            <p><strong>Settled On:</strong> 2026-10-31 09:00:00</p>
+                                        </div>
+                                        <div class="details-column" style="flex: 1.5; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                            <h4>Financial Breakdown</h4>
+                                            <div class="financial-row"><span>Deliveries Earned (30)</span> <span>€ 235.00</span></div>
+                                            <div class="financial-row"><span>Client Tips</span> <span>€ 10.00</span></div>
+                                            <div class="financial-row" style="color: #ef4444;"><span>Platform Fee (15%)</span> <span>- € 35.00</span></div>
+                                            <div class="financial-total"><span>Total Transferred</span> <span>€ 210.00</span></div>
+                                        </div>
+                                        <div class="details-column" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                                            <button class="btn btn-view" onclick="viewDocument('Payout_Statement_4100.pdf')">Payout Statement</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- UNIFIED SCRIPTS                                            -->
+    <!-- ========================================================== -->
+    <script src="script.js"></script>
+</body>
+</html>
