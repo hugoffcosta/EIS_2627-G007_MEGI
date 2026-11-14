@@ -437,7 +437,22 @@
                 </div>
 
                 <!-- Formulário Detalhado de Edição do Funcionário Selecionado -->
-                <div class="card form-card" id="employee-edit-card">
+                <!-- Cartão de Fotografia Tipo Passe do Funcionário -->
+                    <div class="employee-photo-banner">
+                        <div class="passport-photo-frame">
+                            <img id="emp-photo-preview" src="fotos_staff/EMP001.jpeg" alt="Foto tipo passe" onerror="this.style.display='none'; document.getElementById('emp-photo-fallback').style.display='flex';">
+                            <div id="emp-photo-fallback" class="photo-fallback" style="display: none;">MS</div>
+                        </div>
+                        <div class="employee-photo-meta">
+                            <span class="photo-tag"><i class="fa-solid fa-id-badge"></i> Fotografia Tipo Passe</span>
+                            <h4 id="emp-banner-name">Manuel Silva Fernandes</h4>
+                            <p id="emp-banner-code">#EMP-001 · Ficha de Recursos Humanos</p>
+                            <label for="emp-photo-upload" class="btn-upload-photo">
+                                <i class="fa-solid fa-camera"></i> Alterar Fotografia
+                            </label>
+                            <input type="file" id="emp-photo-upload" accept="image/*" hidden onchange="previewUploadedPhoto(event)">
+                        </div>
+                    </div>
                     <<div class="form-header-group">
                         <div class="employee-selector-group">
                             <label for="select-employee-dropdown"><i class="fa-solid fa-user-gear"></i> Selecionar Funcionário:</label>

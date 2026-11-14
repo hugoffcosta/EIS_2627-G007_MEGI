@@ -71,6 +71,27 @@ function loadEmployeeData(empId) {
     const roleBadge = document.getElementById('editing-employee-role');
     if (roleBadge) roleBadge.innerText = emp.role;
     
+    // Atualizar fotografia tipo passe e cabeçalho visual
+    const photoImg = document.getElementById('emp-photo-preview');
+    const photoFallback = document.getElementById('emp-photo-fallback');
+    const bannerName = document.getElementById('emp-banner-name');
+    const bannerCode = document.getElementById('emp-banner-code');
+
+    if (bannerName) bannerName.innerText = emp.name;
+    if (bannerCode) bannerCode.innerText = `${emp.empCode} · Ficha de Recursos Humanos`;
+
+    if (photoFallback) {
+        const initials = emp.name.split(' ').map(n => n[0]).slice(0, 2).join('');
+        photoFallback.innerText = initials;
+        photoFallback.style.display = 'none';
+    }
+
+    if (photoImg) {
+        photoImg.style.display = 'block';
+        const formattedId = String(emp.id).padStart(3, '0');
+        photoImg.src = emp.customPhoto || `fotos_staff/EMP${formattedId}.jpeg`;
+    }
+
     // Preencher campos do formulário
     document.getElementById('emp-name').value = emp.name;
     document.getElementById('emp-email').value = emp.email;

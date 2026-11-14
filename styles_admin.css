@@ -1014,3 +1014,95 @@ body {
 .staff-org-list li:hover::after {
     opacity: 1;
 }
+
+/* ==========================================================================
+   FOTOGRAFIA TIPO PASSE NA FICHA DO FUNCIONÁRIO
+   ========================================================================== */
+.employee-photo-banner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.passport-photo-frame {
+    width: 90px;
+    height: 115px; /* Proporção oficial tipo passe (35x45mm) */
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--petrol);
+    background: #dce5df;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(8, 62, 67, 0.12);
+}
+
+.passport-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+.photo-fallback {
+    width: 100%;
+    height: 100%;
+    background: var(--petrol);
+    color: var(--mint);
+    font-size: 1.6rem;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+}
+
+.employee-photo-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.photo-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green);
+}
+
+.employee-photo-meta h4 {
+    font-size: 1.15rem;
+    color: var(--petrol);
+    margin: 0;
+}
+
+.employee-photo-meta p {
+    font-size: 0.82rem;
+    color: #516961;
+    margin: 0 0 6px;
+}
+
+.btn-upload-photo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--white);
+    border: 1px solid #b9cdc2;
+    color: var(--petrol);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-upload-photo:hover {
+    background: var(--petrol);
+    color: var(--white);
+    border-color: var(--petrol);
+}
