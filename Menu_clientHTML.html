@@ -33,10 +33,10 @@
         <div class="form-group"><label for="dest-lng">Destination Longitude *</label><input type="number" id="dest-lng" min="-180" max="180" step="any" required placeholder="-8.611"></div>
       </div>
       <p class="client-note">Address searches are sent to the public Photon geocoder (OpenStreetMap/Komoot) to find coordinates.</p>
-      <div class="client-map-title"><div><h3>Interactive map</h3><p>Select which point to place, then click on the map.</p></div><button type="button" id="client-map-sample" class="back-button">Use FEUP example</button></div>
+      <div class="client-map-title"><div><h3>Interactive map</h3><p>Select which point to place, then click on the map.</p></div></div>
       <fieldset class="client-point-picker"><legend>Choose map click action</legend><label><input type="radio" name="map-target" value="origin" checked> Set origin</label><label><input type="radio" name="map-target" value="destination"> Set destination</label></fieldset>
       <div id="client-order-map" class="client-map" role="region" aria-label="Interactive OpenStreetMap for pickup and destination"></div>
-      <p id="client-map-status" class="client-note">A sample marker is shown at FEUP until coordinates are set. The line between two selected points is straight, not a road route.</p>
+      <p id="client-map-status" class="client-note" role="status" aria-live="polite">Select both pickup and destination coordinates to display the road route.</p>
 <div class="client-section-head client-section-divider"><span class="section-number">02</span><h2>Products & Cargo</h2></div><div id="client-products" class="client-products"></div><button type="button" id="client-add-product" class="back-button">+ Add another product</button><div class="client-capacity-summary"><div><span>Combined weight</span><strong id="client-total-weight">0 kg</strong></div><div><span>Combined volume</span><strong id="client-total-volume">0 m³</strong></div><small>Weights and volumes are checked by the courier against the selected vehicle's capacity.</small></div>
       <div class="client-section-head client-section-divider"><span class="section-number">03</span><h2>Delivery Details</h2></div>
       <div class="form-grid">

@@ -71,8 +71,8 @@
   function productItems(){return [...products.querySelectorAll('.client-product-row')].map(row=>Object.fromEntries([...row.querySelectorAll('input,select')].map(el=>[el.name,el.value]))).map(o=>({...o,quantity:toNumber(o.quantity),weight:toNumber(o.weight),volume:toNumber(o.volume)}));}
   function updateProducts(){const p=productItems(),weight=p.reduce((sum,x)=>sum+(Number.isFinite(x.weight)&&Number.isFinite(x.quantity)?x.weight*x.quantity:0),0),volume=p.reduce((sum,x)=>sum+(Number.isFinite(x.volume)&&Number.isFinite(x.quantity)?x.volume*x.quantity:0),0);$('client-total-weight').textContent=`${fmt(weight,3)} kg`;$('client-total-volume').textContent=`${fmt(volume,4)} m³`;const children=[...products.children];children.forEach((row,i)=>{row.querySelector('.client-product-heading strong').textContent=`Product ${i+1}`;row.querySelector('.client-remove-product').disabled=children.length===1;});return {weight,volume};}
   $('client-add-product').addEventListener('click',()=>addProduct());addProduct();
-  // Interactive Leaflet OpenStreetMap — only a straight illustrative line, not road routing.
-  let map=null,originMarker=null,destMarker=null,sampleMarker=null,line=null;
+  // Interactive Leaflet OpenStreetMap with OSRM road routing.
+  let map=null,originMarker=null,destMarker=null,sampleMarker=null,roadRoute=null,routeController=null,routeTimer=null,routeRequestId=0;
   const sampleMapLocation=[41.1779,-8.5981];
   const coordIds=['origin-lat','origin-lng','dest-lat','dest-lng'];
   function coordValues(){const arr=coordIds.map(id=>$(id).value.trim());if(arr.some(v=>v===''))return null;const numbers=arr.map(Number);if(numbers.some(x=>!Number.isFinite(x)))return null;const [a,b,c,d]=numbers;if(Math.abs(a)>90||Math.abs(c)>90||Math.abs(b)>180||Math.abs(d)>180)return null;return {origin:[a,b],dest:[c,d]};}
@@ -110,10 +110,55 @@
   }
   addressPickers.forEach(picker=>{picker.input.addEventListener('input',()=>handleAddressInput(picker));picker.input.addEventListener('change',()=>selectAddressSuggestion(picker));});
   function initializeMap(){if(map||!window.L){if(!window.L)$('client-map-status').textContent='Map library unavailable. Check your Internet connection. GPS inputs still work.';return;}map=L.map('client-order-map').setView(sampleMapLocation,14);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);map.on('click',e=>{const kind=document.querySelector('input[name="map-target"]:checked')?.value||'origin';$(kind==='origin'?'origin-lat':'dest-lat').value=e.latlng.lat.toFixed(6);$(kind==='origin'?'origin-lng':'dest-lng').value=e.latlng.lng.toFixed(6);refreshMap();updateOrderPrice();});refreshMap();}
-  function refreshMap(){if(!map)return;for(const obj of [originMarker,destMarker,sampleMarker,line])if(obj)map.removeLayer(obj);originMarker=destMarker=sampleMarker=line=null;const getPair=(a,b)=>{const v=$(a).value,w=$(b).value;if(!v||!w)return null;const lat=Number(v),lng=Number(w);return Number.isFinite(lat)&&Number.isFinite(lng)&&Math.abs(lat)<=90&&Math.abs(lng)<=180?[lat,lng]:null;};const origin=getPair('origin-lat','origin-lng'),dest=getPair('dest-lat','dest-lng');if(origin)originMarker=L.marker(origin).addTo(map).bindPopup('Pickup / Origin');if(dest)destMarker=L.marker(dest).addTo(map).bindPopup('Delivery / Destination');if(origin&&dest){line=L.polyline([origin,dest],{color:'#13866d',weight:4,dashArray:'8,7'}).addTo(map);map.fitBounds(line.getBounds().pad(.28),{maxZoom:14});}else if(origin||dest)map.setView(origin||dest,13);else{sampleMarker=L.marker(sampleMapLocation).addTo(map).bindPopup('Sample location: FEUP');map.setView(sampleMapLocation,14);}}
+  function refreshMap(){
+    if(!map)return;
+    clearTimeout(routeTimer);routeTimer=null;
+    if(routeController){routeController.abort();routeController=null;}
+    const requestId=++routeRequestId;
+    for(const layer of [originMarker,destMarker,sampleMarker,roadRoute])if(layer)map.removeLayer(layer);
+    originMarker=destMarker=sampleMarker=roadRoute=null;
+    const getPair=(latitudeId,longitudeId)=>{const latitude=$(latitudeId).value.trim(),longitude=$(longitudeId).value.trim();if(!latitude||!longitude)return null;const lat=Number(latitude),lng=Number(longitude);return Number.isFinite(lat)&&Number.isFinite(lng)&&Math.abs(lat)<=90&&Math.abs(lng)<=180?[lat,lng]:null;};
+    const origin=getPair('origin-lat','origin-lng'),dest=getPair('dest-lat','dest-lng'),status=$('client-map-status');
+    if(origin)originMarker=L.marker(origin).addTo(map).bindPopup('Pickup / Origin');
+    if(dest)destMarker=L.marker(dest).addTo(map).bindPopup('Delivery / Destination');
+    if(origin&&dest){
+      map.fitBounds(L.latLngBounds([origin,dest]).pad(.28),{maxZoom:14});
+      status.textContent='Calculating the road route…';
+      routeTimer=setTimeout(()=>drawRoadRoute(origin,dest,requestId),300);
+    }else if(origin||dest){
+      map.setView(origin||dest,13);
+      status.textContent='Enter valid pickup and destination coordinates to display the road route.';
+    }else{
+      sampleMarker=L.marker(sampleMapLocation).addTo(map).bindPopup('Select pickup and destination points');
+      map.setView(sampleMapLocation,14);
+      status.textContent='Select both pickup and destination coordinates to display the road route.';
+    }
+  }
+  async function drawRoadRoute(origin,dest,requestId){
+    const controller=new AbortController();routeController=controller;
+    let timedOut=false;
+    const timeout=setTimeout(()=>{timedOut=true;controller.abort();},15000);
+    try{
+      const points=[origin,dest].map(([lat,lng])=>`${lng},${lat}`).join(';');
+      const response=await fetch(`https://router.project-osrm.org/route/v1/driving/${points}?overview=full&geometries=geojson&steps=false`,{signal:controller.signal,credentials:'omit'});
+      if(response.status===429)throw new Error('The road route service is busy. Please try again shortly.');
+      if(!response.ok)throw new Error('The road route service is temporarily unavailable.');
+      const data=await response.json(),route=data.routes?.[0],coordinates=route?.geometry?.coordinates;
+      const validCoordinate=point=>Array.isArray(point)&&point.length===2&&point.every(Number.isFinite)&&Math.abs(point[0])<=180&&Math.abs(point[1])<=90;
+      if(data.code!=='Ok'||route?.geometry?.type!=='LineString'||!Array.isArray(coordinates)||coordinates.length<2||!coordinates.every(validCoordinate))throw new Error('No road route was found for these locations.');
+      if(requestId!==routeRequestId)return;
+      roadRoute=L.polyline(coordinates.map(([lng,lat])=>[lat,lng]),{color:'#13866d',weight:5,opacity:.9}).addTo(map);
+      map.fitBounds(roadRoute.getBounds().pad(.28),{maxZoom:14});
+      $('client-map-status').textContent='';
+    }catch(error){
+      if(requestId!==routeRequestId)return;
+      $('client-map-status').textContent=timedOut?'The road route request timed out. Please try again.':error.message||'Could not load the road route. Check your connection and try again.';
+    }finally{
+      clearTimeout(timeout);
+      if(routeController===controller)routeController=null;
+    }
+  }
   coordIds.forEach(id=>$(id).addEventListener('input',()=>{refreshMap();updateOrderPrice();}));
-  function sampleCoordinates(){resetAddressLookups('FEUP example selected; example coordinates are filled.');$('origin-lat').value='41.178000';$('origin-lng').value='-8.598000';$('dest-lat').value='41.149600';$('dest-lng').value='-8.610900';$('pickup-address').value='FEUP, Rua Dr. Roberto Frias, Porto';$('dropoff-address').value='Avenida dos Aliados, Porto';refreshMap();updateOrderPrice();}
-  $('client-map-sample').addEventListener('click',sampleCoordinates);
   $('client-delivery-date').min=localDay();$('client-delivery-date').value=localDay();
   $('client-order-service').addEventListener('change',updateOrderPrice);
   updateOrderPrice();

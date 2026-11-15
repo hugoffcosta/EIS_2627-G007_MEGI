@@ -39,7 +39,6 @@
 .client-map-title{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:10px 0 12px;}
 .client-map-title h3{font-size:19px;}
 .client-map-title p,.client-note{color:var(--muted);font-size:12px;}
-.client-map-title .back-button{white-space:nowrap;}
 .client-point-picker{display:flex;align-items:center;flex-wrap:wrap;gap:16px;padding:14px 16px;margin-bottom:16px;border:1px solid var(--border);background:var(--surface-soft);border-radius:18px;}
 .client-point-picker legend{padding:0 8px;color:var(--muted);font-size:12px;}
 .client-point-picker label{display:flex;gap:8px;align-items:center;font-size:12px;cursor:pointer;}
