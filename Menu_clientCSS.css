@@ -90,6 +90,12 @@
 .client-order-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap;padding-top:15px;border-top:1px solid var(--border);}
 .client-text-link{color:var(--green);font-size:13px;font-weight:650;}
 .client-order-actions .client-text-link{padding:10px 12px;cursor:pointer;background:transparent;border:0;}
+.client-rating-saved,.client-courier-assignment{color:var(--muted);font-size:12px;}
+.client-courier-assignment{margin:-6px 0;}
+.client-rating-title{font-size:28px;margin:12px 0;}
+#client-rating-dialog{width:min(520px,calc(100% - 32px));}
+#client-rating-dialog form{display:grid;gap:16px;margin-top:18px;}
+#client-rating-dialog select,#client-rating-dialog textarea{width:100%;background:var(--field);color:var(--ink);}
 .client-cancel-button{border:1px solid #e2b7b7;background:transparent;color:var(--danger);font-size:12px;padding:10px 14px;border-radius:99px;cursor:pointer;}
 .client-order-empty{padding:36px;text-align:center;border:1px dashed var(--border);border-radius:24px;background:var(--surface);}
 .client-order-empty h3{font-size:23px;margin-bottom:10px;}
