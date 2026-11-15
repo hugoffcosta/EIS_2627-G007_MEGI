@@ -28,6 +28,7 @@
     }
 
     function showError(field,message) {
+        message = window.TrustPortLanguage?.translate(message) ?? message;
         field.setCustomValidity(message);
         field.setAttribute('aria-invalid',String(Boolean(message)));
         errorElement(field).textContent = message;

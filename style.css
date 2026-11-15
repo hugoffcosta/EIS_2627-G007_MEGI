@@ -226,3 +226,8 @@ tr:last-child > td { border-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* White sidebar header provides contrast for the original logo. */
+.sidebar-header .dashboard-logo { display: block; width: 100%; max-width: 220px; height: auto; }
+
+.sidebar-header { background-color: #fff; }

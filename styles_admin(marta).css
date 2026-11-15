@@ -1195,3 +1195,8 @@ footer {
     color: var(--white);
     border-color: var(--petrol);
 }
+/* Keep the original logo proportions in the administrator navigation. */
+.navbar .dashboard-logo { display: block; width: 200px; max-width: 100%; height: auto; }
+@media (max-width: 600px) {
+    .navbar .dashboard-logo { width: 160px; }
+}

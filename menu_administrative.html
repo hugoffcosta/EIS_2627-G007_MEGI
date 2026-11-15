@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrative Access | TrustPort</title>
+  <link rel="stylesheet" href="Registration_Courier_CSS.css">
+  <link rel="stylesheet" href="menu_registration.css">
+  <link rel="stylesheet" href="Login_Courier_CSS.css">
+  <link rel="stylesheet" href="menu_inicial.css">
+  <script src="menu_inicial.js" defer></script>
+  
+</head>
+<body class="role-selection-page page-login">
+<header class="site-header">
+    <a class="brand" href="menu_inicial.html" aria-label="TrustPort — Home">
+      <img class="brand-logo" src="logo.png" alt="TrustPort ? Trust in every move." width="705" height="260">
+    </a>
+    <button class="menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" data-en="Menu" data-pt="Menu">Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation">
+      <a href="menu_inicial.html#about" data-en="About us" data-pt="Sobre nós">About us</a>
+      <a href="menu_inicial.html#sustainability-dashboard" data-en="Sustainability" data-pt="Sustentabilidade">Sustainability</a>
+      <a href="menu_inicial.html#simulator" data-en="Simulator" data-pt="Simulador">Simulator</a>
+      <a href="menu_inicial.html#contact" data-en="Contact us" data-pt="Contactos">Contact us</a>
+      <a href="menu_inicial.html#faq">FAQs</a>
+      <a href="equipa.html" data-en="Team" data-pt="Equipa">Team</a>
+      <a href="menu_inicial.html#join-us" data-en="Join Us" data-pt="Junta-te a nós">Join Us</a>
+      <a class="account-button" href="menu_login.html" data-en="Login" data-pt="Entrar">Login</a>
+      <a class="account-button" href="menu_registration.html" data-en="Register" data-pt="Registar">Register</a>
+      <a class="account-button administrative-access" href="menu_administrative.html" data-en="Administrative Access" data-pt="Acesso Administrativo">Administrative Access</a>
+    </nav>
+    <div class="language-switch" role="group" aria-label="Language / Idioma">
+      <button type="button" data-language="pt" aria-pressed="false">PT</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-language="en" aria-pressed="true">EN</button>
+    </div>
+  </header>
+<main class="role-selection-wrapper">
+  <a class="login-back-link" href="menu_inicial.html">&larr; Back to home</a>
+  <div class="role-selection-heading"><h1>Administrative <span class="heading-accent">Access</span></h1><p>Choose your account type to log in.</p></div>
+  <div class="registration-roles administrative-roles">
+    <article class="registration-role" aria-labelledby="staff-title"><h2 id="staff-title">Staff</h2><a class="role-button role-button-active" href="Login_Staff_HTML.html">Log in as Staff <span aria-hidden="true">&rarr;</span></a></article>
+    <article class="registration-role" aria-labelledby="admin-title"><h2 id="admin-title">Admin</h2><a class="role-button role-button-active" href="Login_Admin_HTML.html">Log in as Admin <span aria-hidden="true">&rarr;</span></a></article>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | TrustPort</title>
+  <link rel="stylesheet" href="Registration_Courier_CSS.css">
+  <link rel="stylesheet" href="menu_registration.css">
+  <link rel="stylesheet" href="Login_Courier_CSS.css">
+  <link rel="stylesheet" href="menu_inicial.css">
+  <script src="menu_inicial.js" defer></script>
+  <script src="Login_Administrative_JS.js" defer></script>
+</head>
+<body class="role-selection-page page-login">
+<header class="site-header">
+    <a class="brand" href="menu_inicial.html" aria-label="TrustPort — Home">
+      <img class="brand-logo" src="logo.png" alt="TrustPort ? Trust in every move." width="705" height="260">
+    </a>
+    <button class="menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" data-en="Menu" data-pt="Menu">Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation">
+      <a href="menu_inicial.html#about" data-en="About us" data-pt="Sobre nós">About us</a>
+      <a href="menu_inicial.html#sustainability-dashboard" data-en="Sustainability" data-pt="Sustentabilidade">Sustainability</a>
+      <a href="menu_inicial.html#simulator" data-en="Simulator" data-pt="Simulador">Simulator</a>
+      <a href="menu_inicial.html#contact" data-en="Contact us" data-pt="Contactos">Contact us</a>
+      <a href="menu_inicial.html#faq">FAQs</a>
+      <a href="equipa.html" data-en="Team" data-pt="Equipa">Team</a>
+      <a href="menu_inicial.html#join-us" data-en="Join Us" data-pt="Junta-te a nós">Join Us</a>
+      <a class="account-button" href="menu_login.html" data-en="Login" data-pt="Entrar">Login</a>
+      <a class="account-button" href="menu_registration.html" data-en="Register" data-pt="Registar">Register</a>
+      <a class="account-button administrative-access" href="menu_administrative.html" data-en="Administrative Access" data-pt="Acesso Administrativo">Administrative Access</a>
+    </nav>
+    <div class="language-switch" role="group" aria-label="Language / Idioma">
+      <button type="button" data-language="pt" aria-pressed="false">PT</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-language="en" aria-pressed="true">EN</button>
+    </div>
+  </header>
+<main class="courier-login-wrapper">
+        <a class="login-back-link" href="menu_administrative.html"><span aria-hidden="true">&larr;</span> Administrative account types</a>
+        <section class="courier-login-card" aria-labelledby="administrative-login-title">
+            <h1 id="administrative-login-title">Admin <span class="heading-accent">login</span></h1>
+
+            <form id="administrative-login-form" data-role="admin" action="#" method="post" novalidate>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required autocomplete="username"
+                           autocapitalize="none" spellcheck="false" aria-describedby="login-email-error">
+                    <p id="login-email-error" class="field-error" aria-live="polite"></p>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="login-password-control">
+                        <input type="password" id="login-password" name="password" required autocomplete="current-password" aria-describedby="login-password-error">
+                        <button type="button" id="toggle-login-password" aria-controls="login-password" aria-pressed="false" aria-label="Show password">
+                            <svg class="password-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path class="password-eye-slash" d="M3 3l18 18"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p id="login-password-error" class="field-error" aria-live="polite"></p>
+                </div>
+                <button type="submit" class="submit-button login-submit">Log in</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

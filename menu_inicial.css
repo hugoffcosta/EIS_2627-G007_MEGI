@@ -891,3 +891,24 @@ html.home-page { font-family: "Segoe UI", Arial, sans-serif; }
   .site-header nav { align-items: stretch; flex-direction: column; gap: 0; }
   .site-header nav .account-button { text-align: center; margin-top: 10px; }
 }
+
+/* Keep the extended homepage navigation within the available header width. */
+@media (min-width: 1101px) {
+  .site-header { gap: 20px; }
+  .site-header nav { gap: clamp(10px, 1.2vw, 22px); }
+}
+@media (min-width: 1101px) and (max-width: 1350px) {
+  .site-header { flex-wrap: wrap; }
+  .site-header nav { order: 4; flex-basis: 100%; justify-content: center; flex-wrap: wrap; }
+  .site-header .language-switch { margin-left: auto; }
+}
+
+/* Brand image keeps its original proportions; shared across entry pages. */
+.site-header .brand { min-width: 0; width: 200px; }
+.site-header .brand-logo { display: block; width: 100%; height: auto; }
+.administrative-roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#administrative-login-form .form-group + .form-group { margin-top: 24px; }
+@media (max-width: 600px) {
+  .site-header .brand { width: 160px; }
+  .administrative-roles { grid-template-columns: minmax(0, 1fr); }
+}
