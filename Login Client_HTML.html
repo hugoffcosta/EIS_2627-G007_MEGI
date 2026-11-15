@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="CMS client parcel booking and tracking demo"><title>Client Login | CMS</title>
-<link rel="stylesheet" href="Registration Courier_CSS.css"><link rel="stylesheet" href="Login Courier_CSS.css"><link rel="stylesheet" href="Login Client_CSS.css">
-<script src="Login Client_JS.js" defer></script></head>
+<link rel="stylesheet" href="Registration_Courier_CSS.css"><link rel="stylesheet" href="Login_Courier_CSS.css"><link rel="stylesheet" href="Login Client_CSS.css">
+<script src="Login Client_JS.js" defer></script>
+<link rel="stylesheet" href="menu_inicial.css">
+<script src="menu_inicial.js" defer></script>
+</head>
 <body class="role-selection-page page-login client-login-page">
-<header class="main-header"><nav class="navbar" aria-label="Main navigation"><a href="menu login.html" class="brand" aria-label="CMS home"><span class="brand-icon"><svg class="site-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h12v12H2zM14 9h4l4 5v3h-8M17 9v5h5"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><span><span class="brand-name">CMS</span><span class="brand-subtitle">Courier Management System</span></span></a><div class="nav-links"><a href="menu login.html">Home</a><a href="#about">About</a></div><div class="nav-actions"><a href="menu login.html" class="login-link">Login</a><a href="menu registration.html" class="register-nav-button">Register</a></div></nav></header>
-<main class="courier-login-wrapper"><a class="login-back-link" href="menu login.html">← Account types</a><section class="courier-login-card" aria-labelledby="client-login-title"><span class="hero-label">CLIENT AREA</span><h1 id="client-login-title">Client <span class="heading-accent">login</span></h1><p class="client-login-lead">Access your orders, track deliveries and manage your profile.</p>
+<header class="site-header">
+    <a class="brand" href="menu_inicial.html" aria-label="TrustPort — Home">
+      <img class="brand-logo" src="logo.png" alt="TrustPort ? Trust in every move." width="705" height="260">
+    </a>
+    <button class="menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" data-en="Menu" data-pt="Menu">Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation">
+      <a href="menu_inicial.html#about" data-en="About us" data-pt="Sobre nós">About us</a>
+      <a href="menu_inicial.html#sustainability-dashboard" data-en="Sustainability" data-pt="Sustentabilidade">Sustainability</a>
+      <a href="menu_inicial.html#simulator" data-en="Simulator" data-pt="Simulador">Simulator</a>
+      <a href="menu_inicial.html#contact" data-en="Contact us" data-pt="Contactos">Contact us</a>
+      <a href="menu_inicial.html#faq">FAQs</a>
+      <a href="equipa.html" data-en="Team" data-pt="Equipa">Team</a>
+      <a href="menu_inicial.html#join-us" data-en="Join Us" data-pt="Junta-te a nós">Join Us</a>
+      <a class="account-button" href="menu_login.html" data-en="Login" data-pt="Entrar">Login</a>
+      <a class="account-button" href="menu_registration.html" data-en="Register" data-pt="Registar">Register</a>
+      <a class="account-button administrative-access" href="menu_administrative.html" data-en="Administrative Access" data-pt="Acesso Administrativo">Administrative Access</a>
+    </nav>
+    <div class="language-switch" role="group" aria-label="Language / Idioma">
+      <button type="button" data-language="pt" aria-pressed="false">PT</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-language="en" aria-pressed="true">EN</button>
+    </div>
+  </header>
+<main class="courier-login-wrapper"><a class="login-back-link" href="menu_login.html">← Account types</a><section class="courier-login-card" aria-labelledby="client-login-title"><span class="hero-label">CLIENT AREA</span><h1 id="client-login-title">Client <span class="heading-accent">login</span></h1><p class="client-login-lead">Access your orders, track deliveries and manage your profile.</p>
 <form id="client-login-form" novalidate><div class="form-group"><label for="client-login-email">Email *</label><input id="client-login-email" type="email" autocomplete="username" placeholder="client@example.com" required></div><div class="form-group"><label for="client-login-password">Password *</label><div class="login-password-control"><input id="client-login-password" type="password" autocomplete="current-password" required><button type="button" id="client-toggle-password" aria-label="Show password" aria-pressed="false">◉</button></div></div>
 <p class="client-feedback" id="client-login-feedback" role="alert"></p><button type="submit" class="submit-button login-submit">Log in →</button></form>
-<p class="login-register-prompt">Don't have an account? <a href="Registration Client_HTML.html">Register as Client</a></p><p class="client-demo-caption">Academic frontend prototype · Any email and nonempty password open the demo. No real authentication is performed.</p></section></main><footer id="about"><div class="footer-container"><div><strong>CMS</strong><p>Courier Management System</p></div><p>Keep moving. Deliver with confidence.</p><p>Enterprise Information Systems · FEUP</p></div></footer></body></html>
+<p class="login-register-prompt">Don't have an account? <a href="Registration Client_HTML.html">Register as Client</a></p></section>
+</main>
+<footer id="about"><div class="footer-container"><div><strong>CMS</strong><p>Courier Management System</p></div><p>Keep moving. Deliver with confidence.</p><p>Enterprise Information Systems · FEUP</p></div></footer></body></html>
