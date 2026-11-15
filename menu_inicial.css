@@ -217,6 +217,8 @@ html.home-page { font-family: "Segoe UI", Arial, sans-serif; }
 :where(html.home-page) .hero-description { font-size: 15px; line-height: 1.8; color: #526b64; max-width: 460px; margin: 0 0 28px; }
 :where(html.home-page) .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
 :where(html.home-page) .hero-actions .pill-button { padding: 14px 21px; border-radius: 14px; }
+:where(html.home-page) .hero-actions .staff-access-button { border: 1px solid var(--petrol); background: transparent; color: var(--petrol); }
+:where(html.home-page) .hero-actions .staff-access-button:hover { background: #e4eee8; }
 :where(html.home-page) .hero-actions .video-link { gap: 9px; font-weight: 600; }
 :where(html.home-page) .hero-actions .video-link > span:last-child { display: inline; border: 0; border-radius: 0; width: auto; height: auto; font-size: 12px; }
 :where(html.home-page) .play-symbol { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid #bbcec5; border-radius: 50%; font-size: 17px; }
