@@ -1,9 +1,0 @@
-/* Keeps the same Login Courier card dimensions and control styling. */
-.client-login-page .client-login-lead {margin:-14px 0 28px;color:var(--muted);font-size:13px;}
-.client-login-page #client-login-form .form-group + .form-group{margin-top:24px;}
-.client-login-page .login-password-control {position:relative;}
-.client-login-page .login-password-control input{padding-right:52px;}
-.client-login-page .login-password-control button{position:absolute;top:50%;right:8px;transform:translateY(-50%);background:transparent;border:0;color:var(--green);font-size:20px;width:40px;height:40px;cursor:pointer;}
-.client-login-page .client-feedback {color:var(--danger);font-size:12px;margin:12px 0 0;}
-.client-demo-caption {margin-top:18px;color:var(--muted);font-size:11px;line-height:1.6;}
-.client-login-page [aria-invalid="true"] {border-color:var(--danger);}
