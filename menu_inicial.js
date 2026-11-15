@@ -350,7 +350,7 @@
       toggle.setAttribute('aria-expanded', 'false');
     });
   });
-  header.querySelectorAll('[data-language]').forEach(button => {
+  document.querySelectorAll('[data-language]').forEach(button => {
     button.addEventListener('click', () => window.TrustPortLanguage.setLanguage(button.dataset.language));
   });
 })();
@@ -363,8 +363,7 @@ let language = document.documentElement.lang === 'pt' ? 'pt' : 'en';
 const homepageSampleMetrics = Object.freeze({
   completedDeliveries: 12480,
   approvedCarriers: 186,
-  registeredClients: 3420,
-  referenceDate: '2026-11-14'
+  registeredClients: 3420
 });
 function setLanguage(value) {
   language = value;
@@ -630,9 +629,6 @@ setLanguage(document.documentElement.lang);
 
 
 function renderHomepageMetrics() {
-  const reference = document.querySelector('#metrics-reference');
-  reference.dateTime = homepageSampleMetrics.referenceDate;
-  reference.textContent = new Intl.DateTimeFormat(language === 'pt' ? 'pt-PT' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Lisbon' }).format(new Date(reference.dateTime));
   const formatter = new Intl.NumberFormat(language === 'pt' ? 'pt-PT' : 'en-GB');
   document.querySelectorAll('[data-metric]').forEach(element => {
     element.textContent = formatter.format(homepageSampleMetrics[element.dataset.metric]);
