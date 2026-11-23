@@ -13,14 +13,17 @@
  */
 
 require_once __DIR__ . '/../dal/UserDAL.php';
+require_once __DIR__ . '/../dal/CompanyDAL.php';
 
 class AuthService
 {
     private UserDAL $users;
+    private CompanyDAL $companies;
 
     public function __construct()
     {
-        $this->users = new UserDAL();
+        $this->users     = new UserDAL();
+        $this->companies = new CompanyDAL();
     }
 
     /** Inicia a sessão PHP, se ainda não estiver iniciada. */
@@ -35,12 +38,19 @@ class AuthService
     // LOGIN
     // ------------------------------------------------------------------
 
-    /** Login de um cliente. Devolve os dados públicos do utilizador. */
-    public function loginClient(string $email, string $password): array
+    /**
+     * Login de qualquer tipo de conta.
+     * $role: 'client', 'courier', 'company', 'staff' ou 'admin'
+     * Devolve os dados públicos do utilizador autenticado.
+     */
+    public function login(string $role, string $email, string $password): array
     {
         $email = trim($email);
 
         // 1. Validar os dados recebidos
+        if (!in_array($role, ['client', 'courier', 'company', 'staff', 'admin'], true)) {
+            throw new InvalidArgumentException('Unknown account type.');
+        }
         if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException('Enter a valid email address.');
         }
@@ -48,29 +58,108 @@ class AuthService
             throw new InvalidArgumentException('Password is required.');
         }
 
-        // 2. Procurar o utilizador e verificar a password (encriptada com password_hash)
+        // 2. As empresas têm login próprio, na tabela "company"
+        if ($role === 'company') {
+            return $this->loginCompany($email, $password);
+        }
+
+        // 3. Procurar o utilizador e verificar a password (encriptada com password_hash)
         $user = $this->users->findByEmail($email);
         if ($user === null || !password_verify($password, $user['password_hash'])) {
             // Mesma mensagem nos dois casos, para não revelar que emails existem
             throw new RuntimeException('Incorrect email or password.');
         }
 
-        // 3. Confirmar que é mesmo um cliente
-        if ($user['role'] !== 'client') {
-            throw new RuntimeException('This account is not a client account. Use the correct login page.');
+        // 4. Confirmar que a conta é do tipo da página de login usada
+        if ($user['role'] !== $role) {
+            $article = $role === 'admin' ? 'an' : 'a';
+            throw new RuntimeException("This account is not $article $role account. Use the correct login page.");
         }
 
-        $profile = $this->users->findClientProfile((int) $user['user_id']);
-        if ($profile === null) {
-            throw new RuntimeException('Client profile not found.');
+        // 5. Ler o perfil e aplicar as regras de aprovação de cada tipo
+        $userId = (int) $user['user_id'];
+        $extra  = [];
+
+        switch ($role) {
+            case 'client':
+                $profile = $this->users->findClientProfile($userId);
+                if ($profile === null) {
+                    throw new RuntimeException('Client profile not found.');
+                }
+                $extra = ['client_id' => (int) $profile['client_id']];
+                break;
+
+            case 'courier':
+                // O estafeta só entra depois de aprovado pelo staff
+                $profile = $this->users->findCourierProfile($userId);
+                if ($profile === null) {
+                    throw new RuntimeException('Courier profile not found.');
+                }
+                $this->checkApproval($profile['approval_status'], 'our staff');
+                $extra = [
+                    'courier_id' => (int) $profile['courier_id'],
+                    'company_id' => $profile['company_id'] !== null ? (int) $profile['company_id'] : null,
+                ];
+                break;
+
+            case 'staff':
+                // O staff só entra depois de aprovado pelo admin
+                $profile = $this->users->findStaffProfile($userId);
+                if ($profile === null) {
+                    throw new RuntimeException('Staff profile not found.');
+                }
+                $this->checkApproval($profile['approval_status'], 'the administrator');
+                $extra = ['staff_id' => (int) $profile['staff_id']];
+                break;
+
+            case 'admin':
+                $profile = $this->users->findAdminProfile($userId);
+                if ($profile === null) {
+                    throw new RuntimeException('Admin profile not found.');
+                }
+                $extra = ['admin_id' => (int) $profile['admin_id']];
+                break;
         }
 
-        // 4. Guardar na sessão
-        $this->startUserSession((int) $user['user_id'], 'client', $user['name'], $user['email'], [
-            'client_id' => (int) $profile['client_id'],
+        // 6. Guardar na sessão
+        $this->startUserSession($userId, $role, $user['name'], $user['email'], $extra);
+
+        return $this->currentUser();
+    }
+
+    /** Mantido para compatibilidade: login de cliente. */
+    public function loginClient(string $email, string $password): array
+    {
+        return $this->login('client', $email, $password);
+    }
+
+    /** Login de uma empresa (tabela "company"). Só entra se estiver aprovada pelo staff. */
+    private function loginCompany(string $email, string $password): array
+    {
+        $company = $this->companies->findByEmail($email);
+        if ($company === null || !password_verify($password, $company['password_hash'])) {
+            throw new RuntimeException('Incorrect email or password.');
+        }
+
+        $this->checkApproval($company['approval_status'], 'our staff');
+
+        // As empresas não têm user_id: guarda-se o company_id
+        $this->startUserSession(null, 'company', $company['company_name'], $company['email'], [
+            'company_id' => (int) $company['company_id'],
         ]);
 
         return $this->currentUser();
+    }
+
+    /** Recusa o login de contas pendentes ou rejeitadas. */
+    private function checkApproval(string $status, string $approvedBy): void
+    {
+        if ($status === 'pending') {
+            throw new RuntimeException('Your account is still waiting for approval by ' . $approvedBy . '.');
+        }
+        if ($status !== 'approved') {
+            throw new RuntimeException('Your registration was not approved. Please contact us for more information.');
+        }
     }
 
     // ------------------------------------------------------------------
@@ -183,7 +272,7 @@ class AuthService
     // ------------------------------------------------------------------
 
     /** Guarda o utilizador na sessão (com um id de sessão novo, contra "session fixation"). */
-    private function startUserSession(int $userId, string $role, string $name, string $email, array $extra = []): void
+    private function startUserSession(?int $userId, string $role, string $name, string $email, array $extra = []): void
     {
         self::startSession();
         session_regenerate_id(true);
@@ -207,15 +296,16 @@ class AuthService
     public function currentUser(): ?array
     {
         self::startSession();
-        if (empty($_SESSION['user_id'])) {
+        if (empty($_SESSION['role'])) {
             return null;
         }
 
         return [
-            'user_id' => $_SESSION['user_id'],
-            'role'    => $_SESSION['role'],
-            'name'    => $_SESSION['name'],
-            'email'   => $_SESSION['email'],
+            'user_id'    => $_SESSION['user_id'] ?? null,      // null nas empresas
+            'company_id' => $_SESSION['company_id'] ?? null,   // só empresas e estafetas de empresas
+            'role'       => $_SESSION['role'],
+            'name'       => $_SESSION['name'],
+            'email'      => $_SESSION['email'],
         ];
     }
 }

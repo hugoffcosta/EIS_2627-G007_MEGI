@@ -20,7 +20,7 @@
         toggle.setAttribute('aria-label', visible ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe');
     });
 
-    form.addEventListener('submit', event => {
+    form.addEventListener('submit', async event => {
         event.preventDefault();
         const invalid = !email.value.trim() || email.validity.typeMismatch;
         emailError.textContent = invalid ? 'E-mail inválido' : '';
@@ -29,15 +29,29 @@
             email.focus();
             return;
         }
-        // Demo navigation only; authentication will be integrated in a later sprint.
         if (!password.value) {
             passwordError.textContent = 'Este campo \u00e9 obrigat\u00f3rio.';
             password.setAttribute('aria-invalid', 'true');
             password.focus();
             return;
         }
-        window.location.href = 'Menu_courierHTML.html';
-    });
+        try {
+            const response = await fetch('backend/api/auth.php?action=login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ role: 'courier', email: email.value.trim(), password: password.value })
+            });
+            const data = await response.json();
+            if (!response.ok || !data.ok) {
+                passwordError.textContent = data.error || 'Login failed.';
+                password.value = '';
+                password.focus();
+                return;
+            }
+            window.location.href = 'Menu_courierHTML.html';
+        } catch (error) {
+            passwordError.textContent = 'Could not reach the server. Check that Apache and MySQL are running in XAMPP.';
+        }    });
     password.addEventListener('input', () => {
         passwordError.textContent = '';
         password.removeAttribute('aria-invalid');

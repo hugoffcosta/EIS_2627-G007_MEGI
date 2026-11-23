@@ -2,7 +2,7 @@
 /**
  * API REST de autenticação. Responde sempre em JSON.
  *
- *   POST api/auth.php?action=login     corpo JSON: {"role":"client","email":"...","password":"..."}
+ *   POST api/auth.php?action=login     corpo JSON: {"role":"client|courier|company|staff|admin","email":"...","password":"..."}
  *   POST api/auth.php?action=register  corpo JSON: {"role":"client","name":"...","email":"...", ...}
  *   POST api/auth.php?action=logout
  *   GET  api/auth.php?action=me        devolve o utilizador autenticado (ou 401)
@@ -30,13 +30,9 @@ try {
         $data = json_decode(file_get_contents('php://input'), true) ?? [];
         $role = $data['role'] ?? '';
 
-        if ($role === 'client') {
-            $user = $auth->loginClient($data['email'] ?? '', $data['password'] ?? '');
-            respond(200, ['ok' => true, 'user' => $user]);
-        }
-
-        // Os outros roles (courier, company, staff, admin) vão ser acrescentados aqui
-        respond(400, ['ok' => false, 'error' => 'Unknown account type.']);
+        // role: client, courier, company, staff ou admin
+        $user = $auth->login($role, $data['email'] ?? '', $data['password'] ?? '');
+        respond(200, ['ok' => true, 'user' => $user]);
     }
 
     // ---- REGISTO ----

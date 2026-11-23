@@ -49,6 +49,48 @@ class UserDAL
         return $profile ?: null;
     }
 
+    /** Perfil de estafeta (courier_id e estado de aprovação). */
+    public function findCourierProfile(int $userId): ?array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT courier_id, company_id, approval_status
+             FROM courier_profile
+             WHERE user_id = ?'
+        );
+        $stmt->execute([$userId]);
+        $profile = $stmt->fetch();
+
+        return $profile ?: null;
+    }
+
+    /** Perfil de staff (staff_id e estado de aprovação). */
+    public function findStaffProfile(int $userId): ?array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT staff_id, approval_status
+             FROM staff_profile
+             WHERE user_id = ?'
+        );
+        $stmt->execute([$userId]);
+        $profile = $stmt->fetch();
+
+        return $profile ?: null;
+    }
+
+    /** Perfil de administrador (admin_id). */
+    public function findAdminProfile(int $userId): ?array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT admin_id
+             FROM admin_profile
+             WHERE user_id = ?'
+        );
+        $stmt->execute([$userId]);
+        $profile = $stmt->fetch();
+
+        return $profile ?: null;
+    }
+
     /** true se já existir um utilizador com este email. */
     public function emailExists(string $email): bool
     {

@@ -14,7 +14,7 @@
     });
     email.addEventListener('input',()=>{emailError.textContent='';email.removeAttribute('aria-invalid');});
     password.addEventListener('input',()=>{passwordError.textContent='';password.removeAttribute('aria-invalid');});
-    form.addEventListener('submit',event=>{
+    form.addEventListener('submit', async event=>{
         event.preventDefault();
         const invalidEmail=!email.value.trim()||email.validity.typeMismatch;
         const invalidPassword=!password.value;
@@ -24,6 +24,22 @@
         password.setAttribute('aria-invalid',String(invalidPassword));
         if(invalidEmail){email.focus();return;}
         if(invalidPassword){password.focus();return;}
-        window.location.href='Menu_companyHTML.html';
+        try {
+            const response = await fetch('backend/api/auth.php?action=login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ role: 'company', email: email.value.trim(), password: password.value })
+            });
+            const data = await response.json();
+            if (!response.ok || !data.ok) {
+                passwordError.textContent = data.error || 'Login failed.';
+                password.value = '';
+                password.focus();
+                return;
+            }
+            window.location.href = 'Menu_companyHTML.html';
+        } catch (error) {
+            passwordError.textContent = 'Could not reach the server. Check that Apache and MySQL are running in XAMPP.';
+        }
     });
 })();
