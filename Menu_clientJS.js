@@ -1,3 +1,14 @@
+document.documentElement.style.visibility = 'hidden';
+fetch('backend/api/auth.php?action=me')
+  .then(response => response.json())
+  .then(data => {
+    if (!data.ok || data.user.role !== 'client') {
+      window.location.replace('Login Client_HTML.html');
+      return;
+    }
+    document.documentElement.style.visibility = '';
+  })
+  .catch(() => window.location.replace('Login Client_HTML.html'));
 (() => {
   'use strict';
   const ORDER_KEY='cms.client.orders.v1';
@@ -28,7 +39,7 @@
   function notify(title,message){notifications.unshift({title,message,time:now()});renderNotifications();}
   function renderNotifications(){const list=$('client-notification-list');list.replaceChildren();for(const item of notifications){const li=node('li','client-notification-item'),strong=node('strong','',item.title),p=node('p','',item.message);li.append(strong,p);list.append(li);}const badge=$('client-notification-count');badge.hidden=notifications.length===0;badge.textContent=String(notifications.length);$('client-notifications-empty').hidden=notifications.length>0;}
   $('client-clear-notifications').addEventListener('click',()=>{notifications.length=0;renderNotifications();});
-  $('client-logout').addEventListener('click',()=>{try{sessionStorage.removeItem(SESSION_KEY);}catch{}window.location.href='menu_login.html';});
+  $('client-logout').addEventListener('click',async()=>{try{await fetch('backend/api/auth.php?action=logout',{method:'POST'});}catch{}try{sessionStorage.removeItem(SESSION_KEY);}catch{}window.location.href='menu_login.html';});
   renderNotifications();
   const statesDone=new Set(['Completed','Cancelled']);
   function clsForStatus(status){if(status==='Completed')return 'client-status-completed';if(status==='Cancelled')return 'client-status-cancelled';if(status==='Initiated')return 'client-status-initiated';return 'client-status-progress';}
