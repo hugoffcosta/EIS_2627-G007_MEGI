@@ -10,6 +10,8 @@
 --   - distância, re-pesagem/RTO (WP4) e código de entrega (WP5) em orders
 --   - payment_type em payment (pagamento da encomenda ou do RTO)
 --   - is_available em courier_profile (WP3)
+-- Versão 3 (23/11/2026):
+--   - client_type (individual/business) e company_name em client_profile
 --
 -- Como usar: phpMyAdmin -> separador "Importar" -> escolher este ficheiro -> "Executar"
 -- Password de todos os utilizadores de teste: password123
@@ -58,6 +60,8 @@ CREATE TABLE staff_profile (
 CREATE TABLE client_profile (
     client_id    INT AUTO_INCREMENT PRIMARY KEY,
     user_id      INT NOT NULL UNIQUE,
+    client_type  ENUM('individual','business') NOT NULL DEFAULT 'individual',
+    company_name VARCHAR(150) NULL,               -- obrigatório quando client_type = 'business'
     address      VARCHAR(255),
     postal_code  VARCHAR(10),
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
@@ -357,9 +361,9 @@ INSERT INTO staff_profile (staff_id, user_id, admin_id, birth_date, cc_number, a
 (1, 2, 1, '1990-04-12', '12345678 9ZZ1', 'approved', '2026-11-03 10:00:00', 'PT50000201231234567890154'),
 (2, 3, NULL, '1995-09-30', '23456789 1ZZ2', 'pending', NULL,               'PT50000201231234567890155');
 
-INSERT INTO client_profile (client_id, user_id, address, postal_code) VALUES
-(1, 7, 'Rua de Santa Catarina 100, Porto', '4000-447'),
-(2, 8, 'Avenida da Boavista 1500, Porto',  '4100-114');
+INSERT INTO client_profile (client_id, user_id, client_type, company_name, address, postal_code) VALUES
+(1, 7, 'individual', NULL,                'Rua de Santa Catarina 100, Porto', '4000-447'),
+(2, 8, 'business',   'Melo & Filhos, Lda', 'Avenida da Boavista 1500, Porto',  '4100-114');
 
 INSERT INTO company (company_id, staff_id, company_name, email, phone, password_hash, nif_company, address, approval_status, approved_at) VALUES
 (1, 1,    'Rapid Porto Logística', 'geral@rapidporto.pt', '220000001', @pw, '500000001', 'Rua do Freixo 50, Porto',  'approved', '2026-11-04 09:30:00'),

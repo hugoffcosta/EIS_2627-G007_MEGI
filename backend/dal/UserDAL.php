@@ -17,10 +17,11 @@ class UserDAL
         $this->db = Database::getConnection();
     }
 
-    /**
-     * Procura um utilizador pelo email.
-     * Devolve o utilizador (array) ou null se não existir.
-     */
+    // ------------------------------------------------------------------
+    // LEITURA
+    // ------------------------------------------------------------------
+
+    /** Procura um utilizador pelo email. Devolve o utilizador ou null. */
     public function findByEmail(string $email): ?array
     {
         $stmt = $this->db->prepare(
@@ -34,13 +35,11 @@ class UserDAL
         return $user ?: null;
     }
 
-    /**
-     * Devolve o perfil de cliente de um utilizador (morada, código postal, client_id).
-     */
+    /** Devolve o perfil de cliente de um utilizador (client_id, tipo, empresa, morada, código postal). */
     public function findClientProfile(int $userId): ?array
     {
         $stmt = $this->db->prepare(
-            'SELECT client_id, address, postal_code
+            'SELECT client_id, client_type, company_name, address, postal_code
              FROM client_profile
              WHERE user_id = ?'
         );
@@ -48,5 +47,79 @@ class UserDAL
         $profile = $stmt->fetch();
 
         return $profile ?: null;
+    }
+
+    /** true se já existir um utilizador com este email. */
+    public function emailExists(string $email): bool
+    {
+        $stmt = $this->db->prepare('SELECT 1 FROM user WHERE email = ?');
+        $stmt->execute([$email]);
+        return (bool) $stmt->fetchColumn();
+    }
+
+    /** true se já existir um utilizador com este NIF. */
+    public function nifExists(string $nif): bool
+    {
+        $stmt = $this->db->prepare('SELECT 1 FROM user WHERE nif = ?');
+        $stmt->execute([$nif]);
+        return (bool) $stmt->fetchColumn();
+    }
+
+    /** true se já existir um utilizador com este username. */
+    public function usernameExists(string $username): bool
+    {
+        $stmt = $this->db->prepare('SELECT 1 FROM user WHERE username = ?');
+        $stmt->execute([$username]);
+        return (bool) $stmt->fetchColumn();
+    }
+
+    // ------------------------------------------------------------------
+    // ESCRITA
+    // ------------------------------------------------------------------
+
+    /**
+     * Cria um cliente: uma linha em "user" e outra em "client_profile".
+     * As duas inserções estão numa transação: ou ficam as duas gravadas, ou nenhuma.
+     * Devolve o user_id e o client_id criados.
+     */
+    public function createClient(array $user, array $profile): array
+    {
+        $this->db->beginTransaction();
+
+        try {
+            $stmt = $this->db->prepare(
+                'INSERT INTO user (username, email, password_hash, name, phone, nif, role)
+                 VALUES (?, ?, ?, ?, ?, ?, \'client\')'
+            );
+            $stmt->execute([
+                $user['username'],
+                $user['email'],
+                $user['password_hash'],
+                $user['name'],
+                $user['phone'],
+                $user['nif'],          // pode ser null
+            ]);
+            $userId = (int) $this->db->lastInsertId();
+
+            $stmt = $this->db->prepare(
+                'INSERT INTO client_profile (user_id, client_type, company_name, address, postal_code)
+                 VALUES (?, ?, ?, ?, ?)'
+            );
+            $stmt->execute([
+                $userId,
+                $profile['client_type'],
+                $profile['company_name'],   // pode ser null
+                $profile['address'],
+                $profile['postal_code'],
+            ]);
+            $clientId = (int) $this->db->lastInsertId();
+
+            $this->db->commit();
+
+            return ['user_id' => $userId, 'client_id' => $clientId];
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 }
