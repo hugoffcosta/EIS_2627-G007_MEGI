@@ -249,7 +249,7 @@
         return `COMP-${new Date().getFullYear()}-${code}`;
     }
 
-    form.addEventListener('submit',event => {
+    form.addEventListener('submit',async event => {
         event.preventDefault();
         let firstInvalid = null;
         companyFields.forEach(field => { if (!validateCompanyField(field) && !firstInvalid) firstInvalid = field; });
@@ -262,24 +262,28 @@
             firstInvalid.scrollIntoView({behavior:'smooth',block:'center'});
             return;
         }
-        document.getElementById('company-form-status').textContent = '';
-        const companyId = generateCompanyId();
-        const vehicles = vehicleRecords();
-        const request = {
-            companyId,
-            companyName: document.getElementById('company-name').value.trim(),
-            nif: document.getElementById('company-nif').value.trim(),
-            address: document.getElementById('company-address').value.trim(),
-            email: document.getElementById('company-email').value.trim(),
-            vehicleCount: vehicles.length,
-            vehicles,
-            status: 'pending_approval',
-            submittedAt: new Date().toISOString()
-        };
-        form.companyRegistrationRequest = request;
-        document.getElementById('generated-company-id').textContent = companyId;
-        const dialog = document.getElementById('company-registration-success');
-        if (!dialog.open) dialog.showModal();
+        const status = document.getElementById('company-form-status');
+        status.textContent = '';
+        const data = new FormData(form);
+        data.append('role', 'company');
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        try {
+            const response = await fetch('backend/api/auth.php?action=register', { method: 'POST', body: data });
+            const result = await response.json();
+            if (!response.ok || !result.ok) {
+                status.textContent = result.error || 'Registration failed.';
+                return;
+            }
+            // O Company ID é gerado pelo servidor e fica guardado na BD
+            document.getElementById('generated-company-id').textContent = result.company_code;
+            const dialog = document.getElementById('company-registration-success');
+            if (!dialog.open) dialog.showModal();
+        } catch (error) {
+            status.textContent = 'Could not reach the server. Check that Apache and MySQL are running in XAMPP.';
+        } finally {
+            submitButton.disabled = false;
+        }
     });
 
     document.getElementById('close-company-success').addEventListener('click',() => {
