@@ -38,4 +38,27 @@ class Database
 
         return self::$connection;
     }
+
+    // ------------------------------------------------------------------
+    // Transações: várias inserções que só ficam gravadas se correrem todas bem.
+    // Usadas pela BLL quando uma operação mexe em várias tabelas
+    // (ex.: registo de estafeta = user + courier_profile + vehicle + courier_vehicle).
+    // ------------------------------------------------------------------
+
+    public static function beginTransaction(): void
+    {
+        self::getConnection()->beginTransaction();
+    }
+
+    public static function commit(): void
+    {
+        self::getConnection()->commit();
+    }
+
+    public static function rollBack(): void
+    {
+        if (self::getConnection()->inTransaction()) {
+            self::getConnection()->rollBack();
+        }
+    }
 }

@@ -579,7 +579,7 @@
         window.location.href = 'menu_registration.html';
     });
 
-    form.addEventListener('submit', event => {
+    form.addEventListener('submit', async event => {
         event.preventDefault();
         const current = Number(form.querySelector('.step-radio:checked').id.slice(-1)) - 1;
         if (current < 3) {
@@ -599,11 +599,31 @@
             });
             return;
         }
-        const vehicles=vehicleBatch.records();
-        form.registrationRequest={fields:new FormData(form),vehicles};
+        const data = new FormData(form);   // criado antes de voltar a bloquear os cartões da revisão
+        data.append('role', 'courier');
         reviewCards.forEach(card => setBlockEditing(card, false));
-        // Frontend confirmation only; replace this with the server's success response
-        // when a registration endpoint is connected.
-        if (!registrationSuccess.open) registrationSuccess.showModal();
-    });
+        let status = document.getElementById('courier-form-status');
+        if (!status) {
+            status = document.createElement('p');
+            status.id = 'courier-form-status';
+            status.className = 'field-error';
+            status.setAttribute('role', 'alert');
+            form.querySelector('.final-navigation').before(status);
+        }
+        status.textContent = '';
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        try {
+            const response = await fetch('backend/api/auth.php?action=register', { method: 'POST', body: data });
+            const result = await response.json();
+            if (!response.ok || !result.ok) {
+                status.textContent = result.error || 'Registration failed.';
+                return;
+            }
+            if (!registrationSuccess.open) registrationSuccess.showModal();
+        } catch (error) {
+            status.textContent = 'Could not reach the server. Check that Apache and MySQL are running in XAMPP.';
+        } finally {
+            submitButton.disabled = false;
+        }    });
 })();

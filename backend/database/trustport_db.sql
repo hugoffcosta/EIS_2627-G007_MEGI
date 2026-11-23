@@ -12,6 +12,10 @@
 --   - is_available em courier_profile (WP3)
 -- Versão 3 (23/11/2026):
 --   - client_type (individual/business) e company_name em client_profile
+-- Versão 4 (23/11/2026): registo de estafeta e empresa
+--   - company_code em company (ID que a empresa partilha com os estafetas)
+--   - documentos do estafeta em courier_profile (foto, IBAN, CC, carta, registo criminal, certificado da empresa)
+--   - registration_doc em vehicle e 'gas' no fuel_type
 --
 -- Como usar: phpMyAdmin -> separador "Importar" -> escolher este ficheiro -> "Executar"
 -- Password de todos os utilizadores de teste: password123
@@ -70,6 +74,7 @@ CREATE TABLE client_profile (
 -- A empresa tem login próprio; o staff aprova a empresa
 CREATE TABLE company (
     company_id       INT AUTO_INCREMENT PRIMARY KEY,
+    company_code     VARCHAR(20) NULL UNIQUE,         -- ex.: COMP-2026-AB12CD34, partilhado com os estafetas
     staff_id         INT NULL,
     company_name     VARCHAR(150) NOT NULL,
     email            VARCHAR(100) NOT NULL UNIQUE,
@@ -98,6 +103,13 @@ CREATE TABLE courier_profile (
     approved_at      DATETIME NULL,
     iban             VARCHAR(34),
     is_available     BOOLEAN NOT NULL DEFAULT TRUE,   -- WP3: só recebe propostas se estiver disponível
+    -- Documentos enviados no registo (caminho do ficheiro em backend/uploads)
+    profile_photo            VARCHAR(255) NULL,
+    iban_proof_doc           VARCHAR(255) NULL,
+    identity_doc             VARCHAR(255) NULL,
+    driving_license_doc      VARCHAR(255) NULL,
+    criminal_record_doc      VARCHAR(255) NULL,
+    company_certificate_doc  VARCHAR(255) NULL,
     FOREIGN KEY (user_id)    REFERENCES user(user_id) ON DELETE CASCADE,
     FOREIGN KEY (company_id) REFERENCES company(company_id) ON DELETE SET NULL,
     FOREIGN KEY (staff_id)   REFERENCES staff_profile(staff_id) ON DELETE SET NULL
@@ -134,13 +146,14 @@ CREATE TABLE vehicle (
     color                   VARCHAR(30),
     year                    SMALLINT,
     model                   VARCHAR(50),
-    fuel_type               ENUM('gasoline','diesel','electric','hybrid','none'),
+    fuel_type               ENUM('gasoline','diesel','electric','hybrid','gas','none'),
     max_weight_kg           DECIMAL(8,2),
     max_vol_m3              DECIMAL(6,2),
     insurance_expiry_date   DATE,
     inspection_expiry_date  DATE,
     insurance_expiry_doc    VARCHAR(255),
     inspection_expiry_doc   VARCHAR(255),
+    registration_doc        VARCHAR(255),                -- certificado de matrícula
     approval_status         ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
     approved_at             DATETIME NULL,
     created_at              DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -365,9 +378,9 @@ INSERT INTO client_profile (client_id, user_id, client_type, company_name, addre
 (1, 7, 'individual', NULL,                'Rua de Santa Catarina 100, Porto', '4000-447'),
 (2, 8, 'business',   'Melo & Filhos, Lda', 'Avenida da Boavista 1500, Porto',  '4100-114');
 
-INSERT INTO company (company_id, staff_id, company_name, email, phone, password_hash, nif_company, address, approval_status, approved_at) VALUES
-(1, 1,    'Rapid Porto Logística', 'geral@rapidporto.pt', '220000001', @pw, '500000001', 'Rua do Freixo 50, Porto',  'approved', '2026-11-04 09:30:00'),
-(2, NULL, 'Norte Express',         'info@norteexpress.pt','220000002', @pw, '500000002', 'Rua da Constituição 200, Porto', 'pending', NULL);
+INSERT INTO company (company_id, company_code, staff_id, company_name, email, phone, password_hash, nif_company, address, approval_status, approved_at) VALUES
+(1, 'COMP-2026-RAPID001', 1,    'Rapid Porto Logística', 'geral@rapidporto.pt', '220000001', @pw, '500000001', 'Rua do Freixo 50, Porto',  'approved', '2026-11-04 09:30:00'),
+(2, 'COMP-2026-NORTE002', NULL, 'Norte Express',         'info@norteexpress.pt','220000002', @pw, '500000002', 'Rua da Constituição 200, Porto', 'pending', NULL);
 
 INSERT INTO courier_profile (courier_id, user_id, company_id, staff_id, birth_date, cc_number, license_number, address, postal_code, approval_status, approved_at, iban) VALUES
 (1, 4, 1,    1,    '1998-02-15', '34567891 2ZZ3', 'P-1234567', 'Rua de Cedofeita 20, Porto', '4050-180', 'approved', '2026-11-05 11:00:00', 'PT50000201231234567890156'),

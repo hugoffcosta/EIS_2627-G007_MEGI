@@ -120,6 +120,54 @@ class UserDAL
     // ------------------------------------------------------------------
 
     /**
+     * Cria uma linha em "user" e devolve o user_id.
+     * Não abre transação: quem chama (a BLL) é que a controla.
+     */
+    public function createUser(array $user): int
+    {
+        $stmt = $this->db->prepare(
+            'INSERT INTO user (username, email, password_hash, name, phone, nif, role)
+             VALUES (?, ?, ?, ?, ?, ?, ?)'
+        );
+        $stmt->execute([
+            $user['username'],
+            $user['email'],
+            $user['password_hash'],
+            $user['name'],
+            $user['phone'],
+            $user['nif'],
+            $user['role'],
+        ]);
+        return (int) $this->db->lastInsertId();
+    }
+
+    /** Cria o perfil de estafeta (fica 'pending' até o staff aprovar). Devolve o courier_id. */
+    public function createCourierProfile(array $profile): int
+    {
+        $stmt = $this->db->prepare(
+            'INSERT INTO courier_profile
+                (user_id, company_id, address, postal_code, iban, approval_status,
+                 profile_photo, iban_proof_doc, identity_doc, driving_license_doc,
+                 criminal_record_doc, company_certificate_doc)
+             VALUES (?, ?, ?, ?, ?, \'pending\', ?, ?, ?, ?, ?, ?)'
+        );
+        $stmt->execute([
+            $profile['user_id'],
+            $profile['company_id'],            // pode ser null (estafeta independente)
+            $profile['address'],
+            $profile['postal_code'],
+            $profile['iban'],
+            $profile['profile_photo'],         // os documentos podem ser null
+            $profile['iban_proof_doc'],
+            $profile['identity_doc'],
+            $profile['driving_license_doc'],
+            $profile['criminal_record_doc'],
+            $profile['company_certificate_doc'],
+        ]);
+        return (int) $this->db->lastInsertId();
+    }
+
+    /**
      * Cria um cliente: uma linha em "user" e outra em "client_profile".
      * As duas inserções estão numa transação: ou ficam as duas gravadas, ou nenhuma.
      * Devolve o user_id e o client_id criados.

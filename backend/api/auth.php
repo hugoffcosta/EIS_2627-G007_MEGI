@@ -3,12 +3,14 @@
  * API REST de autenticação. Responde sempre em JSON.
  *
  *   POST api/auth.php?action=login     corpo JSON: {"role":"client|courier|company|staff|admin","email":"...","password":"..."}
- *   POST api/auth.php?action=register  corpo JSON: {"role":"client","name":"...","email":"...", ...}
+ *   POST api/auth.php?action=register  cliente: corpo JSON {"role":"client","name":"...","email":"...", ...}
+ *                                      estafeta/empresa: FormData (multipart, com ficheiros) e role=courier|company
  *   POST api/auth.php?action=logout
  *   GET  api/auth.php?action=me        devolve o utilizador autenticado (ou 401)
  */
 
 require_once __DIR__ . '/../bll/AuthService.php';
+require_once __DIR__ . '/../bll/RegistrationService.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -37,15 +39,26 @@ try {
 
     // ---- REGISTO ----
     if ($method === 'POST' && $action === 'register') {
-        $data = json_decode(file_get_contents('php://input'), true) ?? [];
-        $role = $data['role'] ?? '';
+        // Estafeta e empresa enviam FormData (por causa dos ficheiros): os dados vêm em $_POST
+        $role = $_POST['role'] ?? '';
 
-        if ($role === 'client') {
+        if ($role === 'courier') {
+            $result = (new RegistrationService())->registerCourier($_POST, $_FILES);
+            respond(201, ['ok' => true, 'status' => 'pending'] + $result);
+        }
+
+        if ($role === 'company') {
+            $result = (new RegistrationService())->registerCompany($_POST, $_FILES);
+            respond(201, ['ok' => true, 'status' => 'pending'] + $result);
+        }
+
+        // O cliente envia JSON
+        $data = json_decode(file_get_contents('php://input'), true) ?? [];
+        if (($data['role'] ?? '') === 'client') {
             $user = $auth->registerClient($data);
             respond(201, ['ok' => true, 'user' => $user]);   // 201 = criado
         }
 
-        // Os registos de estafeta e empresa vão ser acrescentados aqui
         respond(400, ['ok' => false, 'error' => 'Unknown account type.']);
     }
 
