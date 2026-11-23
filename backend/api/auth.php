@@ -2,9 +2,10 @@
 /**
  * API REST de autenticação. Responde sempre em JSON.
  *
- *   POST api/auth.php?action=login   corpo JSON: {"role":"client","email":"...","password":"..."}
+ *   POST api/auth.php?action=login     corpo JSON: {"role":"client","email":"...","password":"..."}
+ *   POST api/auth.php?action=register  corpo JSON: {"role":"client","name":"...","email":"...", ...}
  *   POST api/auth.php?action=logout
- *   GET  api/auth.php?action=me       devolve o utilizador autenticado (ou 401)
+ *   GET  api/auth.php?action=me        devolve o utilizador autenticado (ou 401)
  */
 
 require_once __DIR__ . '/../bll/AuthService.php';
@@ -38,6 +39,20 @@ try {
         respond(400, ['ok' => false, 'error' => 'Unknown account type.']);
     }
 
+    // ---- REGISTO ----
+    if ($method === 'POST' && $action === 'register') {
+        $data = json_decode(file_get_contents('php://input'), true) ?? [];
+        $role = $data['role'] ?? '';
+
+        if ($role === 'client') {
+            $user = $auth->registerClient($data);
+            respond(201, ['ok' => true, 'user' => $user]);   // 201 = criado
+        }
+
+        // Os registos de estafeta e empresa vão ser acrescentados aqui
+        respond(400, ['ok' => false, 'error' => 'Unknown account type.']);
+    }
+
     // ---- LOGOUT ----
     if ($method === 'POST' && $action === 'logout') {
         $auth->logout();
@@ -60,6 +75,8 @@ try {
     respond(500, ['ok' => false, 'error' => 'Database error. Check that MySQL is running.']);
 } catch (InvalidArgumentException $e) {
     respond(400, ['ok' => false, 'error' => $e->getMessage()]);   // dados inválidos
+} catch (DomainException $e) {
+    respond(409, ['ok' => false, 'error' => $e->getMessage()]);   // conflito (ex.: email repetido)
 } catch (RuntimeException $e) {
     respond(401, ['ok' => false, 'error' => $e->getMessage()]);   // credenciais erradas
 } catch (Throwable $e) {
